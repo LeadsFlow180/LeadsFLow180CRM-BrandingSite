@@ -5,98 +5,24 @@ import type { CSSProperties } from "react";
 import { agents, links } from "@/lib/site";
 import { fadeUp, stagger } from "./Motion";
 
-const STEP = 360 / agents.length;
-
 const SPARKS = [
-  { top: "18%", left: "12%", size: 3, delay: "0s" },
-  { top: "28%", left: "82%", size: 2, delay: "0.6s" },
-  { top: "62%", left: "8%", size: 2, delay: "1.2s" },
-  { top: "70%", left: "88%", size: 3, delay: "0.3s" },
-  { top: "12%", left: "48%", size: 2, delay: "1.8s" },
-  { top: "78%", left: "42%", size: 2, delay: "0.9s" },
-  { top: "40%", left: "6%", size: 2, delay: "2.1s" },
-  { top: "46%", left: "93%", size: 3, delay: "1.4s" },
+  { top: "8%", left: "6%", size: 3, delay: "0s" },
+  { top: "14%", left: "92%", size: 2, delay: "0.6s" },
+  { top: "88%", left: "10%", size: 2, delay: "1.2s" },
+  { top: "82%", left: "90%", size: 3, delay: "0.3s" },
+  { top: "4%", left: "48%", size: 2, delay: "1.8s" },
+  { top: "94%", left: "52%", size: 2, delay: "0.9s" },
 ] as const;
 
-const FLOATERS = [
-  { label: "Inbox", className: "top-[8%] left-[6%]", delay: "0s" },
-  { label: "Sales", className: "top-[14%] right-[4%]", delay: "0.8s" },
-  { label: "Automation", className: "bottom-[18%] left-[2%]", delay: "1.4s" },
-  { label: "Team Desk", className: "bottom-[12%] right-[3%]", delay: "2s" },
-] as const;
-
-function OrbitNodes({
-  degrees,
-  radiusVar,
-  nodeClass,
-}: {
-  degrees: number[];
-  radiusVar: string;
-  nodeClass: string;
-}) {
-  return (
-    <>
-      {degrees.map((deg) => (
-        <span
-          key={deg}
-          className={`absolute top-1/2 left-1/2 rounded-full ${nodeClass}`}
-          style={
-            {
-              // Reason: margin-centers the dot on the parent midpoint so rotate+translateY orbits the track.
-              marginLeft: "-3px",
-              marginTop: "-3px",
-              transform: `rotate(${deg}deg) translateY(calc(-1 * var(${radiusVar})))`,
-            } as CSSProperties
-          }
-        />
-      ))}
-    </>
-  );
-}
-
-/** Soft stage props behind the spinning faces — rings, sparks, and module chips. */
-function RingAtmosphere() {
+/** Soft stage props behind the face grid — glow, sparks, and light beams. */
+function GridAtmosphere() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-visible">
-      {/* Core glow */}
-      <div className="absolute top-1/2 left-1/2 size-[220px] -translate-x-1/2 -translate-y-[58%] rounded-full bg-brand/40 blur-[60px] min-[380px]:size-[280px] sm:size-[360px] sm:blur-[80px]" />
-      <div className="absolute top-1/2 left-1/2 size-[120px] -translate-x-1/2 -translate-y-[58%] rounded-full bg-white/10 blur-[30px] sm:size-[160px]" />
-
-      {/* Inner orbit track + green nodes */}
-      <div className="absolute top-1/2 left-1/2 size-[200px] -translate-x-1/2 -translate-y-[58%] [--rr:100px] sm:size-[300px] sm:[--rr:150px] lg:size-[380px] lg:[--rr:190px]">
-        <div className="ring-orbit absolute inset-0">
-          <div className="absolute inset-0 rounded-full border border-dashed border-brand/35" />
-          <div className="absolute inset-[12%] rounded-full border border-brand/20" />
-          <OrbitNodes
-            degrees={[0, 72, 144, 216, 288]}
-            radiusVar="--rr"
-            nodeClass="size-1.5 bg-brand-green shadow-[0_0_10px_#00ff26]"
-          />
-        </div>
-      </div>
-
-      {/* Outer orbit track + blue nodes */}
-      <div className="absolute top-1/2 left-1/2 size-[280px] -translate-x-1/2 -translate-y-[58%] [--rr:140px] sm:size-[420px] sm:[--rr:210px] lg:size-[520px] lg:[--rr:260px]">
-        <div className="ring-orbit-rev absolute inset-0">
-          <div className="absolute inset-0 rounded-full border border-white/[0.08]" />
-          <div className="absolute inset-[18%] rounded-full border border-dashed border-brand-purple/25" />
-          <OrbitNodes
-            degrees={[30, 150, 270]}
-            radiusVar="--rr"
-            nodeClass="size-1 bg-brand/80"
-          />
-        </div>
-      </div>
-
-      {/* Soft elliptical stage under the ring */}
-      <div className="absolute bottom-[8%] left-1/2 h-8 w-[70%] max-w-md -translate-x-1/2 rounded-[100%] bg-brand/25 blur-2xl sm:h-12 sm:w-[55%]" />
-      <div className="absolute bottom-[14%] left-1/2 h-px w-[55%] max-w-sm -translate-x-1/2 bg-gradient-to-r from-transparent via-brand/60 to-transparent" />
-
-      {/* Side light beams */}
-      <div className="absolute top-[10%] left-[18%] h-[55%] w-px rotate-12 bg-gradient-to-b from-transparent via-brand/30 to-transparent sm:left-[22%]" />
-      <div className="absolute top-[10%] right-[18%] h-[55%] w-px -rotate-12 bg-gradient-to-b from-transparent via-brand-purple/25 to-transparent sm:right-[22%]" />
-
-      {/* Sparks */}
+      <div className="absolute top-1/2 left-1/2 size-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/35 blur-[70px] sm:size-[420px] sm:blur-[90px]" />
+      <div className="absolute top-1/2 left-1/2 size-[140px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-[28px] sm:size-[200px]" />
+      <div className="absolute -bottom-2 left-1/2 h-10 w-[80%] max-w-lg -translate-x-1/2 rounded-[100%] bg-brand/30 blur-2xl" />
+      <div className="absolute top-[5%] left-[12%] h-[90%] w-px rotate-6 bg-gradient-to-b from-transparent via-brand/25 to-transparent sm:left-[8%]" />
+      <div className="absolute top-[5%] right-[12%] h-[90%] w-px -rotate-6 bg-gradient-to-b from-transparent via-brand-purple/20 to-transparent sm:right-[8%]" />
       {SPARKS.map((s) => (
         <span
           key={`${s.top}-${s.left}`}
@@ -112,52 +38,35 @@ function RingAtmosphere() {
           }
         />
       ))}
-
-      {/* Floating workspace chips — sm+ so phones stay clear */}
-      {FLOATERS.map((f) => (
-        <span
-          key={f.label}
-          className={`float-drift absolute hidden rounded-full bg-white/[0.05] px-2.5 py-1 text-[10px] font-medium tracking-wide text-white/45 ring-1 ring-white/10 backdrop-blur-sm sm:inline-flex ${f.className}`}
-          style={{ animationDelay: f.delay } as CSSProperties}
-        >
-          {f.label}
-        </span>
-      ))}
     </div>
   );
 }
 
-/** All twenty agents on a slowly turning 3D ring (CSS-driven; stops under reduced motion). */
-function FaceRing() {
+/** All agents in three rows of seven. */
+function FaceGrid() {
   return (
-    // Reason: no mask/overflow on this box — CSS masks clip 3D overflow and were slicing the front row.
-    <div aria-hidden="true" className="relative mx-auto w-full [perspective:1100px]">
-      <RingAtmosphere />
-
-      <div className="relative mx-auto flex h-[260px] items-center justify-center overflow-visible pb-2 min-[380px]:h-[300px] sm:h-[340px] lg:h-[380px]">
-        <div className="absolute inset-0 flex items-center justify-center overflow-visible [transform:rotateX(-6deg)] [transform-style:preserve-3d]">
-          <div className="face-ring relative size-0 overflow-visible [--r:105px] [transform-style:preserve-3d] min-[380px]:[--r:130px] sm:[--r:190px] lg:[--r:240px]">
-            {agents.map((a, i) => (
-              <div
-                key={a.id}
-                className="absolute -top-5 -left-5 size-10 min-[380px]:-top-6 min-[380px]:-left-6 min-[380px]:size-12 sm:size-12 lg:-top-7 lg:-left-7 lg:size-14"
-                style={{ transform: `rotateY(${i * STEP}deg) translateZ(var(--r))` } as CSSProperties}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={a.photo}
-                  alt=""
-                  loading="lazy"
-                  className="size-full rounded-2xl object-cover object-top shadow-[0_18px_30px_-12px_rgba(1,13,255,0.8)] ring-2 ring-white/20"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+    <div aria-hidden="true" className="relative mx-auto w-full max-w-3xl">
+      <GridAtmosphere />
+      <div className="relative grid grid-cols-7 gap-1 min-[380px]:gap-1.5 sm:gap-2.5">
+        {agents.map((a, i) => (
+          <motion.div
+            key={a.id}
+            initial={{ opacity: 0, y: 12, scale: 0.92 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.45, delay: Math.min(i * 0.03, 0.45), ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden rounded-xl ring-1 ring-white/20 shadow-[0_12px_24px_-10px_rgba(1,13,255,0.7)] transition duration-300 hover:-translate-y-1 hover:ring-white/40 min-[380px]:rounded-2xl"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={a.photo}
+              alt=""
+              loading="lazy"
+              className="aspect-[4/5] w-full object-cover object-top"
+            />
+          </motion.div>
+        ))}
       </div>
-      {/* Soft edge fades that don't clip the 3D stage */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-[#04050f] to-transparent sm:w-16" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#04050f] to-transparent sm:w-16" />
     </div>
   );
 }
@@ -184,7 +93,7 @@ export function ClosingCta() {
         className="relative mx-auto max-w-4xl px-4 pt-14 pb-20 text-center sm:px-6 sm:pt-24 sm:pb-36"
       >
         <motion.div variants={fadeUp}>
-          <FaceRing />
+          <FaceGrid />
         </motion.div>
 
         <motion.p

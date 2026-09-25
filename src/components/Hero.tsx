@@ -160,7 +160,7 @@ export function Hero() {
             The CRM is the <span className="text-slate-900">HOW.</span>
           </motion.p>
           <motion.p variants={fadeUp} className="mt-6 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-            Twenty named AI specialists work for you in AI Office. You talk, they draft, you approve — and
+            Twenty-one named AI specialists work for you in AI Office. You talk, they draft, you approve — and
             the work lands in the LeadsFlow180 CRM. The whole team is multilingual.
           </motion.p>
 

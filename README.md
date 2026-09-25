@@ -17,7 +17,7 @@ Open `http://localhost:3000`.
 
 ## Sections
 
-Header, hero with the 3D CRM mock, team stage (20 agents, auto-rotating), languages strip, the HOW feature cards, workspace modules, closing call to action, footer.
+Header, hero with the 3D CRM mock, team stage (21 agents, auto-rotating), languages strip, the HOW feature cards, workspace modules, closing call to action, footer.
 
 ## Assets
 

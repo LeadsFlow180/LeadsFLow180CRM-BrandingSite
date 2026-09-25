@@ -7,6 +7,8 @@
 
 ## Done — 2026-09-25
 
+- [x] 2026-09-25 — Closing CTA faces as 3×7 grid (all 21 agents visible); team roster uses 7 columns on md+.
+- [x] 2026-09-25 — Added Ava to the roster (21 agents); refreshed portraits from the latest set.
 - [x] 2026-09-25 — Closing CTA ring atmosphere: concentric orbit tracks, pulse sparks, light beams, stage glow, and floating workspace chips behind/around the face ring.
 - [x] 2026-09-25 — Retired “The Zen of Lead Gen” tagline (hero pill, footer outline, copyright, metadata, alts); installed updated wordmark logo with bottom padding so descenders aren’t clipped.
 - [x] Official logo in the header, footer, and favicon.

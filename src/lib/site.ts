@@ -138,6 +138,14 @@ export const agents: Agent[] = [
     photo: "/agents/ali.png",
   },
   {
+    id: "ava",
+    name: "Ava",
+    title: "Copywriting & Brand Voice",
+    skill: "On-brand website and campaign copy. Lands in Done for approval.",
+    group: "Creative & web",
+    photo: "/agents/ava.png",
+  },
+  {
     id: "sonja",
     name: "Sonja",
     title: "Customer Support",

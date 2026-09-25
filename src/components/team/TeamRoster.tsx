@@ -64,7 +64,7 @@ export function TeamRoster({ filter, list, activeId, onFilter, onPick }: Props) 
         <p className="hidden text-sm text-slate-500 lg:block">Tap a face to put them on stage.</p>
       </div>
 
-      <motion.ul layout className="mt-6 grid grid-cols-3 gap-2 min-[380px]:gap-2.5 sm:grid-cols-5 sm:gap-3 md:grid-cols-7 lg:grid-cols-10">
+      <motion.ul layout className="mt-6 grid grid-cols-3 gap-2 min-[380px]:gap-2.5 sm:grid-cols-4 md:grid-cols-7 md:gap-3">
         <AnimatePresence mode="popLayout">
           {list.map((a) => {
             const isActive = a.id === activeId;
