@@ -7,6 +7,8 @@
 
 ## Done — 2026-09-25
 
+- [x] 2026-09-25 — Closing CTA ring atmosphere: concentric orbit tracks, pulse sparks, light beams, stage glow, and floating workspace chips behind/around the face ring.
+- [x] 2026-09-25 — Retired “The Zen of Lead Gen” tagline (hero pill, footer outline, copyright, metadata, alts); installed updated wordmark logo with bottom padding so descenders aren’t clipped.
 - [x] Official logo in the header, footer, and favicon.
 - [x] 2026-09-25 — 3D glass navbar: tilting logo, sliding nav highlight with active-section dot, raised Create account button, floating pill on scroll, scroll-progress line.
 - [x] 2026-09-25 — Hero redesign: 3D perspective grid floor + pointer spotlight (`HeroBackdrop`), 3D word-flip headline with shimmer "WHO." and drawn underline, glass language card, 3D raised CTAs, fanning avatar stack with tooltips (`HeroFaces`), lit stage under the CRM mock.

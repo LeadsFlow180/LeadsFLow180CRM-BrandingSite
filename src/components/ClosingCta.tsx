@@ -7,45 +7,174 @@ import { fadeUp, stagger } from "./Motion";
 
 const STEP = 360 / agents.length;
 
+const SPARKS = [
+  { top: "18%", left: "12%", size: 3, delay: "0s" },
+  { top: "28%", left: "82%", size: 2, delay: "0.6s" },
+  { top: "62%", left: "8%", size: 2, delay: "1.2s" },
+  { top: "70%", left: "88%", size: 3, delay: "0.3s" },
+  { top: "12%", left: "48%", size: 2, delay: "1.8s" },
+  { top: "78%", left: "42%", size: 2, delay: "0.9s" },
+  { top: "40%", left: "6%", size: 2, delay: "2.1s" },
+  { top: "46%", left: "93%", size: 3, delay: "1.4s" },
+] as const;
+
+const FLOATERS = [
+  { label: "Inbox", className: "top-[8%] left-[6%]", delay: "0s" },
+  { label: "Sales", className: "top-[14%] right-[4%]", delay: "0.8s" },
+  { label: "Automation", className: "bottom-[18%] left-[2%]", delay: "1.4s" },
+  { label: "Team Desk", className: "bottom-[12%] right-[3%]", delay: "2s" },
+] as const;
+
+function OrbitNodes({
+  degrees,
+  radiusVar,
+  nodeClass,
+}: {
+  degrees: number[];
+  radiusVar: string;
+  nodeClass: string;
+}) {
+  return (
+    <>
+      {degrees.map((deg) => (
+        <span
+          key={deg}
+          className={`absolute top-1/2 left-1/2 rounded-full ${nodeClass}`}
+          style={
+            {
+              // Reason: margin-centers the dot on the parent midpoint so rotate+translateY orbits the track.
+              marginLeft: "-3px",
+              marginTop: "-3px",
+              transform: `rotate(${deg}deg) translateY(calc(-1 * var(${radiusVar})))`,
+            } as CSSProperties
+          }
+        />
+      ))}
+    </>
+  );
+}
+
+/** Soft stage props behind the spinning faces — rings, sparks, and module chips. */
+function RingAtmosphere() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-visible">
+      {/* Core glow */}
+      <div className="absolute top-1/2 left-1/2 size-[220px] -translate-x-1/2 -translate-y-[58%] rounded-full bg-brand/40 blur-[60px] min-[380px]:size-[280px] sm:size-[360px] sm:blur-[80px]" />
+      <div className="absolute top-1/2 left-1/2 size-[120px] -translate-x-1/2 -translate-y-[58%] rounded-full bg-white/10 blur-[30px] sm:size-[160px]" />
+
+      {/* Inner orbit track + green nodes */}
+      <div className="absolute top-1/2 left-1/2 size-[200px] -translate-x-1/2 -translate-y-[58%] [--rr:100px] sm:size-[300px] sm:[--rr:150px] lg:size-[380px] lg:[--rr:190px]">
+        <div className="ring-orbit absolute inset-0">
+          <div className="absolute inset-0 rounded-full border border-dashed border-brand/35" />
+          <div className="absolute inset-[12%] rounded-full border border-brand/20" />
+          <OrbitNodes
+            degrees={[0, 72, 144, 216, 288]}
+            radiusVar="--rr"
+            nodeClass="size-1.5 bg-brand-green shadow-[0_0_10px_#00ff26]"
+          />
+        </div>
+      </div>
+
+      {/* Outer orbit track + blue nodes */}
+      <div className="absolute top-1/2 left-1/2 size-[280px] -translate-x-1/2 -translate-y-[58%] [--rr:140px] sm:size-[420px] sm:[--rr:210px] lg:size-[520px] lg:[--rr:260px]">
+        <div className="ring-orbit-rev absolute inset-0">
+          <div className="absolute inset-0 rounded-full border border-white/[0.08]" />
+          <div className="absolute inset-[18%] rounded-full border border-dashed border-brand-purple/25" />
+          <OrbitNodes
+            degrees={[30, 150, 270]}
+            radiusVar="--rr"
+            nodeClass="size-1 bg-brand/80"
+          />
+        </div>
+      </div>
+
+      {/* Soft elliptical stage under the ring */}
+      <div className="absolute bottom-[8%] left-1/2 h-8 w-[70%] max-w-md -translate-x-1/2 rounded-[100%] bg-brand/25 blur-2xl sm:h-12 sm:w-[55%]" />
+      <div className="absolute bottom-[14%] left-1/2 h-px w-[55%] max-w-sm -translate-x-1/2 bg-gradient-to-r from-transparent via-brand/60 to-transparent" />
+
+      {/* Side light beams */}
+      <div className="absolute top-[10%] left-[18%] h-[55%] w-px rotate-12 bg-gradient-to-b from-transparent via-brand/30 to-transparent sm:left-[22%]" />
+      <div className="absolute top-[10%] right-[18%] h-[55%] w-px -rotate-12 bg-gradient-to-b from-transparent via-brand-purple/25 to-transparent sm:right-[22%]" />
+
+      {/* Sparks */}
+      {SPARKS.map((s) => (
+        <span
+          key={`${s.top}-${s.left}`}
+          className="spark-pulse absolute rounded-full bg-white shadow-[0_0_8px_rgba(143,149,255,0.8)]"
+          style={
+            {
+              top: s.top,
+              left: s.left,
+              width: s.size,
+              height: s.size,
+              animationDelay: s.delay,
+            } as CSSProperties
+          }
+        />
+      ))}
+
+      {/* Floating workspace chips — sm+ so phones stay clear */}
+      {FLOATERS.map((f) => (
+        <span
+          key={f.label}
+          className={`float-drift absolute hidden rounded-full bg-white/[0.05] px-2.5 py-1 text-[10px] font-medium tracking-wide text-white/45 ring-1 ring-white/10 backdrop-blur-sm sm:inline-flex ${f.className}`}
+          style={{ animationDelay: f.delay } as CSSProperties}
+        >
+          {f.label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 /** All twenty agents on a slowly turning 3D ring (CSS-driven; stops under reduced motion). */
 function FaceRing() {
   return (
-    <div aria-hidden="true" className="relative mx-auto h-28 w-full overflow-hidden [perspective:900px] min-[380px]:h-36 sm:h-44">
-      <div className="absolute inset-0 flex items-center justify-center [transform:rotateX(-20deg)] [transform-style:preserve-3d]">
-        <div className="face-ring relative size-0 [--r:105px] [transform-style:preserve-3d] min-[380px]:[--r:140px] sm:[--r:230px] lg:[--r:340px]">
-          {agents.map((a, i) => (
-            <div
-              key={a.id}
-              className="absolute -top-4 -left-4 size-8 min-[380px]:-top-5 min-[380px]:-left-5 min-[380px]:size-10 sm:-top-6 sm:-left-6 sm:size-12 lg:-top-7 lg:-left-7 lg:size-14"
-              style={{ transform: `rotateY(${i * STEP}deg) translateZ(var(--r))` } as CSSProperties}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={a.photo}
-                alt=""
-                loading="lazy"
-                className="size-full rounded-2xl object-cover object-top shadow-[0_18px_30px_-12px_rgba(1,13,255,0.8)] ring-2 ring-white/20"
-              />
-            </div>
-          ))}
+    // Reason: no mask/overflow on this box — CSS masks clip 3D overflow and were slicing the front row.
+    <div aria-hidden="true" className="relative mx-auto w-full [perspective:1100px]">
+      <RingAtmosphere />
+
+      <div className="relative mx-auto flex h-[260px] items-center justify-center overflow-visible pb-2 min-[380px]:h-[300px] sm:h-[340px] lg:h-[380px]">
+        <div className="absolute inset-0 flex items-center justify-center overflow-visible [transform:rotateX(-6deg)] [transform-style:preserve-3d]">
+          <div className="face-ring relative size-0 overflow-visible [--r:105px] [transform-style:preserve-3d] min-[380px]:[--r:130px] sm:[--r:190px] lg:[--r:240px]">
+            {agents.map((a, i) => (
+              <div
+                key={a.id}
+                className="absolute -top-5 -left-5 size-10 min-[380px]:-top-6 min-[380px]:-left-6 min-[380px]:size-12 sm:size-12 lg:-top-7 lg:-left-7 lg:size-14"
+                style={{ transform: `rotateY(${i * STEP}deg) translateZ(var(--r))` } as CSSProperties}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={a.photo}
+                  alt=""
+                  loading="lazy"
+                  className="size-full rounded-2xl object-cover object-top shadow-[0_18px_30px_-12px_rgba(1,13,255,0.8)] ring-2 ring-white/20"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+      {/* Soft edge fades that don't clip the 3D stage */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-[#04050f] to-transparent sm:w-16" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#04050f] to-transparent sm:w-16" />
     </div>
   );
 }
 
 export function ClosingCta() {
   return (
-    <section className="grain relative overflow-hidden bg-[#04050f] text-white">
-      <div className="brand-line h-[2px]" aria-hidden="true" />
-      <div aria-hidden="true" className="orb top-[-35%] left-1/2 size-[680px] -translate-x-1/2 bg-brand/35" />
-      <div aria-hidden="true" className="orb bottom-[-30%] left-[10%] size-[380px] bg-brand-purple/30" />
-      <div aria-hidden="true" className="orb right-[5%] bottom-[-20%] size-[300px] bg-brand-green/10" />
-
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[55%] [perspective:700px]">
-        <div className="floor-grid-dark absolute inset-x-[-40%] top-0 -bottom-1/2 origin-top [transform:rotateX(68deg)]" />
+    <section className="grain relative bg-[#04050f] text-white">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="brand-line absolute inset-x-0 top-0 h-[2px]" />
+        <div className="orb top-[-35%] left-1/2 size-[680px] -translate-x-1/2 bg-brand/35" />
+        <div className="orb bottom-[-30%] left-[10%] size-[380px] bg-brand-purple/30" />
+        <div className="orb right-[5%] bottom-[-20%] size-[300px] bg-brand-green/10" />
+        <div className="absolute inset-x-0 bottom-0 h-[55%] [perspective:700px]">
+          <div className="floor-grid-dark absolute inset-x-[-40%] top-0 -bottom-1/2 origin-top [transform:rotateX(68deg)]" />
+        </div>
+        <div className="absolute inset-x-0 bottom-[42%] h-px bg-gradient-to-r from-transparent via-brand/70 to-transparent blur-[1px]" />
       </div>
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-[42%] h-px bg-gradient-to-r from-transparent via-brand/70 to-transparent blur-[1px]" />
 
       <motion.div
         variants={stagger(0.1)}

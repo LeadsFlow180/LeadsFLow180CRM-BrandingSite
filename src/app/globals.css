@@ -79,6 +79,42 @@ body {
   animation: spin-y 48s linear infinite;
 }
 
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbit-spin-rev {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes float-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.45; }
+  50% { transform: translate3d(0, -10px, 0); opacity: 0.9; }
+}
+
+@keyframes spark-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.ring-orbit {
+  animation: orbit-spin 56s linear infinite;
+}
+
+.ring-orbit-rev {
+  animation: orbit-spin-rev 72s linear infinite;
+}
+
+.float-drift {
+  animation: float-drift 5.5s ease-in-out infinite;
+}
+
+.spark-pulse {
+  animation: spark-pulse 3.2s ease-in-out infinite;
+}
+
 .floor-grid-dark {
   background-image:
     linear-gradient(to right, rgba(91, 100, 255, 0.28) 1px, transparent 1px),
@@ -159,7 +195,11 @@ body {
   .text-shimmer-light,
   .hero-grid,
   .face-ring,
-  .floor-grid-dark {
+  .floor-grid-dark,
+  .ring-orbit,
+  .ring-orbit-rev,
+  .float-drift,
+  .spark-pulse {
     animation: none;
   }
 }

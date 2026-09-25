@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "LeadsFlow180 — The Zen of Lead Gen",
+  title: "LeadsFlow180",
   description:
     "AI Office is who. The CRM is how. Talk to your AI team; use the tools that take your business to its goals.",
 };

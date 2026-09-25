@@ -151,7 +151,7 @@ export function Hero() {
             <span className="brand-line flex h-5 w-8 items-center justify-center rounded-full">
               <span className="size-1.5 rounded-full bg-white" />
             </span>
-            The Zen of Lead Gen
+            LeadsFlow180
           </motion.p>
 
           <Headline />

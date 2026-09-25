@@ -34,7 +34,7 @@ export function Footer() {
           <div className="grid gap-8 min-[380px]:gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
             <div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/logo.png" alt="LeadsFlow180 — The Zen of Lead Gen" className="h-7 w-auto sm:h-10" />
+              <img src="/brand/logo.png" alt="LeadsFlow180" className="h-7 w-auto sm:h-10" />
               <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
                 An agency CRM with a named AI team. AI Office is the who. The CRM is the how.
               </p>
@@ -77,10 +77,10 @@ export function Footer() {
           aria-hidden="true"
           className="text-outline-strong mt-8 overflow-hidden text-center text-[7vw] leading-none font-semibold tracking-[-0.05em] whitespace-nowrap select-none min-[380px]:mt-10 min-[380px]:text-[8.5vw] xl:text-[7.5rem]"
         >
-          The Zen of Lead Gen
+          LEADSFLOW180
         </p>
 
-        <p className="mt-6 text-center text-xs text-white/40">© {new Date().getFullYear()} LeadsFlow180 · The Zen of Lead Gen</p>
+        <p className="mt-6 text-center text-xs text-white/40">© {new Date().getFullYear()} LeadsFlow180</p>
       </div>
     </footer>
   );
