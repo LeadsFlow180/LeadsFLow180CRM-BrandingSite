@@ -18,7 +18,7 @@ This site does not authenticate, store data, or call CRM APIs.
 
 - `src/app/layout.tsx` — font, title, description. No canonical or Open Graph URL until a domain is confirmed.
 - `src/app/page.tsx` — composes the single scroll.
-- `src/components/` — `Header`, `Hero` + `CrmMock`, `TeamStage`, `Languages`, `Features` (HOW cards + workspace chips), `ClosingCta`, `Footer`, shared `Motion` helpers.
+- `src/components/` — `Header`, `Hero` + `CrmMock`, `TeamStage`, `Languages`, `Features` (HOW feature-set cards + workspace chips), `ClosingCta`, `Footer`, shared `Motion` helpers.
 - `src/lib/site.ts` — URLs, the 21 agents, the ten languages, workspace modules.
 - Motion: Framer Motion. Every animation respects `prefers-reduced-motion`.
 

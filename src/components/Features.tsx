@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { FeatureCard } from "./features/FeatureCard";
+import { FeatureSet } from "./features/FeatureSet";
 import {
   AutomationVisual,
   CalendarVisual,
@@ -122,7 +123,21 @@ export function Features() {
       <div aria-hidden="true" className="orb bottom-0 right-[-15%] size-[420px] bg-brand-purple/10" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
-        <Reveal className="max-w-3xl">
+        {/* White-card feature set sits above The HOW */}
+        <div className="rounded-[28px] bg-[#f3f4f8] px-4 py-12 sm:px-6 sm:py-16 lg:px-10">
+          <Reveal className="max-w-2xl">
+            <p className="inline-flex items-center gap-2.5 text-[11px] font-semibold tracking-[0.28em] text-brand uppercase">
+              <span className="brand-line h-[2px] w-8 rounded-full" />
+              Features
+            </p>
+            <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-slate-950 sm:text-4xl">
+              Everything in one workspace.
+            </h2>
+          </Reveal>
+          <FeatureSet />
+        </div>
+
+        <Reveal className="mt-16 max-w-3xl sm:mt-20">
           <p className="inline-flex items-center gap-2.5 text-[11px] font-semibold tracking-[0.28em] text-brand uppercase">
             <span className="brand-line h-[2px] w-8 rounded-full" />
             The HOW

@@ -5,6 +5,13 @@
 - [ ] Set canonical and Open Graph URL after the public domain is confirmed.
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
 
+## Done — 2026-09-26
+
+- [x] 2026-09-26 — Filled feature set with all additional cards (24 total) from the provided copy.
+- [x] 2026-09-26 — Create account / Sign in now point to AI Office (`office.getleadsflow180.com`), not the CRM.
+- [x] 2026-09-26 — Restored closing CTA spinning mesh face ring (replaced flat 3×7 grid).
+- [x] 2026-09-26 — Nav/footer “Product” → “Features”; restored previous 3D FeatureCard HOW grid and kept the new white-card FeatureSet below it.
+
 ## Done — 2026-09-25
 
 - [x] 2026-09-25 — Closing CTA faces as 3×7 grid (all 21 agents visible); team roster uses 7 columns on md+.

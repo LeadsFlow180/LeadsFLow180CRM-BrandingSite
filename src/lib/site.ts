@@ -1,6 +1,6 @@
 export const links = {
-  signup: "https://app.leadsflow180.com/signup",
-  login: "https://app.leadsflow180.com/login",
+  signup: "https://office.getleadsflow180.com/signup",
+  login: "https://office.getleadsflow180.com/login",
   crm: "https://app.leadsflow180.com",
   office: "https://office.getleadsflow180.com",
 } as const;

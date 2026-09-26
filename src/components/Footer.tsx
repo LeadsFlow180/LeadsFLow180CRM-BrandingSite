@@ -46,7 +46,7 @@ export function Footer() {
                 office.getleadsflow180.com
               </a>
             </div>
-            <FooterColumn label="Product">
+            <FooterColumn label="Features">
               <FooterLink href="#team">Team</FooterLink>
               <FooterLink href="#features">The HOW</FooterLink>
               <FooterLink href={links.office}>AI Office</FooterLink>
