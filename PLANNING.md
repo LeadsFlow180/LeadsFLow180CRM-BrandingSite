@@ -30,7 +30,7 @@ CRM colors: black header and dark bands, canvas `#f4f6fb`, brand blue `#010dff`,
 
 - No extra routes.
 - No invented logo, pricing, trial, or “no credit card” claims.
-- No “Hermes” in human-facing copy. Mia is Project Manager & Meeting Chair.
+- No “Hermes” in human-facing copy. Mia is Project Manager.
 - Do not describe the product as GoHighLevel or a white-label of it.
 - Creative work (Design Hub, Brand Bank) is presented as part of the CRM.
 - Navbar is logo plus product CTAs and an in-page Product jump. Privacy and Terms stay out of the navbar until real legal URLs exist; they are omitted so this site stays one route.

@@ -9,6 +9,7 @@ import {
   type MotionValue,
 } from "framer-motion";
 import type { PointerEvent, ReactNode } from "react";
+import { getAgentVideo } from "@/lib/agentVideos";
 import { links, type Agent } from "@/lib/site";
 import { ease } from "../Motion";
 import { AgentStageMedia } from "./AgentStageMedia";
@@ -127,7 +128,6 @@ export function StageCard({
                     photo={active.photo}
                     playing={playing && !reduce}
                     soundOn={soundOn}
-                    onEnableSound={onEnableSound}
                     onProgress={onVideoProgress}
                     onEnded={onVideoEnded}
                     onUnavailable={onVideoUnavailable}
@@ -140,7 +140,31 @@ export function StageCard({
                 className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.16)_50%,transparent_65%)] bg-[length:250%_100%]"
                 style={{ backgroundPositionX: glareX }}
               />
-              <span className="absolute top-4 left-4 inline-flex items-center gap-2 rounded-full bg-black/55 px-3 py-1.5 text-[10px] font-semibold tracking-[0.2em] uppercase ring-1 ring-white/15 backdrop-blur-md">
+              {!soundOn && Boolean(getAgentVideo(active.id)) && (
+                <button
+                  type="button"
+                  aria-label="Play with sound"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEnableSound?.();
+                  }}
+                  className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-black/45 backdrop-blur-[2px] transition hover:bg-black/55"
+                >
+                  <span className="relative inline-flex size-16 items-center justify-center rounded-full bg-white text-black shadow-[0_12px_40px_-8px_rgba(1,13,255,0.85)] ring-4 ring-white/30 sm:size-20">
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 animate-ping rounded-full bg-white/40 motion-reduce:animate-none"
+                    />
+                    <svg aria-hidden="true" viewBox="0 0 24 24" className="relative ml-1 size-8 sm:size-10" fill="currentColor">
+                      <path d="M8 5.5v13l10.5-6.5z" />
+                    </svg>
+                  </span>
+                  <span className="rounded-full bg-black/70 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white ring-1 ring-white/25 sm:text-sm">
+                    Tap to play with sound
+                  </span>
+                </button>
+              )}
+              <span className="pointer-events-none absolute top-4 right-4 z-20 inline-flex items-center gap-2 rounded-full bg-black/55 px-3 py-1.5 text-[10px] font-semibold tracking-[0.2em] uppercase ring-1 ring-white/15 backdrop-blur-md">
                 <span className="relative flex size-2">
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-green opacity-70 motion-reduce:animate-none" />
                   <span className="relative inline-flex size-2 rounded-full bg-brand-green" />

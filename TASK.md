@@ -7,6 +7,7 @@
 
 ## Done — 2026-09-26
 
+- [x] 2026-09-26 — Stage unmute control: large centered play button + “Tap to play with sound” overlay (browsers block autoplay with audio).
 - [x] 2026-09-26 — Team stage agent videos: Jay wired; drop `{id}.mp4` in `public/agents/videos/` (sync on dev/build) with photo fallback.
 - [x] 2026-09-26 — Fixed tab favicon: square mark cropped from the FLOW target “O” (full wordmark was unreadable at 16px).
 - [x] 2026-09-26 — Brand framing: Meet the WHO / FLOW is the HOW (CRM wording replaced in public copy).
