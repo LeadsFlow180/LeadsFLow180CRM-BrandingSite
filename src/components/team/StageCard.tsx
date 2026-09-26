@@ -11,6 +11,7 @@ import {
 import type { PointerEvent, ReactNode } from "react";
 import { links, type Agent } from "@/lib/site";
 import { ease } from "../Motion";
+import { AgentStageMedia } from "./AgentStageMedia";
 import { groupTone } from "./groupTone";
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -26,10 +27,31 @@ type Props = {
   onStep: (dir: 1 | -1) => void;
   onToggle: () => void;
   onPick: (id: string) => void;
+  onVideoProgress?: (ratio: number) => void;
+  onVideoEnded?: () => void;
+  onVideoUnavailable?: () => void;
+  soundOn?: boolean;
+  onEnableSound?: () => void;
 };
 
 /** Cinematic black stage: 3D portrait frame on the left, agent story + controls on the right. */
-export function StageCard({ active, index, list, progress, autoplay, playing, reduce, onStep, onToggle, onPick }: Props) {
+export function StageCard({
+  active,
+  index,
+  list,
+  progress,
+  autoplay,
+  playing,
+  reduce,
+  onStep,
+  onToggle,
+  onPick,
+  onVideoProgress,
+  onVideoEnded,
+  onVideoUnavailable,
+  soundOn = false,
+  onEnableSound,
+}: Props) {
   const tone = groupTone[active.group];
   const status = reduce ? "Manual" : playing ? "Rotating" : "Paused";
   const upNext = Array.from({ length: Math.min(3, list.length - 1) }, (_, i) => list[(index + i + 1) % list.length]);
@@ -98,13 +120,17 @@ export function StageCard({ active, index, list, progress, autoplay, playing, re
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.9, ease }}
                 >
-                  <motion.img
-                    src={active.photo}
-                    alt={`${active.name}, ${active.title}`}
-                    className="h-full w-full object-cover object-top"
-                    initial={{ scale: 1 }}
-                    animate={{ scale: reduce ? 1 : 1.08 }}
-                    transition={{ duration: 7, ease: "linear" }}
+                  <AgentStageMedia
+                    id={active.id}
+                    name={active.name}
+                    title={active.title}
+                    photo={active.photo}
+                    playing={playing && !reduce}
+                    soundOn={soundOn}
+                    onEnableSound={onEnableSound}
+                    onProgress={onVideoProgress}
+                    onEnded={onVideoEnded}
+                    onUnavailable={onVideoUnavailable}
                   />
                 </motion.div>
               </AnimatePresence>

@@ -2,19 +2,24 @@
 
 import { useMotionValue, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { getAgentVideo } from "@/lib/agentVideos";
 import { agents, type Filter } from "@/lib/site";
 import { LanguageChips } from "./Languages";
 import { Reveal } from "./Motion";
 import { StageCard } from "./team/StageCard";
 import { TeamRoster } from "./team/TeamRoster";
 
-const ROTATE_MS = 5000;
+const PHOTO_ROTATE_MS = 5000;
 
 export function TeamStage() {
   const reduce = useReducedMotion() ?? false;
   const [filter, setFilter] = useState<Filter>("Everyone");
   const [activeId, setActiveId] = useState(agents[0].id);
   const [playing, setPlaying] = useState(true);
+  // Reason: agents with a clip drive rotate via onEnded; photo-only agents use the timed loop.
+  const [waitForVideo, setWaitForVideo] = useState(() => Boolean(getAgentVideo(agents[0].id)));
+  // Reason: browsers block autoplay with audio until a tap — keep sound on after the first unlock.
+  const [soundOn, setSoundOn] = useState(false);
   const progress = useMotionValue(0);
   const elapsed = useRef(0);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -31,6 +36,7 @@ export function TeamStage() {
     (id: string) => {
       elapsed.current = 0;
       progress.set(0);
+      setWaitForVideo(Boolean(getAgentVideo(id)));
       setActiveId(id);
     },
     [progress],
@@ -47,15 +53,32 @@ export function TeamStage() {
     if (!next.some((a) => a.id === activeId)) goTo(next[0].id);
   };
 
-  useEffect(() => {
+  const onVideoProgress = useCallback(
+    (ratio: number) => {
+      if (waitForVideo) progress.set(Math.min(1, ratio));
+    },
+    [progress, waitForVideo],
+  );
+
+  const onVideoEnded = useCallback(() => {
     if (!autoplay || list.length < 2) return;
+    step(1);
+  }, [autoplay, list.length, step]);
+
+  const onVideoUnavailable = useCallback(() => {
+    setWaitForVideo(false);
+  }, []);
+
+  useEffect(() => {
+    // Timed rotate only for still portraits (or when the clip failed to load).
+    if (!autoplay || list.length < 2 || waitForVideo) return;
     let frame = 0;
     let last = performance.now();
     const tick = (now: number) => {
       elapsed.current += now - last;
       last = now;
-      progress.set(Math.min(1, elapsed.current / ROTATE_MS));
-      if (elapsed.current >= ROTATE_MS) {
+      progress.set(Math.min(1, elapsed.current / PHOTO_ROTATE_MS));
+      if (elapsed.current >= PHOTO_ROTATE_MS) {
         step(1);
         return;
       }
@@ -63,7 +86,7 @@ export function TeamStage() {
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [autoplay, step, progress, list.length, activeId]);
+  }, [autoplay, step, progress, list.length, activeId, waitForVideo]);
 
   // Reason: roster tiles sit below the stage, so picking one scrolls the stage back under the sticky header.
   const pickFromRoster = (id: string) => {
@@ -126,6 +149,11 @@ export function TeamStage() {
               onStep={step}
               onToggle={() => setPlaying((p) => !p)}
               onPick={goTo}
+              onVideoProgress={onVideoProgress}
+              onVideoEnded={onVideoEnded}
+              onVideoUnavailable={onVideoUnavailable}
+              soundOn={soundOn}
+              onEnableSound={() => setSoundOn(true)}
             />
           </div>
         </Reveal>

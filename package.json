@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "sync:videos": "node scripts/sync-agent-videos.mjs",
+    "dev": "npm run sync:videos && next dev",
+    "build": "npm run sync:videos && next build",
     "start": "next start",
     "lint": "eslint"
   },
