@@ -157,11 +157,11 @@ export function Hero() {
           <Headline />
 
           <motion.p variants={fadeUp} className="mt-5 text-xl font-medium tracking-tight text-slate-400 min-[380px]:text-2xl sm:text-4xl">
-            The CRM is the <span className="text-slate-900">HOW.</span>
+            FLOW is the <span className="text-slate-900">HOW.</span>
           </motion.p>
           <motion.p variants={fadeUp} className="mt-6 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
             Twenty-one named AI specialists work for you in AI Office. You talk, they draft, you approve — and
-            the work lands in the LeadsFlow180 CRM. The whole team is multilingual.
+            the work lands in FLOW. The whole team is multilingual.
           </motion.p>
 
           <LanguageCard />

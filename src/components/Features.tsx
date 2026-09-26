@@ -146,7 +146,7 @@ export function Features() {
             The tools are <span className="text-brand-gradient">already in place.</span>
           </h2>
           <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg">
-            One login. One CRM. Agencies and growing teams run sub-accounts inside the same workspace, and the AI
+            One login. One FLOW. Agencies and growing teams run sub-accounts inside the same workspace, and the AI
             team works from the same desk you do. Creative work lives here too.
           </p>
         </Reveal>

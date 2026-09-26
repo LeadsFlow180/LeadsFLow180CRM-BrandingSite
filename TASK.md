@@ -7,6 +7,8 @@
 
 ## Done — 2026-09-26
 
+- [x] 2026-09-26 — Fixed tab favicon: square mark cropped from the FLOW target “O” (full wordmark was unreadable at 16px).
+- [x] 2026-09-26 — Brand framing: Meet the WHO / FLOW is the HOW (CRM wording replaced in public copy).
 - [x] 2026-09-26 — Filled feature set with all additional cards (24 total) from the provided copy.
 - [x] 2026-09-26 — Create account / Sign in now point to AI Office (`office.getleadsflow180.com`), not the CRM.
 - [x] 2026-09-26 — Restored closing CTA spinning mesh face ring (replaced flat 3×7 grid).

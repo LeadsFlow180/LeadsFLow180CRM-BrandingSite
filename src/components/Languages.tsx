@@ -82,7 +82,7 @@ export function LanguagesStrip() {
             </p>
           </div>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-white/60">
-            Talk to the team in the language you already use. The same agents. The same CRM desk. The CRM and AI
+            Talk to the team in the language you already use. The same agents. The same FLOW desk. FLOW and AI
             Office are multilingual — this page simply stays in English.
           </p>
         </Reveal>

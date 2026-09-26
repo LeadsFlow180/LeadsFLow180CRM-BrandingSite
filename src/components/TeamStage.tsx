@@ -96,7 +96,7 @@ export function TeamStage() {
               Meet the team that <span className="text-brand-gradient">talks with you.</span>
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
-              AI Office is who you speak with. This CRM is the desk they already work from. The stage keeps
+              AI Office is who you speak with. FLOW is the desk they already work from. The stage keeps
               moving. Tap a face to put them on stage — rotation stays on Play. The same agents can help in 10
               languages.
             </p>

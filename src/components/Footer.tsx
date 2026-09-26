@@ -36,7 +36,7 @@ export function Footer() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/brand/logo.png" alt="LeadsFlow180" className="h-7 w-auto sm:h-10" />
               <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
-                An agency CRM with a named AI team. AI Office is the who. The CRM is the how.
+                An agency workspace with a named AI team. AI Office is the who. FLOW is the how.
               </p>
               <a
                 href={links.office}

@@ -181,7 +181,7 @@ export const agents: Agent[] = [
     id: "adam",
     name: "Adam",
     title: "Strategy Analysis",
-    skill: "Where to focus next, on real CRM data.",
+    skill: "Where to focus next, on real FLOW data.",
     group: "Ops",
     photo: "/agents/adam.png",
   },
