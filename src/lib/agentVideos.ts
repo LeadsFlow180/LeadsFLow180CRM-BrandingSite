@@ -5,6 +5,7 @@ export const agentVideos: Record<string, string> = {
   "adam": "/agents/videos/adam.mp4",
   "ali": "/agents/videos/ali.mp4",
   "amir": "/agents/videos/amir.mp4",
+  "ava": "/agents/videos/ava.mp4",
   "caleb": "/agents/videos/caleb.mp4",
   "carlos": "/agents/videos/carlos.mp4",
   "danica": "/agents/videos/danica.mp4",
