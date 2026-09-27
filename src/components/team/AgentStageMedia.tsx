@@ -11,12 +11,16 @@ type Props = {
   photo: string;
   /** Stage Play/Pause — video follows this so clips can finish before rotate. */
   playing: boolean;
+  /** Browsers block autoplay-with-sound until a click; parent keeps unlock across agents. */
+  soundOn: boolean;
   onProgress?: (ratio: number) => void;
   onEnded?: () => void;
   /** Fired when there is no usable clip (missing file / error / reduced motion). */
   onUnavailable?: () => void;
   /** Fired once the portrait is safe to show (first video frame, or photo). */
   onReady?: () => void;
+  /** Unmuted play was blocked — parent should flip the mute toggle. */
+  onSoundBlocked?: () => void;
 };
 
 /** Stage portrait: plays /agents/videos/{id}.mp4 once when present, otherwise the still photo. */
@@ -26,10 +30,12 @@ export function AgentStageMedia({
   title,
   photo,
   playing,
+  soundOn,
   onProgress,
   onEnded,
   onUnavailable,
   onReady,
+  onSoundBlocked,
 }: Props) {
   const reduce = useReducedMotion() ?? false;
   // Reason: always a string so effect dependency arrays never change length (null holes break HMR).
@@ -44,10 +50,12 @@ export function AgentStageMedia({
   const onProgressRef = useRef(onProgress);
   const onEndedRef = useRef(onEnded);
   const onReadyRef = useRef(onReady);
+  const onSoundBlockedRef = useRef(onSoundBlocked);
   onUnavailableRef.current = onUnavailable;
   onProgressRef.current = onProgress;
   onEndedRef.current = onEnded;
   onReadyRef.current = onReady;
+  onSoundBlockedRef.current = onSoundBlocked;
 
   useEffect(() => {
     setFailed(false);
@@ -76,15 +84,24 @@ export function AgentStageMedia({
   useEffect(() => {
     const el = videoRef.current;
     if (!el || !showVideo) return;
-    // Reason: always muted so browsers allow autoplay without a gesture.
-    el.muted = true;
+    el.muted = !soundOn;
+    el.volume = 1;
     if (playing) {
-      void el.play().catch(() => setFailed(true));
+      void el.play().catch(() => {
+        // Reason: if unmuted autoplay is blocked, fall back to muted and sync the toggle.
+        if (!el.muted) {
+          el.muted = true;
+          onSoundBlockedRef.current?.();
+          void el.play().catch(() => setFailed(true));
+        } else {
+          setFailed(true);
+        }
+      });
     } else {
       el.pause();
     }
-    // Reason: fixed 3-slot deps — do not add/remove entries (breaks Fast Refresh / React).
-  }, [playing, showVideo, videoSrc]);
+    // Reason: fixed 4-slot deps — do not add/remove entries (breaks Fast Refresh / React).
+  }, [playing, showVideo, videoSrc, soundOn]);
 
   if (showVideo) {
     return (
@@ -94,7 +111,8 @@ export function AgentStageMedia({
         src={videoSrc}
         playsInline
         preload="auto"
-        muted
+        // Reason: prefer unmuted; parent Mute/Unmute toggle controls this after load.
+        muted={!soundOn}
         // Reason: stay invisible until a decoded frame exists so the still never flashes between clips.
         className={`h-full w-full object-cover object-top transition-opacity duration-150 ${frameReady ? "opacity-100" : "opacity-0"}`}
         onError={() => {
@@ -103,8 +121,18 @@ export function AgentStageMedia({
         }}
         onLoadedData={(e) => {
           const v = e.currentTarget;
-          v.muted = true;
-          if (playing) void v.play().catch(() => setFailed(true));
+          v.muted = !soundOn;
+          if (playing) {
+            void v.play().catch(() => {
+              if (!v.muted) {
+                v.muted = true;
+                onSoundBlockedRef.current?.();
+                void v.play().catch(() => setFailed(true));
+              } else {
+                setFailed(true);
+              }
+            });
+          }
           // Reason: wait for an actual painted frame when the browser supports it.
           const rvfc = (
             v as HTMLVideoElement & {

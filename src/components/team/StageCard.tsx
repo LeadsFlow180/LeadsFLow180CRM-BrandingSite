@@ -31,6 +31,10 @@ type Props = {
   onVideoProgress?: (ratio: number) => void;
   onVideoEnded?: () => void;
   onVideoUnavailable?: () => void;
+  soundOn?: boolean;
+  onToggleSound?: () => void;
+  /** Browser blocked unmuted autoplay — sync the mute toggle. */
+  onSoundBlocked?: () => void;
 };
 
 /** Cinematic black stage: 3D portrait frame on the left, agent story + controls on the right. */
@@ -48,6 +52,9 @@ export function StageCard({
   onVideoProgress,
   onVideoEnded,
   onVideoUnavailable,
+  soundOn = true,
+  onToggleSound,
+  onSoundBlocked,
 }: Props) {
   // Reason: keep the outgoing portrait up until the next clip has a painted frame (no still-photo gap).
   const [displayed, setDisplayed] = useState(active);
@@ -167,8 +174,10 @@ export function StageCard({
                       title={agent.title}
                       photo={agent.photo}
                       playing={playing && !reduce && isTarget}
+                      soundOn={soundOn && isDisplayed}
                       onProgress={isDisplayed && !isIncoming ? onVideoProgress : undefined}
                       onEnded={isDisplayed && !isIncoming ? onVideoEnded : undefined}
+                      onSoundBlocked={isDisplayed ? onSoundBlocked : undefined}
                       onReady={() => {
                         if (activeIdRef.current === agent.id && !isDisplayed) setDisplayed(agent);
                       }}
@@ -187,6 +196,32 @@ export function StageCard({
                 className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.16)_50%,transparent_65%)] bg-[length:250%_100%]"
                 style={{ backgroundPositionX: glareX }}
               />
+              {Boolean(getAgentVideo(displayed.id)) && (
+                <button
+                  type="button"
+                  aria-label={soundOn ? "Mute video" : "Unmute video"}
+                  aria-pressed={soundOn}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleSound?.();
+                  }}
+                  className="absolute top-3 left-3 z-30 inline-flex items-center gap-2 rounded-full bg-black/80 px-3 py-2 text-[11px] font-semibold tracking-wide text-white shadow-[0_8px_20px_-8px_rgba(0,0,0,0.8)] ring-1 ring-white/25 backdrop-blur-md transition hover:bg-black/90"
+                >
+                  {soundOn ? (
+                    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                      <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                      <path d="M18 6a8 8 0 0 1 0 12" />
+                    </svg>
+                  ) : (
+                    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                      <path d="M15 9l6 6M21 9l-6 6" />
+                    </svg>
+                  )}
+                  {soundOn ? "Mute" : "Unmute"}
+                </button>
+              )}
               <span className="pointer-events-none absolute top-4 right-4 z-20 inline-flex items-center gap-2 rounded-full bg-black/55 px-3 py-1.5 text-[10px] font-semibold tracking-[0.2em] uppercase ring-1 ring-white/15 backdrop-blur-md">
                 <span className="relative flex size-2">
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-green opacity-70 motion-reduce:animate-none" />
