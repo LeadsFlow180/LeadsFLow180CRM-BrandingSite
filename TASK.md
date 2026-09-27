@@ -7,6 +7,9 @@
 
 ## Done — 2026-09-26
 
+- [x] 2026-09-27 — Stage sound preference stays ON across refresh (localStorage); browsers still need one tap to unlock audio — we no longer flip the Mute button off on autoplay block.
+- [x] 2026-09-27 — Mute/Unmute clickable (outside 3D layer; media ignores pointers); audio preferred on by default and re-unlocked on stage gestures.
+- [x] 2026-09-27 — Stage pick performance: photo paints first, one video decoder, lighter roster (no layout anim), throttled progress/tilt, no dual-buffer wait.
 - [x] 2026-09-27 — Stage portrait framing: dark fill (no white top hairline), default close-up zoom, per-agent crop for Jojo/Caleb/etc in `agentStageFrame.ts`.
 - [x] 2026-09-27 — Stage sound defaults to unmuted with a Mute/Unmute toggle on the portrait; falls back to muted if the browser blocks autoplay-with-sound.
 - [x] 2026-09-27 — Restored stage Unmute (compact top-left); clips autoplay muted until tapped, then audio stays on.

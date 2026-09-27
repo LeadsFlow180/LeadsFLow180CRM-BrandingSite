@@ -1,7 +1,7 @@
 "use client";
 
 import { useMotionValue, useReducedMotion } from "framer-motion";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getAgentVideo } from "@/lib/agentVideos";
 import { agents, type Filter } from "@/lib/site";
 import { LanguageChips } from "./Languages";
@@ -10,6 +10,7 @@ import { StageCard } from "./team/StageCard";
 import { TeamRoster } from "./team/TeamRoster";
 
 const PHOTO_ROTATE_MS = 5000;
+const SOUND_PREF_KEY = "lf180-stage-sound";
 
 export function TeamStage() {
   const reduce = useReducedMotion() ?? false;
@@ -18,11 +19,55 @@ export function TeamStage() {
   const [playing, setPlaying] = useState(true);
   // Reason: agents with a clip drive rotate via onEnded; photo-only agents use the timed loop.
   const [waitForVideo, setWaitForVideo] = useState(() => Boolean(getAgentVideo(agents[0].id)));
-  // Reason: prefer unmuted by default; if the browser blocks it we fall back and the toggle stays accurate.
+  // Reason: user preference defaults to sound ON and survives refresh; browsers still need one gesture before audio can start.
   const [soundOn, setSoundOn] = useState(true);
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
+  const audioUnlockedRef = useRef(false);
   const progress = useMotionValue(0);
   const elapsed = useRef(0);
   const stageRef = useRef<HTMLDivElement>(null);
+
+  const unlockAudio = useCallback(() => {
+    audioUnlockedRef.current = true;
+    setAudioUnlocked(true);
+  }, []);
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(SOUND_PREF_KEY) === "0") setSoundOn(false);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(SOUND_PREF_KEY, soundOn ? "1" : "0");
+    } catch {
+      /* ignore */
+    }
+  }, [soundOn]);
+
+  // Reason: Chrome/Safari block unmuted autoplay on every fresh load — first tap unlocks audio.
+  useEffect(() => {
+    const unlock = () => unlockAudio();
+    window.addEventListener("pointerdown", unlock, { once: true, passive: true });
+    window.addEventListener("keydown", unlock, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+    };
+  }, [unlockAudio]);
+
+  const toggleSound = useCallback(() => {
+    // Reason: after refresh the button may still say “listen” — first tap must turn sound ON, not toggle preference off.
+    if (!audioUnlockedRef.current) {
+      unlockAudio();
+      setSoundOn(true);
+      return;
+    }
+    setSoundOn((s) => !s);
+  }, [unlockAudio]);
 
   const list = useMemo(
     () => (filter === "Everyone" ? agents : agents.filter((a) => a.group === filter)),
@@ -36,8 +81,10 @@ export function TeamStage() {
     (id: string) => {
       elapsed.current = 0;
       progress.set(0);
-      setWaitForVideo(Boolean(getAgentVideo(id)));
-      setActiveId(id);
+      startTransition(() => {
+        setWaitForVideo(Boolean(getAgentVideo(id)));
+        setActiveId(id);
+      });
     },
     [progress],
   );
@@ -45,6 +92,14 @@ export function TeamStage() {
   const step = useCallback(
     (dir: 1 | -1) => goTo(list[(index + dir + list.length) % list.length].id),
     [goTo, index, list],
+  );
+
+  const userStep = useCallback(
+    (dir: 1 | -1) => {
+      unlockAudio();
+      step(dir);
+    },
+    [step, unlockAudio],
   );
 
   const changeFilter = (f: Filter) => {
@@ -88,15 +143,17 @@ export function TeamStage() {
     return () => cancelAnimationFrame(frame);
   }, [autoplay, step, progress, list.length, activeId, waitForVideo]);
 
-  // Reason: roster tiles sit below the stage, so picking one scrolls the stage back under the sticky header.
+  // Reason: roster sits below the stage — only scroll when the stage is off-screen (avoids jank on every tap).
   const pickFromRoster = (id: string) => {
+    unlockAudio();
     goTo(id);
     const el = stageRef.current;
-    if (el) {
-      const header = document.querySelector("header")?.getBoundingClientRect().height ?? 72;
-      const top = el.getBoundingClientRect().top + window.scrollY - header - 16;
-      window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
-    }
+    if (!el) return;
+    const header = document.querySelector("header")?.getBoundingClientRect().height ?? 72;
+    const rect = el.getBoundingClientRect();
+    if (rect.top >= header + 8 && rect.top < window.innerHeight * 0.55) return;
+    const top = rect.top + window.scrollY - header - 16;
+    window.scrollTo({ top, behavior: "auto" });
   };
 
   return (
@@ -146,15 +203,21 @@ export function TeamStage() {
               autoplay={autoplay}
               playing={playing}
               reduce={reduce}
-              onStep={step}
-              onToggle={() => setPlaying((p) => !p)}
-              onPick={goTo}
+              onStep={userStep}
+              onToggle={() => {
+                unlockAudio();
+                setPlaying((p) => !p);
+              }}
+              onPick={(id) => {
+                unlockAudio();
+                goTo(id);
+              }}
               onVideoProgress={onVideoProgress}
               onVideoEnded={onVideoEnded}
               onVideoUnavailable={onVideoUnavailable}
-              soundOn={soundOn}
-              onToggleSound={() => setSoundOn((s) => !s)}
-              onSoundBlocked={() => setSoundOn(false)}
+              soundOn={soundOn && audioUnlocked}
+              playbackSoundOn={soundOn && audioUnlocked}
+              onToggleSound={toggleSound}
             />
           </div>
         </Reveal>

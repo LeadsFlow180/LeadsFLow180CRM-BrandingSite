@@ -8,7 +8,7 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
+import { useRef, type PointerEvent, type ReactNode } from "react";
 import { getAgentVideo } from "@/lib/agentVideos";
 import { links, type Agent } from "@/lib/site";
 import { ease } from "../Motion";
@@ -32,9 +32,9 @@ type Props = {
   onVideoEnded?: () => void;
   onVideoUnavailable?: () => void;
   soundOn?: boolean;
+  /** Actual element unmute (false until the browser has a user gesture). */
+  playbackSoundOn?: boolean;
   onToggleSound?: () => void;
-  /** Browser blocked unmuted autoplay — sync the mute toggle. */
-  onSoundBlocked?: () => void;
 };
 
 /** Cinematic black stage: 3D portrait frame on the left, agent story + controls on the right. */
@@ -53,63 +53,37 @@ export function StageCard({
   onVideoEnded,
   onVideoUnavailable,
   soundOn = true,
+  playbackSoundOn = false,
   onToggleSound,
-  onSoundBlocked,
 }: Props) {
-  // Reason: keep the outgoing portrait up until the next clip has a painted frame (no still-photo gap).
-  const [displayed, setDisplayed] = useState(active);
-  const activeIdRef = useRef(active.id);
-  activeIdRef.current = active.id;
-
-  const tone = groupTone[displayed.group];
+  const tone = groupTone[active.group];
   const status = reduce ? "Manual" : playing ? "Rotating" : "Paused";
-  const displayIndex = Math.max(0, list.findIndex((a) => a.id === displayed.id));
-  const upNext = Array.from({ length: Math.min(3, list.length - 1) }, (_, i) => list[(displayIndex + i + 1) % list.length]);
-
-  useEffect(() => {
-    if (active.id === displayed.id) return;
-    // Photo-only targets can promote immediately; video targets wait for onReady.
-    if (!getAgentVideo(active.id) || reduce) {
-      setDisplayed(active);
-      return;
-    }
-    // Reason: never leave the stage stuck on the previous frame if decode stalls.
-    const failSafe = window.setTimeout(() => {
-      if (activeIdRef.current === active.id) setDisplayed(active);
-    }, 2500);
-    return () => window.clearTimeout(failSafe);
-  }, [active, displayed.id, reduce]);
-
-  // Reason: warm the next agent's file while the current one plays so the handoff is already buffered.
-  useEffect(() => {
-    const next = list[(index + 1) % list.length];
-    const src = next ? getAgentVideo(next.id) : undefined;
-    if (!src) return;
-    const warm = document.createElement("video");
-    warm.preload = "auto";
-    warm.muted = true;
-    warm.playsInline = true;
-    warm.src = src;
-    warm.load();
-    return () => {
-      warm.removeAttribute("src");
-      warm.load();
-    };
-  }, [index, list]);
+  const upNext = Array.from({ length: Math.min(3, list.length - 1) }, (_, i) => list[(index + i + 1) % list.length]);
 
   const px = useMotionValue(0);
   const py = useMotionValue(0);
-  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-10, 10]), { stiffness: 140, damping: 18 });
-  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [8, -8]), { stiffness: 140, damping: 18 });
+  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-6, 6]), { stiffness: 120, damping: 22 });
+  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [5, -5]), { stiffness: 120, damping: 22 });
   const glareX = useTransform(px, [-0.5, 0.5], ["0%", "100%"]);
+  const moveRaf = useRef(0);
 
   const onMove = (e: PointerEvent<HTMLDivElement>) => {
     if (reduce || e.pointerType !== "mouse") return;
-    const r = e.currentTarget.getBoundingClientRect();
-    px.set((e.clientX - r.left) / r.width - 0.5);
-    py.set((e.clientY - r.top) / r.height - 0.5);
+    const target = e.currentTarget;
+    const cx = e.clientX;
+    const cy = e.clientY;
+    // Reason: pointer tilt at 60fps is expensive next to video decode — coalesce to one rAF.
+    if (moveRaf.current) return;
+    moveRaf.current = requestAnimationFrame(() => {
+      moveRaf.current = 0;
+      const r = target.getBoundingClientRect();
+      px.set((cx - r.left) / r.width - 0.5);
+      py.set((cy - r.top) / r.height - 0.5);
+    });
   };
   const onLeave = () => {
+    if (moveRaf.current) cancelAnimationFrame(moveRaf.current);
+    moveRaf.current = 0;
     px.set(0);
     py.set(0);
   };
@@ -120,7 +94,7 @@ export function StageCard({
         aria-hidden="true"
         className="orb -top-40 left-[10%] size-[460px]"
         animate={{ backgroundColor: tone.glow }}
-        transition={{ duration: 1.2, ease }}
+        transition={{ duration: 0.6, ease }}
       />
       <div aria-hidden="true" className="orb right-[-10%] bottom-[-35%] size-[420px] bg-brand-purple/30" />
       <div
@@ -139,137 +113,117 @@ export function StageCard({
             aria-hidden="true"
             className="text-outline pointer-events-none absolute -top-1 left-2 text-[5.5rem] leading-none font-bold tracking-tighter tabular-nums select-none min-[380px]:text-[7rem] sm:left-4 sm:text-[12rem] md:top-4 md:left-6"
           >
-            {pad(displayIndex + 1)}
+            {pad(index + 1)}
           </span>
 
-          <motion.div
-            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-            className="relative w-full max-w-[220px] min-[380px]:max-w-[280px] sm:max-w-[340px] md:max-w-[380px]"
-          >
-            <div
-              aria-hidden="true"
-              className="absolute inset-4 rounded-[28px] blur-2xl transition-colors duration-700"
-              style={{ backgroundColor: tone.glow, transform: "translateZ(-60px) translateY(32px)" }}
-            />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-[#070812] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/15">
-              {/* Keep outgoing mounted until incoming has a frame, then cut — same DOM node, no remount flash. */}
-              {Array.from(
-                new Map<string, Agent>([
-                  [displayed.id, displayed],
-                  [active.id, active],
-                ]).values(),
-              ).map((agent) => {
-                const isDisplayed = agent.id === displayed.id;
-                const isTarget = agent.id === active.id;
-                const isIncoming = isTarget && !isDisplayed;
-                return (
-                  <div
-                    key={agent.id}
-                    className={`absolute inset-0 ${isDisplayed ? "z-10 opacity-100" : "pointer-events-none z-0 opacity-0"}`}
-                    aria-hidden={!isDisplayed}
-                  >
-                    <AgentStageMedia
-                      id={agent.id}
-                      name={agent.name}
-                      title={agent.title}
-                      photo={agent.photo}
-                      playing={playing && !reduce && isTarget}
-                      soundOn={soundOn && isDisplayed}
-                      onProgress={isDisplayed && !isIncoming ? onVideoProgress : undefined}
-                      onEnded={isDisplayed && !isIncoming ? onVideoEnded : undefined}
-                      onSoundBlocked={isDisplayed ? onSoundBlocked : undefined}
-                      onReady={() => {
-                        if (activeIdRef.current === agent.id && !isDisplayed) setDisplayed(agent);
-                      }}
-                      onUnavailable={() => {
-                        if (activeIdRef.current !== agent.id) return;
-                        if (!isDisplayed) setDisplayed(agent);
-                        onVideoUnavailable?.();
-                      }}
-                    />
-                  </div>
-                );
-              })}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              <motion.div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.16)_50%,transparent_65%)] bg-[length:250%_100%]"
-                style={{ backgroundPositionX: glareX }}
-              />
-              {Boolean(getAgentVideo(displayed.id)) && (
-                <button
-                  type="button"
-                  aria-label={soundOn ? "Mute video" : "Unmute video"}
-                  aria-pressed={soundOn}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onToggleSound?.();
-                  }}
-                  className="absolute top-3 left-3 z-30 inline-flex items-center gap-2 rounded-full bg-black/80 px-3 py-2 text-[11px] font-semibold tracking-wide text-white shadow-[0_8px_20px_-8px_rgba(0,0,0,0.8)] ring-1 ring-white/25 backdrop-blur-md transition hover:bg-black/90"
-                >
-                  {soundOn ? (
-                    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M11 5L6 9H3v6h3l5 4V5z" />
-                      <path d="M15.5 8.5a5 5 0 0 1 0 7" />
-                      <path d="M18 6a8 8 0 0 1 0 12" />
-                    </svg>
-                  ) : (
-                    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M11 5L6 9H3v6h3l5 4V5z" />
-                      <path d="M15 9l6 6M21 9l-6 6" />
-                    </svg>
-                  )}
-                  {soundOn ? "Mute" : "Unmute"}
-                </button>
-              )}
-              <span className="pointer-events-none absolute top-4 right-4 z-20 inline-flex items-center gap-2 rounded-full bg-black/55 px-3 py-1.5 text-[10px] font-semibold tracking-[0.2em] uppercase ring-1 ring-white/15 backdrop-blur-md">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-green opacity-70 motion-reduce:animate-none" />
-                  <span className="relative inline-flex size-2 rounded-full bg-brand-green" />
-                </span>
-                Live
-              </span>
-            </div>
-
-            <div
-              style={{ transform: "translateZ(50px)" }}
-              className="absolute -right-3 bottom-6 hidden items-center gap-2 rounded-2xl bg-white/10 px-3 py-2 text-[11px] font-medium ring-1 ring-white/20 backdrop-blur-xl sm:flex"
+          <div className="relative w-full max-w-[220px] min-[380px]:max-w-[280px] sm:max-w-[340px] md:max-w-[380px]">
+            <motion.div
+              style={reduce ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
+              className="relative"
             >
-              <span className={`size-2 rounded-full ${tone.dot}`} />
-              {displayed.group}
-            </div>
-          </motion.div>
+              <div
+                aria-hidden="true"
+                className="absolute inset-4 rounded-[28px] blur-2xl transition-colors duration-500"
+                style={{ backgroundColor: tone.glow, transform: "translateZ(-60px) translateY(32px)" }}
+              />
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-[#070812] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/15">
+                {/* One agent media tree — photo first, then a single video decoder. */}
+                <AgentStageMedia
+                  key={active.id}
+                  id={active.id}
+                  name={active.name}
+                  title={active.title}
+                  photo={active.photo}
+                  playing={playing && !reduce}
+                  soundOn={playbackSoundOn}
+                  onProgress={onVideoProgress}
+                  onEnded={onVideoEnded}
+                  onUnavailable={onVideoUnavailable}
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <motion.div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.16)_50%,transparent_65%)] bg-[length:250%_100%]"
+                  style={{ backgroundPositionX: glareX }}
+                />
+                <span className="pointer-events-none absolute top-4 right-4 z-20 inline-flex items-center gap-2 rounded-full bg-black/55 px-3 py-1.5 text-[10px] font-semibold tracking-[0.2em] uppercase ring-1 ring-white/15">
+                  <span className="relative flex size-2">
+                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-green opacity-70 motion-reduce:animate-none" />
+                    <span className="relative inline-flex size-2 rounded-full bg-brand-green" />
+                  </span>
+                  Live
+                </span>
+              </div>
+
+              <div
+                style={{ transform: "translateZ(50px)" }}
+                className="pointer-events-none absolute -right-3 bottom-6 hidden items-center gap-2 rounded-2xl bg-white/10 px-3 py-2 text-[11px] font-medium ring-1 ring-white/20 sm:flex"
+              >
+                <span className={`size-2 rounded-full ${tone.dot}`} />
+                {active.group}
+              </div>
+            </motion.div>
+
+            {/* Reason: sit outside the 3D tilt layer so Mute/Unmute always receives clicks. */}
+            {Boolean(getAgentVideo(active.id)) && (
+              <button
+                type="button"
+                aria-label={playbackSoundOn ? "Mute video" : "Unmute video"}
+                aria-pressed={playbackSoundOn}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onToggleSound?.();
+                }}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="absolute top-3 left-3 z-50 inline-flex items-center gap-2 rounded-full bg-black/85 px-3.5 py-2.5 text-[11px] font-semibold tracking-wide text-white shadow-[0_8px_20px_-8px_rgba(0,0,0,0.8)] ring-1 ring-white/30 transition hover:bg-black"
+              >
+                {playbackSoundOn ? (
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                    <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                    <path d="M18 6a8 8 0 0 1 0 12" />
+                  </svg>
+                ) : (
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                    <path d="M15 9l6 6M21 9l-6 6" />
+                  </svg>
+                )}
+                {playbackSoundOn ? "Mute" : "Tap for sound"}
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Story + controls */}
         <div className="relative flex min-w-0 flex-col justify-between gap-6 p-4 min-[380px]:p-6 sm:gap-8 sm:p-10 md:py-12 md:pr-12 md:pl-6">
-          {/* Stacked in one grid cell so the old and new agent crossfade instead of waiting on each other. */}
           <div className="grid" aria-live={autoplay ? "off" : "polite"}>
             <AnimatePresence initial={false}>
               <motion.div
-                key={displayed.id}
+                key={active.id}
                 className="[grid-area:1/1]"
-                initial={{ opacity: 0, y: 22, filter: "blur(6px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -14, filter: "blur(6px)" }}
-                transition={{ duration: 0.6, ease }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25, ease }}
               >
                 <p className={`inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.24em] uppercase ${tone.text}`}>
                   <span className={`size-1.5 rounded-full ${tone.dot}`} />
-                  {displayed.group}
+                  {active.group}
                 </p>
-                <h3 className="mt-3 text-4xl leading-none font-semibold tracking-[-0.04em] min-[380px]:mt-4 min-[380px]:text-5xl sm:text-7xl">{displayed.name}</h3>
+                <h3 className="mt-3 text-4xl leading-none font-semibold tracking-[-0.04em] min-[380px]:mt-4 min-[380px]:text-5xl sm:text-7xl">{active.name}</h3>
                 <p className="mt-3 bg-gradient-to-r from-[#a5aaff] to-[#d5c2ff] bg-clip-text text-base font-medium text-transparent min-[380px]:mt-4 min-[380px]:text-lg sm:text-xl">
-                  {displayed.title}
+                  {active.title}
                 </p>
                 <p className="mt-4 max-w-md border-l-2 border-white/15 pl-3 text-sm leading-relaxed text-white/75 min-[380px]:mt-5 min-[380px]:pl-4 min-[380px]:text-base sm:text-lg">
-                  {displayed.skill}
+                  {active.skill}
                 </p>
                 <a
                   href={links.office}
                   className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white/90 transition hover:text-white min-[380px]:mt-7"
                 >
-                  Talk to {displayed.name} in AI Office
+                  Talk to {active.name} in AI Office
                   <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                     →
                   </span>
@@ -292,7 +246,7 @@ export function StageCard({
                         className="flex items-center gap-2 rounded-full bg-white/[0.06] py-1 pr-3.5 pl-1 text-xs font-medium text-white/80 ring-1 ring-white/10 transition hover:bg-white/[0.12] hover:text-white"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={a.photo} alt="" className="size-7 rounded-full object-cover object-top" />
+                        <img src={a.photo} alt="" className="size-7 rounded-full object-cover object-top" loading="lazy" decoding="async" />
                         {a.name}
                       </button>
                     </li>
@@ -303,7 +257,7 @@ export function StageCard({
 
             <div className="flex items-end justify-between gap-4">
               <p className="font-mono text-sm tracking-wider text-white/50 tabular-nums">
-                <span className="text-3xl font-semibold text-white">{pad(displayIndex + 1)}</span> / {pad(list.length)}
+                <span className="text-3xl font-semibold text-white">{pad(index + 1)}</span> / {pad(list.length)}
               </p>
               <p className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-white/50 uppercase">
                 <span className={`size-1.5 rounded-full ${playing && !reduce ? "animate-pulse bg-brand-green" : "bg-white/40"}`} />

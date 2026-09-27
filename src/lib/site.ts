@@ -116,7 +116,7 @@ export const agents: Agent[] = [
     title: "Lead Product & Visual Designer",
     skill: "Brand graphics and slides. Lands in Done for approval.",
     group: "Creative & Content",
-    photo: "/agents/leila.jpg",
+    photo: "/agents/leila.png",
   },
   {
     id: "niki",

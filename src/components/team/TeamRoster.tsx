@@ -1,8 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { agents, filters, type Agent, type Filter } from "@/lib/site";
-import { ease } from "../Motion";
 import { groupTone } from "./groupTone";
 
 const counts = Object.fromEntries(
@@ -64,19 +63,13 @@ export function TeamRoster({ filter, list, activeId, onFilter, onPick }: Props) 
         <p className="hidden text-sm text-slate-500 lg:block">Tap a face to put them on stage.</p>
       </div>
 
-      <motion.ul layout className="mt-6 grid grid-cols-3 gap-2 min-[380px]:gap-2.5 sm:grid-cols-4 md:grid-cols-7 md:gap-3">
-        <AnimatePresence mode="popLayout">
-          {list.map((a) => {
+      <ul className="mt-6 grid grid-cols-3 gap-2 min-[380px]:gap-2.5 sm:grid-cols-4 md:grid-cols-7 md:gap-3">
+        {list.map((a) => {
             const isActive = a.id === activeId;
             const tone = groupTone[a.group];
             return (
-              <motion.li
+              <li
                 key={a.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, ease }}
                 className={`rounded-[18px] p-[2px] transition-shadow duration-300 ${
                   isActive ? "brand-line shadow-[0_16px_30px_-12px_rgba(1,13,255,0.6)]" : ""
                 }`}
@@ -93,7 +86,8 @@ export function TeamRoster({ filter, list, activeId, onFilter, onPick }: Props) 
                     src={a.photo}
                     alt=""
                     loading="lazy"
-                    className={`aspect-[4/5] w-full object-cover object-top transition duration-500 group-hover:scale-105 ${
+                    decoding="async"
+                    className={`aspect-[4/5] w-full object-cover object-top transition duration-300 group-hover:scale-105 ${
                       isActive ? "" : "saturate-[0.85] group-hover:saturate-100"
                     }`}
                   />
@@ -113,11 +107,10 @@ export function TeamRoster({ filter, list, activeId, onFilter, onPick }: Props) 
                     </span>
                   )}
                 </button>
-              </motion.li>
+              </li>
             );
           })}
-        </AnimatePresence>
-      </motion.ul>
+      </ul>
     </div>
   );
 }
