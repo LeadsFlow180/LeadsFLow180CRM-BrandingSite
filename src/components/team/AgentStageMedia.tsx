@@ -1,9 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { getAgentVideo } from "@/lib/agentVideos";
-import { ease } from "../Motion";
 
 type Props = {
   id: string;
@@ -12,12 +11,12 @@ type Props = {
   photo: string;
   /** Stage Play/Pause — video follows this so clips can finish before rotate. */
   playing: boolean;
-  /** Browsers block autoplay-with-sound until a click; parent stores unlock across agents. */
-  soundOn: boolean;
   onProgress?: (ratio: number) => void;
   onEnded?: () => void;
   /** Fired when there is no usable clip (missing file / error / reduced motion). */
   onUnavailable?: () => void;
+  /** Fired once the portrait is safe to show (first video frame, or photo). */
+  onReady?: () => void;
 };
 
 /** Stage portrait: plays /agents/videos/{id}.mp4 once when present, otherwise the still photo. */
@@ -27,77 +26,98 @@ export function AgentStageMedia({
   title,
   photo,
   playing,
-  soundOn = false,
   onProgress,
   onEnded,
   onUnavailable,
+  onReady,
 }: Props) {
-  const reduce = useReducedMotion();
-  const videoSrc = getAgentVideo(id) ?? null;
+  const reduce = useReducedMotion() ?? false;
+  // Reason: always a string so effect dependency arrays never change length (null holes break HMR).
+  const videoSrc = getAgentVideo(id) ?? "";
   const [failed, setFailed] = useState(false);
+  const [frameReady, setFrameReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const readySent = useRef(false);
 
   // Reason: keep effect dependency arrays fixed-length; parent callbacks change identity every render.
   const onUnavailableRef = useRef(onUnavailable);
   const onProgressRef = useRef(onProgress);
   const onEndedRef = useRef(onEnded);
+  const onReadyRef = useRef(onReady);
   onUnavailableRef.current = onUnavailable;
   onProgressRef.current = onProgress;
   onEndedRef.current = onEnded;
+  onReadyRef.current = onReady;
 
   useEffect(() => {
     setFailed(false);
+    setFrameReady(false);
+    readySent.current = false;
   }, [id, videoSrc]);
 
   const showVideo = Boolean(videoSrc) && !failed && !reduce;
 
+  const markReady = () => {
+    if (readySent.current) return;
+    readySent.current = true;
+    setFrameReady(true);
+    onReadyRef.current?.();
+  };
+
   useEffect(() => {
-    if (!showVideo) onUnavailableRef.current?.();
+    if (!showVideo) {
+      onUnavailableRef.current?.();
+      markReady();
+    }
+    // Reason: markReady/onUnavailable are stable via refs; only re-run when media mode changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showVideo, id]);
 
   useEffect(() => {
     const el = videoRef.current;
     if (!el || !showVideo) return;
-    el.muted = !soundOn;
-    el.volume = 1;
+    // Reason: always muted so browsers allow autoplay without a gesture.
+    el.muted = true;
     if (playing) {
-      void el.play().catch(() => {
-        // Reason: if unmuted autoplay is blocked, fall back to muted rather than killing the clip.
-        if (!el.muted) {
-          el.muted = true;
-          void el.play().catch(() => setFailed(true));
-        } else {
-          setFailed(true);
-        }
-      });
+      void el.play().catch(() => setFailed(true));
     } else {
       el.pause();
     }
-  }, [playing, showVideo, videoSrc, soundOn]);
+    // Reason: fixed 3-slot deps — do not add/remove entries (breaks Fast Refresh / React).
+  }, [playing, showVideo, videoSrc]);
 
-  if (showVideo && videoSrc) {
+  if (showVideo) {
     return (
-      <motion.video
+      <video
         key={videoSrc}
         ref={videoRef}
         src={videoSrc}
-        poster={photo}
         playsInline
-        // Reason: start muted for autoplay policy; stage play overlay unlocks audio.
-        muted={!soundOn}
-        className="h-full w-full object-cover object-top"
-        initial={{ opacity: 0, scale: 1.04 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.9, ease }}
+        preload="auto"
+        muted
+        // Reason: stay invisible until a decoded frame exists so the still never flashes between clips.
+        className={`h-full w-full object-cover object-top transition-opacity duration-150 ${frameReady ? "opacity-100" : "opacity-0"}`}
         onError={() => {
           setFailed(true);
           onUnavailableRef.current?.();
         }}
         onLoadedData={(e) => {
           const v = e.currentTarget;
-          v.muted = !soundOn;
+          v.muted = true;
           if (playing) void v.play().catch(() => setFailed(true));
+          // Reason: wait for an actual painted frame when the browser supports it.
+          const rvfc = (
+            v as HTMLVideoElement & {
+              requestVideoFrameCallback?: (cb: () => void) => number;
+            }
+          ).requestVideoFrameCallback;
+          if (typeof rvfc === "function") {
+            rvfc.call(v, () => markReady());
+          } else {
+            markReady();
+          }
         }}
+        onPlaying={() => markReady()}
         onTimeUpdate={(e) => {
           const v = e.currentTarget;
           if (v.duration && Number.isFinite(v.duration)) {
@@ -110,13 +130,7 @@ export function AgentStageMedia({
   }
 
   return (
-    <motion.img
-      src={photo}
-      alt={`${name}, ${title}`}
-      className="h-full w-full object-cover object-top"
-      initial={{ scale: 1 }}
-      animate={{ scale: reduce ? 1 : 1.08 }}
-      transition={{ duration: 7, ease: "linear" }}
-    />
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={photo} alt={`${name}, ${title}`} className="h-full w-full object-cover object-top" />
   );
 }

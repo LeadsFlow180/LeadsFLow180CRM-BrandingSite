@@ -2,7 +2,20 @@
  * Drop {agentId}.mp4 (or .webm/.mov) into public/agents/videos/ then run sync (or npm run dev/build).
  */
 export const agentVideos: Record<string, string> = {
+  "adam": "/agents/videos/adam.mp4",
+  "amir": "/agents/videos/amir.mp4",
+  "caleb": "/agents/videos/caleb.mp4",
+  "danica": "/agents/videos/danica.mp4",
   "jay": "/agents/videos/jay.mp4",
+  "jojo": "/agents/videos/jojo.mp4",
+  "lee": "/agents/videos/lee.mp4",
+  "leila": "/agents/videos/leila.mp4",
+  "mark": "/agents/videos/mark.mp4",
+  "niki": "/agents/videos/niki.mp4",
+  "omar": "/agents/videos/omar.mp4",
+  "shelly": "/agents/videos/shelly.mp4",
+  "sonja": "/agents/videos/sonja.mp4",
+  "zenda": "/agents/videos/zenda.mp4",
 };
 
 export function getAgentVideo(id: string): string | undefined {

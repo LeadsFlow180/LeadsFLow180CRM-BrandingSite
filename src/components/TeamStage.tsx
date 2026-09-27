@@ -18,8 +18,6 @@ export function TeamStage() {
   const [playing, setPlaying] = useState(true);
   // Reason: agents with a clip drive rotate via onEnded; photo-only agents use the timed loop.
   const [waitForVideo, setWaitForVideo] = useState(() => Boolean(getAgentVideo(agents[0].id)));
-  // Reason: browsers block autoplay with audio until a tap — keep sound on after the first unlock.
-  const [soundOn, setSoundOn] = useState(false);
   const progress = useMotionValue(0);
   const elapsed = useRef(0);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -152,8 +150,6 @@ export function TeamStage() {
               onVideoProgress={onVideoProgress}
               onVideoEnded={onVideoEnded}
               onVideoUnavailable={onVideoUnavailable}
-              soundOn={soundOn}
-              onEnableSound={() => setSoundOn(true)}
             />
           </div>
         </Reveal>

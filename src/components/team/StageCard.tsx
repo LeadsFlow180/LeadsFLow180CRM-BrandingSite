@@ -8,7 +8,7 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import type { PointerEvent, ReactNode } from "react";
+import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { getAgentVideo } from "@/lib/agentVideos";
 import { links, type Agent } from "@/lib/site";
 import { ease } from "../Motion";
@@ -31,8 +31,6 @@ type Props = {
   onVideoProgress?: (ratio: number) => void;
   onVideoEnded?: () => void;
   onVideoUnavailable?: () => void;
-  soundOn?: boolean;
-  onEnableSound?: () => void;
 };
 
 /** Cinematic black stage: 3D portrait frame on the left, agent story + controls on the right. */
@@ -50,12 +48,47 @@ export function StageCard({
   onVideoProgress,
   onVideoEnded,
   onVideoUnavailable,
-  soundOn = false,
-  onEnableSound,
 }: Props) {
-  const tone = groupTone[active.group];
+  // Reason: keep the outgoing portrait up until the next clip has a painted frame (no still-photo gap).
+  const [displayed, setDisplayed] = useState(active);
+  const activeIdRef = useRef(active.id);
+  activeIdRef.current = active.id;
+
+  const tone = groupTone[displayed.group];
   const status = reduce ? "Manual" : playing ? "Rotating" : "Paused";
-  const upNext = Array.from({ length: Math.min(3, list.length - 1) }, (_, i) => list[(index + i + 1) % list.length]);
+  const displayIndex = Math.max(0, list.findIndex((a) => a.id === displayed.id));
+  const upNext = Array.from({ length: Math.min(3, list.length - 1) }, (_, i) => list[(displayIndex + i + 1) % list.length]);
+
+  useEffect(() => {
+    if (active.id === displayed.id) return;
+    // Photo-only targets can promote immediately; video targets wait for onReady.
+    if (!getAgentVideo(active.id) || reduce) {
+      setDisplayed(active);
+      return;
+    }
+    // Reason: never leave the stage stuck on the previous frame if decode stalls.
+    const failSafe = window.setTimeout(() => {
+      if (activeIdRef.current === active.id) setDisplayed(active);
+    }, 2500);
+    return () => window.clearTimeout(failSafe);
+  }, [active, displayed.id, reduce]);
+
+  // Reason: warm the next agent's file while the current one plays so the handoff is already buffered.
+  useEffect(() => {
+    const next = list[(index + 1) % list.length];
+    const src = next ? getAgentVideo(next.id) : undefined;
+    if (!src) return;
+    const warm = document.createElement("video");
+    warm.preload = "auto";
+    warm.muted = true;
+    warm.playsInline = true;
+    warm.src = src;
+    warm.load();
+    return () => {
+      warm.removeAttribute("src");
+      warm.load();
+    };
+  }, [index, list]);
 
   const px = useMotionValue(0);
   const py = useMotionValue(0);
@@ -99,7 +132,7 @@ export function StageCard({
             aria-hidden="true"
             className="text-outline pointer-events-none absolute -top-1 left-2 text-[5.5rem] leading-none font-bold tracking-tighter tabular-nums select-none min-[380px]:text-[7rem] sm:left-4 sm:text-[12rem] md:top-4 md:left-6"
           >
-            {pad(index + 1)}
+            {pad(displayIndex + 1)}
           </span>
 
           <motion.div
@@ -112,58 +145,48 @@ export function StageCard({
               style={{ backgroundColor: tone.glow, transform: "translateZ(-60px) translateY(32px)" }}
             />
             <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-white/5 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/15">
-              <AnimatePresence initial={false}>
-                <motion.div
-                  key={active.id}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0, scale: 1.08 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.9, ease }}
-                >
-                  <AgentStageMedia
-                    id={active.id}
-                    name={active.name}
-                    title={active.title}
-                    photo={active.photo}
-                    playing={playing && !reduce}
-                    soundOn={soundOn}
-                    onProgress={onVideoProgress}
-                    onEnded={onVideoEnded}
-                    onUnavailable={onVideoUnavailable}
-                  />
-                </motion.div>
-              </AnimatePresence>
+              {/* Keep outgoing mounted until incoming has a frame, then cut — same DOM node, no remount flash. */}
+              {Array.from(
+                new Map<string, Agent>([
+                  [displayed.id, displayed],
+                  [active.id, active],
+                ]).values(),
+              ).map((agent) => {
+                const isDisplayed = agent.id === displayed.id;
+                const isTarget = agent.id === active.id;
+                const isIncoming = isTarget && !isDisplayed;
+                return (
+                  <div
+                    key={agent.id}
+                    className={`absolute inset-0 ${isDisplayed ? "z-10 opacity-100" : "pointer-events-none z-0 opacity-0"}`}
+                    aria-hidden={!isDisplayed}
+                  >
+                    <AgentStageMedia
+                      id={agent.id}
+                      name={agent.name}
+                      title={agent.title}
+                      photo={agent.photo}
+                      playing={playing && !reduce && isTarget}
+                      onProgress={isDisplayed && !isIncoming ? onVideoProgress : undefined}
+                      onEnded={isDisplayed && !isIncoming ? onVideoEnded : undefined}
+                      onReady={() => {
+                        if (activeIdRef.current === agent.id && !isDisplayed) setDisplayed(agent);
+                      }}
+                      onUnavailable={() => {
+                        if (activeIdRef.current !== agent.id) return;
+                        if (!isDisplayed) setDisplayed(agent);
+                        onVideoUnavailable?.();
+                      }}
+                    />
+                  </div>
+                );
+              })}
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <motion.div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.16)_50%,transparent_65%)] bg-[length:250%_100%]"
                 style={{ backgroundPositionX: glareX }}
               />
-              {!soundOn && Boolean(getAgentVideo(active.id)) && (
-                <button
-                  type="button"
-                  aria-label="Play with sound"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onEnableSound?.();
-                  }}
-                  className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-black/45 backdrop-blur-[2px] transition hover:bg-black/55"
-                >
-                  <span className="relative inline-flex size-16 items-center justify-center rounded-full bg-white text-black shadow-[0_12px_40px_-8px_rgba(1,13,255,0.85)] ring-4 ring-white/30 sm:size-20">
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-0 animate-ping rounded-full bg-white/40 motion-reduce:animate-none"
-                    />
-                    <svg aria-hidden="true" viewBox="0 0 24 24" className="relative ml-1 size-8 sm:size-10" fill="currentColor">
-                      <path d="M8 5.5v13l10.5-6.5z" />
-                    </svg>
-                  </span>
-                  <span className="rounded-full bg-black/70 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white ring-1 ring-white/25 sm:text-sm">
-                    Tap to play with sound
-                  </span>
-                </button>
-              )}
               <span className="pointer-events-none absolute top-4 right-4 z-20 inline-flex items-center gap-2 rounded-full bg-black/55 px-3 py-1.5 text-[10px] font-semibold tracking-[0.2em] uppercase ring-1 ring-white/15 backdrop-blur-md">
                 <span className="relative flex size-2">
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-green opacity-70 motion-reduce:animate-none" />
@@ -178,7 +201,7 @@ export function StageCard({
               className="absolute -right-3 bottom-6 hidden items-center gap-2 rounded-2xl bg-white/10 px-3 py-2 text-[11px] font-medium ring-1 ring-white/20 backdrop-blur-xl sm:flex"
             >
               <span className={`size-2 rounded-full ${tone.dot}`} />
-              {active.group}
+              {displayed.group}
             </div>
           </motion.div>
         </div>
@@ -189,7 +212,7 @@ export function StageCard({
           <div className="grid" aria-live={autoplay ? "off" : "polite"}>
             <AnimatePresence initial={false}>
               <motion.div
-                key={active.id}
+                key={displayed.id}
                 className="[grid-area:1/1]"
                 initial={{ opacity: 0, y: 22, filter: "blur(6px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -198,20 +221,20 @@ export function StageCard({
               >
                 <p className={`inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.24em] uppercase ${tone.text}`}>
                   <span className={`size-1.5 rounded-full ${tone.dot}`} />
-                  {active.group}
+                  {displayed.group}
                 </p>
-                <h3 className="mt-3 text-4xl leading-none font-semibold tracking-[-0.04em] min-[380px]:mt-4 min-[380px]:text-5xl sm:text-7xl">{active.name}</h3>
+                <h3 className="mt-3 text-4xl leading-none font-semibold tracking-[-0.04em] min-[380px]:mt-4 min-[380px]:text-5xl sm:text-7xl">{displayed.name}</h3>
                 <p className="mt-3 bg-gradient-to-r from-[#a5aaff] to-[#d5c2ff] bg-clip-text text-base font-medium text-transparent min-[380px]:mt-4 min-[380px]:text-lg sm:text-xl">
-                  {active.title}
+                  {displayed.title}
                 </p>
                 <p className="mt-4 max-w-md border-l-2 border-white/15 pl-3 text-sm leading-relaxed text-white/75 min-[380px]:mt-5 min-[380px]:pl-4 min-[380px]:text-base sm:text-lg">
-                  {active.skill}
+                  {displayed.skill}
                 </p>
                 <a
                   href={links.office}
                   className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white/90 transition hover:text-white min-[380px]:mt-7"
                 >
-                  Talk to {active.name} in AI Office
+                  Talk to {displayed.name} in AI Office
                   <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                     →
                   </span>
@@ -245,7 +268,7 @@ export function StageCard({
 
             <div className="flex items-end justify-between gap-4">
               <p className="font-mono text-sm tracking-wider text-white/50 tabular-nums">
-                <span className="text-3xl font-semibold text-white">{pad(index + 1)}</span> / {pad(list.length)}
+                <span className="text-3xl font-semibold text-white">{pad(displayIndex + 1)}</span> / {pad(list.length)}
               </p>
               <p className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-white/50 uppercase">
                 <span className={`size-1.5 rounded-full ${playing && !reduce ? "animate-pulse bg-brand-green" : "bg-white/40"}`} />
