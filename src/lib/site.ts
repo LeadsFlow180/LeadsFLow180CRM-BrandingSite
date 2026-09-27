@@ -156,7 +156,7 @@ export const agents: Agent[] = [
     title: "Community & Customer Support",
     skill: "Inbox, phone, reviews.",
     group: "Growth & Client Success",
-    photo: "/agents/sonja.png",
+    photo: "/agents/sonja.jpeg",
   },
   {
     id: "danica",

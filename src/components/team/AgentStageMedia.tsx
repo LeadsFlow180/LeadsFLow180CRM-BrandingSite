@@ -18,11 +18,13 @@ type Props = {
   onEnded?: () => void;
   /** Fired when there is no usable clip (missing file / error / reduced motion). */
   onUnavailable?: () => void;
+  /** Fired once a video frame (or photo) is safe to show — used for seamless handoff. */
+  onReady?: () => void;
 };
 
 /**
  * Stage portrait: photo paints immediately; optional video fades in on top once a frame is ready.
- * One decoder at a time — keeps roster picks snappy with large agent clips.
+ * Parent keeps the outgoing clip mounted until this reports onReady for a seamless cut.
  */
 export function AgentStageMedia({
   id,
@@ -34,6 +36,7 @@ export function AgentStageMedia({
   onProgress,
   onEnded,
   onUnavailable,
+  onReady,
 }: Props) {
   const reduce = useReducedMotion() ?? false;
   // Reason: always a string so effect dependency arrays never change length (null holes break HMR).
@@ -42,17 +45,21 @@ export function AgentStageMedia({
   const [frameReady, setFrameReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const lastProgressAt = useRef(0);
+  const readySent = useRef(false);
 
   const onUnavailableRef = useRef(onUnavailable);
   const onProgressRef = useRef(onProgress);
   const onEndedRef = useRef(onEnded);
+  const onReadyRef = useRef(onReady);
   onUnavailableRef.current = onUnavailable;
   onProgressRef.current = onProgress;
   onEndedRef.current = onEnded;
+  onReadyRef.current = onReady;
 
   useEffect(() => {
     setFailed(false);
     setFrameReady(false);
+    readySent.current = false;
     lastProgressAt.current = 0;
   }, [id, videoSrc]);
 
@@ -64,8 +71,19 @@ export function AgentStageMedia({
     transformOrigin: "center center",
   } as const;
 
+  const markReady = () => {
+    if (readySent.current) return;
+    readySent.current = true;
+    setFrameReady(true);
+    onReadyRef.current?.();
+  };
+
   useEffect(() => {
-    if (!showVideo) onUnavailableRef.current?.();
+    if (!showVideo) {
+      onUnavailableRef.current?.();
+      markReady();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showVideo, id]);
 
   useEffect(() => {
@@ -89,7 +107,7 @@ export function AgentStageMedia({
     // Reason: fixed 4-slot deps — do not add/remove entries (breaks Fast Refresh / React).
   }, [playing, showVideo, videoSrc, soundOn]);
 
-  // Reason: drop the decoder as soon as we leave this agent so the next pick stays light.
+  // Reason: release the decoder only when this agent layer unmounts (after handoff), not mid-play.
   useEffect(() => {
     return () => {
       const el = videoRef.current;
@@ -98,7 +116,7 @@ export function AgentStageMedia({
       el.removeAttribute("src");
       el.load();
     };
-  }, [videoSrc]);
+  }, []);
 
   return (
     <div className="pointer-events-none absolute inset-0">
@@ -107,7 +125,9 @@ export function AgentStageMedia({
         src={photo}
         alt={`${name}, ${title}`}
         style={mediaStyle}
-        className="absolute inset-0 h-full w-full object-cover"
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-150 ${
+          showVideo && frameReady ? "opacity-0" : "opacity-100"
+        }`}
         decoding="async"
         fetchPriority="high"
       />
@@ -116,11 +136,11 @@ export function AgentStageMedia({
           ref={videoRef}
           src={videoSrc}
           playsInline
-          // Reason: metadata only — full auto preload fights the next click on 15–35MB clips.
-          preload="metadata"
+          // Reason: auto so the next agent can buffer while the current clip finishes.
+          preload="auto"
           muted={!soundOn}
           style={mediaStyle}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-200 ${
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-150 ${
             frameReady ? "opacity-100" : "opacity-0"
           }`}
           onError={() => {
@@ -141,9 +161,19 @@ export function AgentStageMedia({
                 }
               });
             }
-            setFrameReady(true);
+            const rvfc = (
+              v as HTMLVideoElement & {
+                requestVideoFrameCallback?: (cb: () => void) => number;
+              }
+            ).requestVideoFrameCallback;
+            if (typeof rvfc === "function") {
+              rvfc.call(v, () => markReady());
+            } else {
+              markReady();
+            }
           }}
-          onPlaying={() => setFrameReady(true)}
+          onPlaying={() => markReady()}
+          onCanPlay={() => markReady()}
           onTimeUpdate={(e) => {
             const now = performance.now();
             // Reason: progress bar does not need 60fps updates from large videos.

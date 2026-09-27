@@ -7,6 +7,7 @@
 
 ## Done — 2026-09-26
 
+- [x] 2026-09-27 — Seamless sequence again: preload next clip, hold last frame until the next video paints, then cut (no photo pause between agents).
 - [x] 2026-09-27 — Stage sound preference stays ON across refresh (localStorage); browsers still need one tap to unlock audio — we no longer flip the Mute button off on autoplay block.
 - [x] 2026-09-27 — Mute/Unmute clickable (outside 3D layer; media ignores pointers); audio preferred on by default and re-unlocked on stage gestures.
 - [x] 2026-09-27 — Stage pick performance: photo paints first, one video decoder, lighter roster (no layout anim), throttled progress/tilt, no dual-buffer wait.
