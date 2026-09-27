@@ -7,6 +7,7 @@
 
 ## Done — 2026-09-26
 
+- [x] 2026-09-27 — Stage portrait framing: dark fill (no white top hairline), default close-up zoom, per-agent crop for Jojo/Caleb/etc in `agentStageFrame.ts`.
 - [x] 2026-09-27 — Stage sound defaults to unmuted with a Mute/Unmute toggle on the portrait; falls back to muted if the browser blocks autoplay-with-sound.
 - [x] 2026-09-27 — Restored stage Unmute (compact top-left); clips autoplay muted until tapped, then audio stays on.
 - [x] 2026-09-27 — Seamless stage video handoff: preload next clip, hold last frame until the next video paints (no still-photo gap); synced 13 agent videos into the manifest.

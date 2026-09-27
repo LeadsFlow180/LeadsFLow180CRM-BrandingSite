@@ -151,7 +151,7 @@ export function StageCard({
               className="absolute inset-4 rounded-[28px] blur-2xl transition-colors duration-700"
               style={{ backgroundColor: tone.glow, transform: "translateZ(-60px) translateY(32px)" }}
             />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-white/5 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/15">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-[#070812] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/15">
               {/* Keep outgoing mounted until incoming has a frame, then cut — same DOM node, no remount flash. */}
               {Array.from(
                 new Map<string, Agent>([

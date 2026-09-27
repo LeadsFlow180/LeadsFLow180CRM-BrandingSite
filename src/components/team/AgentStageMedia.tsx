@@ -3,6 +3,7 @@
 import { useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { getAgentVideo } from "@/lib/agentVideos";
+import { getAgentStageFrame } from "@/lib/agentStageFrame";
 
 type Props = {
   id: string;
@@ -64,6 +65,12 @@ export function AgentStageMedia({
   }, [id, videoSrc]);
 
   const showVideo = Boolean(videoSrc) && !failed && !reduce;
+  const frame = getAgentStageFrame(id);
+  const mediaStyle = {
+    objectPosition: frame.position,
+    transform: `scale(${frame.scale})`,
+    transformOrigin: "center center",
+  } as const;
 
   const markReady = () => {
     if (readySent.current) return;
@@ -114,7 +121,9 @@ export function AgentStageMedia({
         // Reason: prefer unmuted; parent Mute/Unmute toggle controls this after load.
         muted={!soundOn}
         // Reason: stay invisible until a decoded frame exists so the still never flashes between clips.
-        className={`h-full w-full object-cover object-top transition-opacity duration-150 ${frameReady ? "opacity-100" : "opacity-0"}`}
+        // Scale + object-position crop letterbox / headroom so the portrait edge stays filled.
+        style={mediaStyle}
+        className={`h-full w-full object-cover transition-opacity duration-150 ${frameReady ? "opacity-100" : "opacity-0"}`}
         onError={() => {
           setFailed(true);
           onUnavailableRef.current?.();
@@ -159,6 +168,11 @@ export function AgentStageMedia({
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={photo} alt={`${name}, ${title}`} className="h-full w-full object-cover object-top" />
+    <img
+      src={photo}
+      alt={`${name}, ${title}`}
+      style={mediaStyle}
+      className="h-full w-full object-cover"
+    />
   );
 }
