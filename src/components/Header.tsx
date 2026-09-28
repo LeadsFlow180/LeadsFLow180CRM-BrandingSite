@@ -16,6 +16,7 @@ import { ease } from "./Motion";
 const navItems = [
   { id: "team", label: "Team" },
   { id: "features", label: "Features" },
+  { id: "pricing", label: "Pricing" },
 ] as const;
 
 type SectionId = (typeof navItems)[number]["id"];

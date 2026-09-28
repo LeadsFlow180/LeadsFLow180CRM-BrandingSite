@@ -7,6 +7,9 @@
 
 ## Done — 2026-09-28
 
+- [x] 2026-09-28 — Stripe: auto-create Launch Founders Product + $697/mo Price via API (`stripeCatalog.ts`); only `STRIPE_SECRET_KEY` required.
+- [x] 2026-09-28 — Pricing: enlarge Launch Founders Rate Special + Limited time / First 20 clients badges on the white card.
+- [x] 2026-09-28 — Launch Founders pricing on the home page ($697/mo): today’s bonuses + countdown, Subscribe → Stripe Checkout (`/api/checkout`), success/cancel return banners; nav/footer Pricing jump.
 - [x] 2026-09-28 — Header/footer use white+green wordmark (`logo-dark.png`) for black backgrounds; blue+green kept as `logo-light.png` for bright surfaces.
 
 ## Done — 2026-09-26

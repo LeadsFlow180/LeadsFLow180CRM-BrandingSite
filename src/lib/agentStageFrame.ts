@@ -16,7 +16,7 @@ const FRAMES: Record<string, Partial<StageFrame>> = {
   jojo: { scale: 1.2, position: "50% 28%" },
   caleb: { scale: 1.28, position: "50% 22%" },
   carlos: { scale: 1.18, position: "50% 16%" },
-  jay: { scale: 1.16, position: "50% 18%" },
+  jay: { scale: 1.26, position: "50% 18%" },
   mark: { scale: 1.16, position: "50% 16%" },
   lee: { scale: 1.16, position: "50% 16%" },
   zenda: { scale: 1.18, position: "50% 20%" },
