@@ -34,7 +34,7 @@ export function Footer() {
           <div className="grid gap-8 min-[380px]:gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
             <div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/logo.png" alt="LeadsFlow180" className="h-7 w-auto sm:h-10" />
+              <img src="/brand/logo-dark.png" alt="LeadsFlow180" className="h-5 w-auto sm:h-7" />
               <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
                 An agency workspace with a named AI team. AI Office is the who. FLOW is the how.
               </p>

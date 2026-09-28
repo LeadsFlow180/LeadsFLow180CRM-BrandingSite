@@ -73,9 +73,9 @@ function TiltLogo() {
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/brand/logo.png"
+          src="/brand/logo-dark.png"
           alt="LeadsFlow180"
-          className="h-[22px] w-auto drop-shadow-[0_6px_14px_rgba(0,255,38,0.18)] min-[360px]:h-[26px] sm:h-9"
+          className="h-[16px] w-auto drop-shadow-[0_6px_14px_rgba(0,255,38,0.18)] min-[360px]:h-[18px] sm:h-5"
         />
       </motion.span>
     </a>

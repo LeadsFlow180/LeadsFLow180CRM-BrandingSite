@@ -5,6 +5,10 @@
 - [ ] Set canonical and Open Graph URL after the public domain is confirmed.
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
 
+## Done — 2026-09-28
+
+- [x] 2026-09-28 — Header/footer use white+green wordmark (`logo-dark.png`) for black backgrounds; blue+green kept as `logo-light.png` for bright surfaces.
+
 ## Done — 2026-09-26
 
 - [x] 2026-09-27 — Seamless sequence again: preload next clip, hold last frame until the next video paints, then cut (no photo pause between agents).

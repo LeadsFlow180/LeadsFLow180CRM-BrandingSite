@@ -21,7 +21,7 @@ Header, hero with the 3D CRM mock, team stage (21 agents, auto-rotating), langua
 
 ## Assets
 
-- Logo: `public/brand/logo.png` (favicon: `src/app/icon.png`)
+- Logos: `public/brand/logo-dark.png` (white+green, for black/dark UI), `public/brand/logo-light.png` (blue+green, for bright surfaces). Favicon: `src/app/icon.png`.
 - Agent portraits: `public/agents/<id>.png` (`leila.jpg`)
 - Agent stage videos (optional): drop `{id}.mp4` into `public/agents/videos/` (e.g. `jay.mp4`). `npm run dev` / `npm run build` syncs them; missing videos fall back to the portrait.
 
