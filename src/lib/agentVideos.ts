@@ -16,6 +16,7 @@ export const agentVideos: Record<string, string> = {
   "lee": "/agents/videos/lee.mp4",
   "leila": "/agents/videos/leila.mp4",
   "mark": "/agents/videos/mark.mp4",
+  "mia": "/agents/videos/mia.mp4",
   "niki": "/agents/videos/niki.mp4",
   "nova": "/agents/videos/nova.mp4",
   "omar": "/agents/videos/omar.mp4",
