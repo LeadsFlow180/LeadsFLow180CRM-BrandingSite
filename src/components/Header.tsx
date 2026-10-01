@@ -58,7 +58,7 @@ function TiltLogo() {
 
   return (
     <a
-      href="#top"
+      href="/"
       aria-label="LeadsFlow180 home"
       onPointerMove={onMove}
       onPointerLeave={() => {
@@ -138,7 +138,7 @@ export function Header() {
                     return (
                       <li key={item.id} className="relative">
                         <a
-                          href={`#${item.id}`}
+                          href={`/#${item.id}`}
                           onMouseEnter={() => setHovered(item.id)}
                           aria-current={isActive ? "location" : undefined}
                           className={`relative z-10 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${

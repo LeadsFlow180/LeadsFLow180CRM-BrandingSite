@@ -4,6 +4,29 @@
 
 - [ ] Set canonical and Open Graph URL after the public domain is confirmed.
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
+- [ ] Replace draft agent bios in `src/lib/agentProfiles.ts` with the sole bio document (Lee + JoJo office cues already applied; stills in `public/agents/offices/`).
+
+## Done — 2026-10-01
+
+- [x] 2026-10-01 — Walkthrough branded to site theme (blue/purple/green, canvas) with richer CSS/JS motion; layout selectors unchanged.
+- [x] 2026-10-01 — Host exact ChatGPT walkthrough at `/walkthrough/` (HTML/CSS/JS/scenes); `/agents` redirects there; Check-in dialog → `/agents/{id}#talk`; stage/footer Offices links updated.
+- [x] 2026-10-01 — Desk stage matched to walkthrough: height-fit pan, white chrome, cream hotspot, dark-green stage; imported `/agents/offices/*.webp` scene stills.
+- [x] 2026-10-01 — Fix walkthrough `#rooms` left clip (`justify-content: center` + overflow hid early tiles like Zenda); flex-start + scroll active into view.
+- [x] 2026-10-01 — Walkthrough header uses real `/brand/logo-dark.png` (dark shell for contrast on light chrome).
+- [x] 2026-10-01 — Walkthrough 3D motion: stage perspective tilt, cinematic room swaps, haze/bokeh overlays, dust, directory card tilt; Motion off respected.
+- [x] 2026-10-01 — Clear muddy walkthrough overlays (removed haze/bokeh plates + transition blur) so office photos stay sharp.
+- [x] 2026-10-01 — Full walkthrough redesign: black cinematic chrome, Syne/Manrope, full-bleed stage, filmstrip directory, brand line, 3D tilt (kept room/hotspot logic).
+- [x] 2026-10-01 — Fix walkthrough crop: contain full office photos + blurred bleed; compact directory for more stage height.
+- [x] 2026-10-01 — Walkthrough visual fix: light chrome, no photo crop (contain), bleed background, compact roster strip.
+- [x] 2026-10-01 — Redesign `/agents/[id]` office pages (hero chrome, contain photo, clean bio/work/FAQ/talk) to brand 10/10.
+
+## Done — 2026-09-30
+
+- [x] 2026-09-30 — Office stage polish: full-bleed interactive photo, floating glass chrome, drag+inertia look-around, bright desk cards/tiles (no muddy vignettes).
+- [x] 2026-09-30 — Walkthrough-style office: drag-to-look pan on the hero photo + desk card (image is the interactive element); “Drag to look across the room” hint + Check-in hotspot.
+- [x] 2026-09-30 — 3D office depth: parallax office hero (blurred bleed / room / doorway planes), tilting `AgentDeskCard`, tilting `AgentOfficeTile` on `/agents`; all motion off under `prefers-reduced-motion`.
+- [x] 2026-09-30 — Stage CTA: white “Visit {name}’s office” button + “Want to know more about our business?” line (replaced “Talk to {name} in AI Office”).
+- [x] 2026-09-30 — Agent office pages (`/agents`, `/agents/[id]`): office hero, draft bios/personality/FAQs/work, Team stage “Visit office”, email verify + 3‑min talk + signup nudge.
 
 ## Done — 2026-09-28
 

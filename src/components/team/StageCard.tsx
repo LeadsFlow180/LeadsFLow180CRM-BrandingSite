@@ -10,7 +10,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { getAgentVideo } from "@/lib/agentVideos";
-import { links, type Agent } from "@/lib/site";
+import { type Agent } from "@/lib/site";
 import { ease } from "../Motion";
 import { AgentStageMedia } from "./AgentStageMedia";
 import { groupTone } from "./groupTone";
@@ -276,14 +276,17 @@ export function StageCard({
                   {displayed.skill}
                 </p>
                 <a
-                  href={links.office}
-                  className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white/90 transition hover:text-white min-[380px]:mt-7"
+                  href={`/walkthrough#${displayed.id}`}
+                  className="group mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_12px_28px_-12px_rgba(255,255,255,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-12px_rgba(255,255,255,0.55)] min-[380px]:mt-7"
                 >
-                  Talk to {displayed.name} in AI Office
-                  <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                  Visit {displayed.name}&apos;s office
+                  <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
                     →
                   </span>
                 </a>
+                <p className="mt-3 max-w-sm text-xs leading-relaxed text-white/55 sm:text-sm">
+                  Want to know more about our business? Step into their office.
+                </p>
               </motion.div>
             </AnimatePresence>
           </div>

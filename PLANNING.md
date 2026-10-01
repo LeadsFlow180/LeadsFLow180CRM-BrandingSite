@@ -2,9 +2,9 @@
 
 ## Purpose
 
-A standalone public marketing page for LeadsFlow180. People should understand that AI Office is the team (WHO) and the CRM is the toolset (HOW), then click through to the live products — including Launch Founders pricing via Stripe Checkout.
+A standalone public marketing site for LeadsFlow180. People should understand that AI Office is the team (WHO) and the CRM is the toolset (HOW), then click through to the live products — including Launch Founders pricing via Stripe Checkout and per-agent office pages.
 
-This site does not authenticate or call CRM APIs. Stripe Checkout is the only payment path.
+This site does not authenticate into CRM APIs. Stripe Checkout is the paid path. Agent talk uses verified email + a short timed chat (optional OpenAI).
 
 ## Stack
 
@@ -14,28 +14,37 @@ This site does not authenticate or call CRM APIs. Stripe Checkout is the only pa
 - Tailwind CSS
 - Framer Motion
 - Stripe Checkout (`/api/checkout`)
-- One marketing route: `src/app/page.tsx`
+- Agent talk APIs (`/api/agents/email`, `/verify`, `/chat`)
+- Marketing routes: `/`, `/agents`, `/agents/[id]`
 
 ## Structure
 
 - `src/app/layout.tsx` — font, title, description. No canonical or Open Graph URL until a domain is confirmed.
-- `src/app/page.tsx` — composes the single scroll.
-- `src/app/api/checkout/route.ts` — creates a Stripe Checkout Session (or redirects to `STRIPE_PAYMENT_LINK`).
-- `src/components/` — `Header`, `Hero` + `CrmMock`, `TeamStage`, `Languages`, `Features`, `Pricing`, `ClosingCta`, `Footer`, shared `Motion` helpers.
-- `src/lib/site.ts` — URLs, the 21 agents, the ten languages, workspace modules.
+- `src/app/page.tsx` — home scroll.
+- `src/app/agents/page.tsx` — floor directory.
+- `src/app/agents/[id]/page.tsx` — office hero, bio, work, FAQs, email-gated talk.
+- `src/app/api/checkout/route.ts` — Stripe Checkout Session (or `STRIPE_PAYMENT_LINK`).
+- `src/app/api/agents/*` — email verify + timed chat.
+- `src/components/` — `Header`, `Hero`, `TeamStage`, `Languages`, `Features`, `Pricing`, `ClosingCta`, `Footer`, `agents/*`, shared `Motion`.
+- `src/lib/site.ts` — URLs, the 21 agents, languages, workspace modules.
+- `src/lib/agentProfiles.ts` — bios, personality, FAQs, work samples, office photo paths.
 - `src/lib/pricing.ts` — Launch Founders plan + today’s bonuses.
-- `src/lib/stripeCatalog.ts` — finds or creates the Launch Founders Product + monthly Price via Stripe API (`STRIPE_SECRET_KEY` only; optional `STRIPE_PRICE_ID` override).
+- `src/lib/stripeCatalog.ts` — Product + Price via Stripe API.
+- `src/lib/talkSession.ts` / `talkConstants.ts` / `leads.ts` — verify tokens, chat window, list capture.
 - Motion: Framer Motion. Every animation respects `prefers-reduced-motion`.
 
 ## Visual
 
 CRM colors: black header and dark bands, canvas `#f4f6fb`, brand blue `#010dff`, purple `#4609ae` in gradients, green `#00ff26` only on the hairline. Inter via `next/font`. Dark surfaces use `/brand/logo-dark.png`; bright surfaces use `/brand/logo-light.png`.
 
+Agent pages: the floor experience is a branded cinematic walkthrough in `public/walkthrough/` (photographic rooms, glass chrome, filmstrip directory). SEO + email-gated talk live on `/agents/[id]`. Office stills also mirror those scenes as `/agents/offices/{id}.webp`.
+
 ## Constraints
 
-- No extra marketing routes (API routes for Stripe are allowed).
-- Public pricing is the Launch Founders offer in `src/lib/pricing.ts` only — do not invent alternate tiers, trials, or “no credit card” claims.
+- Marketing routes: home + photographic walkthrough at `/walkthrough` (branded cinematic floor UX; `/agents` redirects there) + SEO agent talk pages at `/agents/[id]`.
+- Public pricing is the Launch Founders offer in `src/lib/pricing.ts` only — do not invent alternate tiers, trials, or “no credit card” claims. Agent chat may soft-CTA to AI Office signup.
 - No “Hermes” in human-facing copy. Mia is Project Manager.
 - Do not describe the product as GoHighLevel or a white-label of it.
 - Creative work (Design Hub, Brand Bank) is presented as part of the CRM.
 - Navbar is logo plus product CTAs and in-page jumps (Team, Features, Pricing). Privacy and Terms stay out of the navbar until real legal URLs exist.
+- Profile bios marked `draft: true` until the sole bio document replaces scaffolds.

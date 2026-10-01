@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LeadsFlow180 · Walk the office</title>
+<meta name="description" content="Visit all 21 LeadsFlow180 teammates in a one-floor photographic office walkthrough with personal workspaces and shared spaces.">
+<meta name="theme-color" content="#010dff">
+<base href="/walkthrough/">
+<link rel="icon" href="/brand/logo-dark.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=23">
+<link rel="preload" href="scenes/hallway.webp" as="image">
+</head>
+<body>
+<div class="app">
+  <header class="chrome">
+    <a class="brand" href="#hallway" aria-label="LeadsFlow180 — return to hallway">
+      <span class="brand-shell"><img class="brandmark" src="/brand/logo-dark.png" alt="" width="150" height="15" decoding="async"></span>
+    </a>
+    <div class="chrome-title">
+      <span class="kicker" id="section">FIRST FLOOR</span>
+      <h1 id="roomTitle">The hallway</h1>
+    </div>
+    <div class="chrome-actions">
+      <a class="walk-link" href="cinematic.html">Walk the floor</a>
+      <button id="mapBtn" type="button">Floor map</button>
+      <button id="motion" type="button" aria-pressed="false" title="Turn off movement between scenes">Motion on</button>
+      <button id="helpBtn" type="button" aria-label="How to explore the office">?</button>
+    </div>
+  </header>
+
+  <main id="stage" aria-label="Photographic office walkthrough" tabindex="0">
+    <img id="sceneBleed" class="scene-bleed" src="scenes/hallway.webp" alt="" aria-hidden="true" decoding="async">
+    <div id="photoFrame">
+      <img id="scenePhoto" src="scenes/hallway.webp" alt="Hallway with Leila’s office on the left, Niki’s office on the right, and a shared kitchenette ahead." draggable="false">
+      <div id="hotspots" aria-label="Places you can visit"></div>
+    </div>
+
+    <div class="stage-veil" aria-hidden="true"></div>
+
+    <div id="loading" role="status" hidden><span class="loader"></span><span>Opening the room…</span></div>
+    <div id="error" role="alert" hidden>
+      <strong>This room couldn’t load.</strong>
+      <p>Your current view is still here.</p>
+      <button id="retry" type="button">Try again</button>
+      <button id="dismissError" type="button">Stay here</button>
+    </div>
+
+    <button id="return" class="pill-btn return" type="button" hidden>← Back to hallway</button>
+    <button id="aboutBtn" class="pill-btn about-button" type="button" hidden>About Mia <span aria-hidden="true">↗</span></button>
+    <div class="pan-hint" id="panHint">Drag to look across the room</div>
+
+    <div class="hud">
+      <p id="sceneCaption">Choose an open doorway. Make yourself at home.</p>
+      <span class="scene-count" id="sceneCount">01 / 23</span>
+    </div>
+  </main>
+
+  <footer class="directory">
+    <nav id="rooms" aria-label="Office directory"></nav>
+  </footer>
+</div>
+
+<dialog id="about">
+  <button class="close" id="closeAbout" type="button" aria-label="Close teammate details">×</button>
+  <div class="about-body">
+    <span class="eyebrow">IN THEIR SPACE</span>
+    <h2 id="personName"></h2>
+    <p class="person-role" id="personRole"></p>
+    <p id="personDescription"></p>
+    <h3>Personal touches</h3>
+    <ul id="interests"></ul>
+    <a class="primary" id="talkLink" href="https://office.getleadsflow180.com/" target="_blank" rel="noopener">Open your working AI Office ↗</a>
+    <p class="connection-note">Verify your email on their page for a short talk, then continue in AI Office for chat, voice and approvals.</p>
+  </div>
+</dialog>
+
+<dialog id="help">
+  <button class="close" id="closeHelp" type="button" aria-label="Close navigation help">×</button>
+  <span class="eyebrow">WELCOME INSIDE</span>
+  <h2>A room at a time.</h2>
+  <p>Select a doorway marker to enter, or choose a desk from the strip below. Use <strong>Back to hallway</strong> to step out again.</p>
+  <p>On a narrow screen, drag the photograph sideways to see the whole room.</p>
+  <button id="helpDone" class="primary" type="button">Explore the office</button>
+</dialog>
+
+<dialog id="floorMap" class="map-dialog">
+  <button class="close" id="closeMap" type="button" aria-label="Close floor map">×</button>
+  <span class="eyebrow">ONE FLOOR · FIVE WINGS</span>
+  <h2>Choose an office.</h2>
+  <p>Every team member has a personal office on this floor. Shared spaces stay in the center.</p>
+  <div id="mapGrid"></div>
+</dialog>
+
+<p id="announce" class="sr-only" aria-live="polite"></p>
+<noscript><div class="noscript">Enable JavaScript to use the room navigation. <a href="scenes/hallway.webp">View the hallway photograph</a>.</div></noscript>
+<script type="module" src="tour.js?v=23"></script>
+</body>
+</html>

@@ -47,9 +47,10 @@ export function Footer() {
               </a>
             </div>
             <FooterColumn label="Features">
-              <FooterLink href="#team">Team</FooterLink>
-              <FooterLink href="#features">The HOW</FooterLink>
-              <FooterLink href="#pricing">Pricing</FooterLink>
+              <FooterLink href="/#team">Team</FooterLink>
+              <FooterLink href="/walkthrough">Offices</FooterLink>
+              <FooterLink href="/#features">The HOW</FooterLink>
+              <FooterLink href="/#pricing">Pricing</FooterLink>
               <FooterLink href={links.office}>AI Office</FooterLink>
               <FooterLink href={links.signup}>Create account</FooterLink>
               <FooterLink href={links.login}>Sign in</FooterLink>
@@ -63,7 +64,7 @@ export function Footer() {
           <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-white/45 md:flex-row md:items-center md:justify-between">
             <p className="max-w-3xl leading-relaxed">{languageLine}</p>
             <a
-              href="#top"
+              href="/#top"
               className="group inline-flex shrink-0 items-center gap-2 self-start rounded-full px-3 py-1.5 text-white/60 ring-1 ring-white/15 transition hover:text-white hover:ring-white/40 md:self-auto"
             >
               Back to top
