@@ -5,10 +5,12 @@
 - [ ] Set canonical and Open Graph URL after the public domain is confirmed.
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
 - [ ] Replace draft agent bios in `src/lib/agentProfiles.ts` with the sole bio document (Lee + JoJo office cues already applied; stills in `public/agents/offices/`).
+- [ ] 2026-10-02 — Apply remaining team profile document in FULL when user sends it (no fields skipped).
+- [x] 2026-10-02 — Full office-cue profiles for Ava, Carlos, Adam, Nova, Ali, Shelly, Dante; fillers use all personality/FAQs/work (no truncation).
 
 ## Done — 2026-10-01
 
-- [x] 2026-10-02 — “Visit {name}'s office” → `/agents/[id]` portfolio; `/agents` directory restored; walkthrough route paused (redirects to `/agents`).
+- [x] 2026-10-02 — New office stills for Ava, Carlos, Adam, Nova, Ali, Shelly, Dante (`public/agents/offices/*.jpg`); full names/titles from nameplates; jpg preferred for office heroes.
 - [x] 2026-10-01 — Agent portfolio redesign on `/agents/[id]`: screenshot layout (hero, facts, tilted portfolio, about/skills, FAQ + get started, ask modal); old office layout commented; filler data via `agentPortfolioFillers.ts`.
 - [x] 2026-10-02 — Tighten `/agents/[id]` portfolio to match Lee mock (wave hero, 6 facts, polaroid cards, FAQ bars, get-started steps).
 - [x] 2026-10-01 — Walkthrough branded to site theme (blue/purple/green, canvas) with richer CSS/JS motion; layout selectors unchanged.

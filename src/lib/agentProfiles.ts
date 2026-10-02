@@ -49,19 +49,43 @@ const PROFILE_BY_ID: Record<
     ],
   },
   adam: {
-    tagline: "Where to focus next — on real FLOW data.",
-    bio: "Adam brings Six Sigma clarity to the business. He spots bottlenecks and points the floor at the next highest-leverage move.",
-    personality: ["Loves to golf on weekends", "Quiet competitor", "Whiteboard thinker"],
+    tagline: "Better processes. Brighter people.",
+    bio: "Adam Mitchell leads Operations Process Improvement on the LeadsFlow180 floor. His glass board runs Plan → Improve → Execute → Measure, with Simplify, Standardize, Scale, and People First underneath. He spots bottlenecks on real FLOW data and points the team at the next highest-leverage move — always with owner approval on the changes that matter.",
+    personality: [
+      "Mug motto: Better Processes Brighter People",
+      "People Process Progress on the wall",
+      "Desk stack: Operational Excellence, The Toyota Way, Process Mapping, Good to Great",
+      "Operations whiteboard: Plan → Improve → Execute → Measure",
+      "Goals on glass: Simplify, Standardize, Scale, People First",
+      "Globe and plant on the bookshelf",
+    ],
     favoriteFood: "Grilled steak and roasted vegetables",
     faqs: [
       {
+        q: "What does Operations Process Improvement cover?",
+        a: "Adam maps how work actually flows — handoffs, bottlenecks, and wasted steps — then drafts a clearer path for owners to approve.",
+      },
+      {
         q: "How does process improvement help a sales team?",
-        a: "Adam trims waste in the funnel — fewer handoff gaps, clearer KPIs, and focus on the steps that actually create revenue.",
+        a: "He trims funnel friction: fewer handoff gaps, clearer KPIs, and focus on the steps that create revenue.",
+      },
+      {
+        q: "What is Plan → Improve → Execute → Measure?",
+        a: "Adam’s operating loop on the Operations board — diagnose, redesign, run the change, then prove it with numbers before you scale.",
+      },
+      {
+        q: "Do process changes go live without me?",
+        a: "No. Adam drafts the map and recommendations; you approve anything that changes how the business runs.",
+      },
+      {
+        q: "What books shape Adam’s approach?",
+        a: "His desk stack includes Operational Excellence, The Toyota Way, Process Mapping, and Good to Great — practical ops, not vanity theory.",
       },
     ],
     work: [
-      { id: "funnel", title: "Funnel friction audit", detail: "Mapped drop-offs from lead to booked call." },
+      { id: "funnel", title: "Funnel friction audit", detail: "Mapped drop-offs from lead to booked call with clear next fixes." },
       { id: "kpi", title: "Owner KPI one-pager", detail: "Readable metrics without vanity noise." },
+      { id: "loop", title: "Plan-Improve-Execute-Measure pack", detail: "A one-page operating loop for the week’s highest-leverage change." },
     ],
   },
   sonja: {
@@ -113,23 +137,44 @@ const PROFILE_BY_ID: Record<
     ],
   },
   ava: {
-    tagline: "On-brand media, PR, and campaign copy.",
-    bio: "Ava leads media communications and PR. She shapes stories that sound like you — including podcast-ready talking points.",
-    personality: ["Podcast binge-listener", "Story-first thinker", "Quiet stage presence"],
+    tagline: "Bigger stories. Brighter people.",
+    bio: "Ava Morgan is Director of Media on the LeadsFlow180 floor. She runs a Media & PR board — Pitch, In Progress, Placed — and shapes stories that sound like you: press angles, podcast talking points, and campaign copy. Media Creates Opportunity is on the wall; Good Stories Drive Growth sits on the desk. Drafts move fast; publishing waits for your approval.",
+    personality: [
+      "Mug motto: Good Stories Drive Growth",
+      "Media Creates Opportunity on the wall",
+      "STRATEGY FOCUS GROWTH IMPACT poster",
+      "Media & PR board: Pitch / In Progress / Placed",
+      "Desk stack: Dare to Lead, Talking to Strangers, The Creative Act",
+      "Tennis racket and MEDIA badge on the shelf",
+      "Studio mic ready for podcast and PR takes",
+    ],
     favoriteFood: "Mediterranean bowl",
     faqs: [
       {
-        q: "How can AI help with podcasting and PR?",
-        a: "Ava drafts show notes, guest briefs, and press angles so your media lane stays consistent without starting from a blank page.",
+        q: "What does a Director of Media handle?",
+        a: "Ava covers media communications and PR — pitches, placements, show notes, and on-brand talking points across channels.",
       },
       {
-        q: "What is AI media communications?",
-        a: "It is on-brand messaging across site, campaigns, and PR — drafted by Ava, approved by you before it publishes.",
+        q: "How can AI help with podcasting and PR?",
+        a: "She drafts show notes, guest briefs, and press angles so your media lane stays consistent without a blank page.",
+      },
+      {
+        q: "What is on Ava’s Media & PR board?",
+        a: "Three columns — Pitch, In Progress, and Placed — tracking outlets and stories from idea to live placement.",
+      },
+      {
+        q: "Does Ava publish without approval?",
+        a: "No. Media drafts and angles land for your review before anything represents the brand publicly.",
+      },
+      {
+        q: "Which outlets does Ava think about?",
+        a: "Her board tracks real placement targets — trade, business, and podcast surfaces — always tailored to your story.",
       },
     ],
     work: [
       { id: "podcast", title: "Podcast episode outline", detail: "Hooks, segments, and CTA for a founder show." },
       { id: "pr", title: "PR angle sheet", detail: "Three story angles for local and trade press." },
+      { id: "board", title: "Pitch-to-placed tracker", detail: "Media board snapshot: what is pitched, live, and next." },
     ],
   },
   mark: {
@@ -226,19 +271,44 @@ const PROFILE_BY_ID: Record<
     ],
   },
   shelly: {
-    tagline: "Week-level campaign planning.",
-    bio: "Shelly directs marketing strategy and growth — the week-level plan the floor executes.",
-    personality: ["Big-picture planner", "Sticky-note walls", "Friday retros"],
+    tagline: "Good strategy. Better days.",
+    bio: "Shelly Allen is Director of Marketing Strategy & Growth. She sets the week-level plan the floor executes — brand awareness, thought leadership, demand generation, strategic partnerships, and community growth. People Develop People is on the wall; More Opportunities for More People sits at the bottom of her Marketing Strategy board. Strategy Drives Growth on the desk. You approve the plan before the team runs it.",
+    personality: [
+      "Mug motto: Good Strategy Better Days",
+      "Pen cup: Strategy Drives Growth",
+      "People Develop People on the wall",
+      "Marketing Strategy board: Brand Awareness, Thought Leadership, Demand Generation, Strategic Partnerships, Community & Growth",
+      "Board note: More Opportunities for More People",
+      "Desk stack: Dare to Lead, Atomic Habits, The Coaching Habit",
+      "Tote: Stronger People Brighter Tomorrows",
+    ],
     favoriteFood: "Thai green curry",
     faqs: [
       {
-        q: "What does an AI marketing director plan?",
+        q: "What does a Director of Marketing Strategy & Growth plan?",
         a: "Shelly sets campaign themes, channel mix, and weekly priorities so specialists are not improvising alone.",
+      },
+      {
+        q: "What is on Shelly’s Marketing Strategy board?",
+        a: "Brand Awareness, Thought Leadership, Demand Generation, Strategic Partnerships, and Community & Growth — checked against the week’s plan.",
+      },
+      {
+        q: "How does strategy connect to the rest of the floor?",
+        a: "Shelly’s week plan routes work to paid, content, social, sales, and media — with clear owners and success metrics.",
+      },
+      {
+        q: "Do campaigns launch without my OK?",
+        a: "No. Shelly drafts the strategy and calendar; spend and publish wait for your approval.",
+      },
+      {
+        q: "What books shape Shelly’s coaching style?",
+        a: "Dare to Lead, Atomic Habits, and The Coaching Habit sit on her desk — people development next to growth math.",
       },
     ],
     work: [
-      { id: "week", title: "Growth week plan", detail: "Themes, owners, and success metrics." },
-      { id: "offer", title: "Offer narrative", detail: "Positioning for Founders launch." },
+      { id: "week", title: "Growth week plan", detail: "Themes, owners, and success metrics for the floor." },
+      { id: "offer", title: "Offer narrative", detail: "Positioning for a Founders-style launch." },
+      { id: "board", title: "Strategy board snapshot", detail: "Awareness → demand → partnerships checklist for the week." },
     ],
   },
   caleb: {
@@ -306,35 +376,85 @@ const PROFILE_BY_ID: Record<
     ],
   },
   ali: {
-    tagline: "Websites and pages with Carlos.",
-    bio: "Ali is lead full-stack engineer — shipping site and product pages that hold up in production.",
-    personality: ["Keyboard shortcuts forever", "Clean PRs", "Late deploy snacks"],
+    tagline: "Build smarter together.",
+    bio: "Ali Khan is Lead Full Stack Engineer. He ships site and product pages with Carlos — scalable, reliable, and human-centered. His Build Smarter Together board checks Scalable, Reliable, Human-Centered, and Big Opportunities. Sci-fi stack on the desk, family photo nearby, controller for after ship. Changes land for review before they go live.",
+    personality: [
+      "Whiteboard: Build Smarter Together",
+      "Checked: Scalable, Reliable, Human-Centered, Big Opportunities",
+      "People Process Progress on the wall",
+      "Sci-fi stack: Dune, Project Hail Mary, The Expanse",
+      "Family photo on the desk",
+      "Game controller after deploy",
+      "Partners with Carlos on WordPress and pages",
+    ],
     favoriteFood: "Shawarma plate",
     faqs: [
       {
-        q: "What does AI full-stack engineering look like here?",
-        a: "Ali builds and fixes pages with Carlos; changes land for review before they go live.",
+        q: "What does a Lead Full Stack Engineer do here?",
+        a: "Ali builds and fixes websites and product pages with Carlos — production-ready work that holds up under real traffic.",
+      },
+      {
+        q: "What is Build Smarter Together?",
+        a: "Ali's quality bar on glass: Scalable, Reliable, Human-Centered, and aimed at Big Opportunities — not throwaway demos.",
+      },
+      {
+        q: "Does code ship without approval?",
+        a: "No. Ali drafts and implements; launches and production changes wait for your review.",
+      },
+      {
+        q: "How does Ali work with Carlos?",
+        a: "Ali owns full-stack delivery; Carlos specializes in WordPress — together they keep sites fast, editable, and on brand.",
+      },
+      {
+        q: "What is on Ali's desk for downtime?",
+        a: "Dune, Project Hail Mary, The Expanse, a family photo, and a controller — human-centered work includes humans.",
       },
     ],
     work: [
-      { id: "page", title: "Marketing page build", detail: "Fast, accessible section layout." },
-      { id: "fix", title: "Lead form hardening", detail: "Validation and thank-you flow." },
+      { id: "page", title: "Marketing page build", detail: "Fast, accessible section layout ready for review." },
+      { id: "form", title: "Lead form hardening", detail: "Validation and thank-you flow that does not drop leads." },
+      { id: "bar", title: "Build Smarter checklist", detail: "Scalable / Reliable / Human-Centered pass before ship." },
     ],
   },
   carlos: {
-    tagline: "WordPress specialist — sites that stay maintainable.",
-    bio: "Carlos partners with Ali on websites and pages, especially WordPress builds that owners can still run.",
-    personality: ["Plugin minimalist", "Performance checker", "Sunday site tidy"],
+    tagline: "Good sites build business.",
+    bio: "Carlos Rivera is the WordPress Specialist. He partners with Ali on websites and pages — especially WordPress builds owners can still run. Welcome to WordPress stays on the glass; Good Sites Build Business sits on the mug; Build Optimize Grow is on the wall. Dominoes and a motorcycle print remind you the craft has personality. Updates ship with clear handoff notes.",
+    personality: [
+      "Mug motto: Good Sites Build Business",
+      "Build Optimize Grow on the wall",
+      "WordPress dashboard on the monitor",
+      "Dominoes box on the desk",
+      "Vintage motorcycle print",
+      "Desk stack: The Grilling Bible, Motor Trend",
+      "Globe on the bookshelf — builds that travel well",
+    ],
     favoriteFood: "Empanadas",
     faqs: [
       {
+        q: "What does a WordPress Specialist handle?",
+        a: "Carlos drafts theme polish, landing sections, and maintainable WP updates so your site stays fast and editable.",
+      },
+      {
         q: "Can AI maintain a WordPress site?",
-        a: "Carlos drafts updates and page builds with clear handoff notes so your site stays fast and editable.",
+        a: "Yes — with handoff notes. Carlos prepares the change; you approve before it goes live.",
+      },
+      {
+        q: "How does Carlos work with Ali?",
+        a: "Carlos owns the WordPress craft; Ali covers full-stack delivery. Together they keep marketing pages production-ready.",
+      },
+      {
+        q: "What does Build Optimize Grow mean?",
+        a: "Carlos's wall motto: ship the page, tighten performance, then grow traffic and conversions — in that order.",
+      },
+      {
+        q: "Will my site stay editable?",
+        a: "That is the point. Carlos avoids plugin sprawl and leaves clear notes so owners are not locked out of their own site.",
       },
     ],
     work: [
-      { id: "theme", title: "Theme polish pass", detail: "Spacing, type, and mobile fixes." },
-      { id: "landing", title: "WP landing section", detail: "Campaign block ready to publish." },
+      { id: "theme", title: "Theme polish pass", detail: "Spacing, type, and mobile fixes on a live WP theme." },
+      { id: "landing", title: "WP landing section", detail: "Campaign block ready to publish after approval." },
+      { id: "handoff", title: "Owner handoff notes", detail: "How to edit, where assets live, what not to break." },
     ],
   },
   omar: {
@@ -354,19 +474,43 @@ const PROFILE_BY_ID: Record<
     ],
   },
   nova: {
-    tagline: "Research and assessments that feed the team.",
-    bio: "Nova is Chief AI Architect — systems and automation that feed research into the rest of the floor.",
-    personality: ["Systems thinker", "Experiment log", "Quiet intensity"],
+    tagline: "Data → LLM → Agents → Outcomes.",
+    bio: "Nova Chen is Chief AI Architect. She designs how agents share context and tools so work compounds instead of restarting every chat. Her AI Automation board maps Data → LLM → Agents → Tools, Workflows, and Outcomes. Clean Architecture, Designing LLM Systems, and the AI Automation Playbook sit on the desk. Katana and anime on the shelf — serious systems, human taste. Research feeds the floor; you still approve what ships.",
+    personality: [
+      "AI Automation board: Data → LLM → Agents → Tools / Workflows / Outcomes",
+      "Desk stack: Clean Architecture, Designing LLM Systems, AI Automation Playbook",
+      "LF180 water bottle on the desk",
+      "Katana on the shelf",
+      "Anime figurines and framed art by the window",
+      "Code on the monitor — architecture in the open",
+    ],
     favoriteFood: "Miso soup and rice",
     faqs: [
       {
         q: "What does a Chief AI Architect do in an AI office?",
-        a: "Nova designs how agents share context and tools so work compounds instead of restarting every chat.",
+        a: "Nova designs how agents share context, tools, and handoffs so the floor compounds work instead of restarting every conversation.",
+      },
+      {
+        q: "What is on the AI Automation board?",
+        a: "Data feeds the LLM, which powers Agents, which then use Tools and Workflows to drive Outcomes — Nova’s operating diagram.",
+      },
+      {
+        q: "Does Nova change production systems alone?",
+        a: "No. She drafts architecture and automation plans; you approve anything that changes how the business or customer data is handled.",
+      },
+      {
+        q: "How does Nova help the rest of the team?",
+        a: "She feeds research and shared tooling into Growth, Creative, and Ops so specialists work from the same context.",
+      },
+      {
+        q: "What books shape Nova’s stack?",
+        a: "Clean Architecture, Designing LLM Systems, and AI Automation Playbook — practical systems design for AI teams.",
       },
     ],
     work: [
       { id: "map", title: "Agent workflow map", detail: "Who hands off to whom, and when." },
       { id: "eval", title: "Quality assessment", detail: "Checks before drafts hit Done." },
+      { id: "flow", title: "Data-LLM-Agents diagram", detail: "Automation path from input to owner-ready outcomes." },
     ],
   },
   amir: {
@@ -386,33 +530,58 @@ const PROFILE_BY_ID: Record<
     ],
   },
   dante: {
-    tagline: "Finance books as drafts. You issue and pay.",
-    bio: "Dante is Finance Director — drafts the books and strategy notes. The owner issues and pays. No bank logins.",
-    personality: ["Numbers calm", "Never rushes a close", "Weekend markets walk"],
+    tagline: "A brighter financial future.",
+    bio: "Dante' Price is Finance Director. He drafts books, forecasts, and CFO-style strategy notes — Financial Overview on the glass, Corporate Finance / Investment Strategies / Wealth Management on the desk. People Process Progress is on the wall; travel books and skyline photos remind you money serves a life. The owner issues and pays. No bank logins. Ever.",
+    personality: [
+      "Financial Overview dashboard on the monitor",
+      "People Process Progress on the wall",
+      "Desk stack: Corporate Finance, Investment Strategies, Wealth Management",
+      "Shelf: Financial Planning, Behavioral Finance, The Intelligent Investor",
+      "Travel books: Dubai, London — plus Eiffel Tower and skyline photos",
+      "Side table: A Brighter Financial Future",
+      "LEADSFLOW180 mug on the desk",
+    ],
     favoriteFood: "Seared salmon",
     faqs: [
       {
+        q: "What does a Finance Director do in AI Office?",
+        a: "Dante drafts books, forecasts, and finance checklists. You keep banking credentials and approve anything that moves money.",
+      },
+      {
         q: "How can AI help with finance safely?",
-        a: "Dante prepares drafts and forecasts; banking credentials stay with you, and you approve anything that moves money.",
+        a: "Drafts and recommendations only — no bank logins. Dante prepares; you issue, pay, and approve.",
+      },
+      {
+        q: "What is on Dante’s Financial Overview?",
+        a: "Owner-readable charts — line, bar, and mix views — so cash and performance are clear without vanity noise.",
+      },
+      {
+        q: "What books shape Dante’s advice?",
+        a: "Corporate Finance, Investment Strategies, Wealth Management on the desk; Behavioral Finance and The Intelligent Investor on the shelf.",
+      },
+      {
+        q: "Will Dante access my bank?",
+        a: "Never. Finance work here is draft-only. Credentials and payments stay with you.",
       },
     ],
     work: [
       { id: "forecast", title: "Cash forecast draft", detail: "Simple forward look for owners." },
       { id: "books", title: "Monthly books checklist", detail: "What to review before close." },
+      { id: "overview", title: "Financial Overview pack", detail: "One-page chart narrative: what moved and why." },
     ],
   },
 };
 
 function officePhotoFor(agent: Agent): string {
-  // Reason: walkthrough desk stills ship as webp; fall back to jpg/png doorway shots.
-  return `/agents/offices/${agent.id}.webp`;
+  // Reason: newest office stills ship as jpg; keep webp/png as fallbacks.
+  return `/agents/offices/${agent.id}.jpg`;
 }
 
-/** Resolve office still URL for the hero (webp desk stills first). */
+/** Resolve office still URL for the hero (jpg first for latest stills). */
 export function officePhotoCandidates(id: string): string[] {
   return [
-    `/agents/offices/${id}.webp`,
     `/agents/offices/${id}.jpg`,
+    `/agents/offices/${id}.webp`,
     `/agents/offices/${id}.png`,
     `/agents/offices/${id}.jpeg`,
   ];
