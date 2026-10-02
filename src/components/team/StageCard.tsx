@@ -276,7 +276,7 @@ export function StageCard({
                   {displayed.skill}
                 </p>
                 <a
-                  href={`/walkthrough#${displayed.id}`}
+                  href={`/agents/${displayed.id}`}
                   className="group mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_12px_28px_-12px_rgba(255,255,255,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-12px_rgba(255,255,255,0.55)] min-[380px]:mt-7"
                 >
                   Visit {displayed.name}&apos;s office

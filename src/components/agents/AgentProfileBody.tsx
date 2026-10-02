@@ -101,7 +101,7 @@ export function AgentProfileBody({ profile }: Props) {
         )}
 
         <p className="mt-12 text-sm text-slate-500">
-          <Link href="/walkthrough" className="font-semibold text-brand underline-offset-2 hover:underline">
+          <Link href="/agents" className="font-semibold text-brand underline-offset-2 hover:underline">
             All offices
           </Link>
         </p>

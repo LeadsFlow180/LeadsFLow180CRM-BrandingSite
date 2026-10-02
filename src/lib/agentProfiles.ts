@@ -159,17 +159,30 @@ const PROFILE_BY_ID: Record<
     favoriteFood: "Sushi rolls",
     faqs: [
       {
+        q: "What types of ads does Lee manage?",
+        a: "Paid performance across Google Ads, Meta, LinkedIn, and YouTube — tracked on one performance board.",
+      },
+      {
         q: "How does AI paid media stay safe?",
         a: "Lee drafts campaigns and creative tests, but spend and final launches wait for your approval.",
       },
       {
-        q: "What channels does Lee cover?",
-        a: "Paid performance across Google Ads, Meta, LinkedIn, and YouTube — tracked on one performance board.",
+        q: "How quickly can campaigns launch?",
+        a: "Drafts can move same-day once goals and guardrails are clear — go-live still needs your approval.",
+      },
+      {
+        q: "Do I need a big budget to start?",
+        a: "Lee plans around the budget you set. Small tests come first; scale waits for proof and your OK.",
+      },
+      {
+        q: "What happens after the free chat?",
+        a: "Continue in AI Office with Launch Founders access — same lane, clearer handoffs across the floor.",
       },
     ],
     work: [
-      { id: "ads", title: "Launch ad set", detail: "Audiences, hooks, and budget guardrails." },
-      { id: "board", title: "Paid media performance board", detail: "Spend, conversions, CPA, and ROAS in one view." },
+      { id: "plumber", title: "Local Plumber", detail: "Search + Local Services ads with call-first creative." },
+      { id: "skincare", title: "Clean Skincare", detail: "Meta carousel for a DTC beauty launch week." },
+      { id: "home", title: "Home Protection", detail: "YouTube + Google demand gen for a security brand." },
     ],
   },
   zenda: {

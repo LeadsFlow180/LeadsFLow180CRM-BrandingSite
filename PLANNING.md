@@ -22,7 +22,7 @@ This site does not authenticate into CRM APIs. Stripe Checkout is the paid path.
 - `src/app/layout.tsx` — font, title, description. No canonical or Open Graph URL until a domain is confirmed.
 - `src/app/page.tsx` — home scroll.
 - `src/app/agents/page.tsx` — floor directory.
-- `src/app/agents/[id]/page.tsx` — office hero, bio, work, FAQs, email-gated talk.
+- `src/app/agents/[id]/page.tsx` — screenshot-style portfolio (hero, facts, tilted cards, about/skills, FAQ + get-started, ask modal).
 - `src/app/api/checkout/route.ts` — Stripe Checkout Session (or `STRIPE_PAYMENT_LINK`).
 - `src/app/api/agents/*` — email verify + timed chat.
 - `src/components/` — `Header`, `Hero`, `TeamStage`, `Languages`, `Features`, `Pricing`, `ClosingCta`, `Footer`, `agents/*`, shared `Motion`.
@@ -37,11 +37,11 @@ This site does not authenticate into CRM APIs. Stripe Checkout is the paid path.
 
 CRM colors: black header and dark bands, canvas `#f4f6fb`, brand blue `#010dff`, purple `#4609ae` in gradients, green `#00ff26` only on the hairline. Inter via `next/font`. Dark surfaces use `/brand/logo-dark.png`; bright surfaces use `/brand/logo-light.png`.
 
-Agent pages: the floor experience is a branded cinematic walkthrough in `public/walkthrough/` (photographic rooms, glass chrome, filmstrip directory). SEO + email-gated talk live on `/agents/[id]`. Office stills also mirror those scenes as `/agents/offices/{id}.webp`.
+Agent pages: `/agents` is the team directory; each `/agents/[id]` uses `AgentPortfolioPage` + `AgentAskModal` (fillers in `agentPortfolioFillers.ts`). Photographic walkthrough in `public/walkthrough/` is paused (old `/walkthrough` URLs redirect to `/agents`). Office stills: `/agents/offices/{id}.webp`.
 
 ## Constraints
 
-- Marketing routes: home + photographic walkthrough at `/walkthrough` (branded cinematic floor UX; `/agents` redirects there) + SEO agent talk pages at `/agents/[id]`.
+- Marketing routes: home + `/agents` directory + `/agents/[id]` portfolio/talk pages. Walkthrough floor tour (`public/walkthrough/`) is paused.
 - Public pricing is the Launch Founders offer in `src/lib/pricing.ts` only — do not invent alternate tiers, trials, or “no credit card” claims. Agent chat may soft-CTA to AI Office signup.
 - No “Hermes” in human-facing copy. Mia is Project Manager.
 - Do not describe the product as GoHighLevel or a white-label of it.

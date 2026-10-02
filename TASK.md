@@ -8,6 +8,9 @@
 
 ## Done — 2026-10-01
 
+- [x] 2026-10-02 — “Visit {name}'s office” → `/agents/[id]` portfolio; `/agents` directory restored; walkthrough route paused (redirects to `/agents`).
+- [x] 2026-10-01 — Agent portfolio redesign on `/agents/[id]`: screenshot layout (hero, facts, tilted portfolio, about/skills, FAQ + get started, ask modal); old office layout commented; filler data via `agentPortfolioFillers.ts`.
+- [x] 2026-10-02 — Tighten `/agents/[id]` portfolio to match Lee mock (wave hero, 6 facts, polaroid cards, FAQ bars, get-started steps).
 - [x] 2026-10-01 — Walkthrough branded to site theme (blue/purple/green, canvas) with richer CSS/JS motion; layout selectors unchanged.
 - [x] 2026-10-01 — Host exact ChatGPT walkthrough at `/walkthrough/` (HTML/CSS/JS/scenes); `/agents` redirects there; Check-in dialog → `/agents/{id}#talk`; stage/footer Offices links updated.
 - [x] 2026-10-01 — Desk stage matched to walkthrough: height-fit pan, white chrome, cream hotspot, dark-green stage; imported `/agents/offices/*.webp` scene stills.

@@ -168,11 +168,11 @@ export function AgentOfficeHero({ officePhoto, name, title, tagline, agentId }: 
           </div>
 
           <nav className="flex flex-wrap items-center gap-2" aria-label="Office navigation">
-            <Link href="/walkthrough" className="text-sm font-semibold text-brand underline-offset-2 hover:underline">
+            <Link href="/agents" className="text-sm font-semibold text-brand underline-offset-2 hover:underline">
               Walk the floor
             </Link>
             <Link
-              href="/walkthrough"
+              href="/agents"
               className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-700 transition hover:border-brand/30 hover:shadow-[0_10px_24px_-16px_rgba(1,13,255,0.5)]"
             >
               Floor map
@@ -234,7 +234,7 @@ export function AgentOfficeHero({ officePhoto, name, title, tagline, agentId }: 
         </motion.div>
 
         <Link
-          href="/walkthrough"
+          href="/agents"
           className="absolute top-4 left-4 z-20 inline-flex items-center rounded-full border border-white/70 bg-white/95 px-3.5 py-2 text-sm font-semibold text-slate-800 shadow-[0_12px_32px_-14px_rgba(1,13,255,0.45)] backdrop-blur-sm transition hover:bg-white sm:top-[18px] sm:left-[22px]"
         >
           ← Back to hallway

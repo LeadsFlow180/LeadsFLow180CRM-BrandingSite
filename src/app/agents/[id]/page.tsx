@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { AgentOfficeHero } from "@/components/agents/AgentOfficeHero";
-import { AgentOfficeTile } from "@/components/agents/AgentOfficeTile";
-import { AgentProfileBody } from "@/components/agents/AgentProfileBody";
-import { AgentTalkPanel } from "@/components/agents/AgentTalkPanel";
+import { AgentPortfolioPage } from "@/components/agents/AgentPortfolioPage";
 import { Footer } from "@/components/Footer";
-import { getAgentProfile, getAllAgentProfiles } from "@/lib/agentProfiles";
+import { Header } from "@/components/Header";
+import { getAgentProfile } from "@/lib/agentProfiles";
 import { agents } from "@/lib/site";
+
+// Previous office walkthrough-style layout (kept for reference):
+// import { AgentOfficeHero } from "@/components/agents/AgentOfficeHero";
+// import { AgentOfficeTile } from "@/components/agents/AgentOfficeTile";
+// import { AgentProfileBody } from "@/components/agents/AgentProfileBody";
+// import { AgentTalkPanel } from "@/components/agents/AgentTalkPanel";
+// import { getAllAgentProfiles } from "@/lib/agentProfiles";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -33,13 +38,15 @@ export default async function AgentPage({ params, searchParams }: Props) {
   const profile = getAgentProfile(id);
   if (!profile) notFound();
 
-  const others = getAllAgentProfiles()
-    .filter((p) => p.id !== id)
-    .slice(0, 8);
+  // const others = getAllAgentProfiles().filter((p) => p.id !== id).slice(0, 8);
 
   return (
-    <div id="top" className="bg-canvas">
+    <div id="top" className="bg-white">
+      <Header />
       <main>
+        <AgentPortfolioPage profile={profile} initialVerifyToken={verify ?? null} />
+
+        {/*
         <AgentOfficeHero
           agentId={profile.id}
           officePhoto={profile.officePhoto}
@@ -54,13 +61,11 @@ export default async function AgentPage({ params, searchParams }: Props) {
           agentName={profile.agent.name}
           initialVerifyToken={verify ?? null}
         />
-
         <section className="border-t border-slate-200/90 bg-canvas">
           <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16">
             <h2 className="text-2xl font-semibold tracking-[-0.035em] text-slate-950 sm:text-3xl">
               More offices on this floor
             </h2>
-            <p className="mt-2 text-sm text-slate-600">Step into another desk without leaving the building.</p>
             <ul className="mt-8 grid grid-cols-1 gap-5 min-[420px]:grid-cols-2 lg:grid-cols-4">
               {others.map((p) => (
                 <li key={p.id}>
@@ -76,6 +81,7 @@ export default async function AgentPage({ params, searchParams }: Props) {
             </ul>
           </div>
         </section>
+        */}
       </main>
       <Footer />
     </div>
