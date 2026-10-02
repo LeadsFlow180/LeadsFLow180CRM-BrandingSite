@@ -6,7 +6,7 @@
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
 - [ ] Replace draft agent bios in `src/lib/agentProfiles.ts` with the sole bio document (Lee + JoJo office cues already applied; stills in `public/agents/offices/`).
 - [ ] 2026-10-02 — Apply remaining team profile document in FULL when user sends it (no fields skipped).
-- [x] 2026-10-02 — Full office-cue profiles for Ava, Carlos, Adam, Nova, Ali, Shelly, Dante; fillers use all personality/FAQs/work (no truncation).
+- [x] 2026-10-02 — Wired full office-markup skills + personality for Ava, Carlos, Adam, Nova, Ali, Shelly, Dante; portfolio uses `profile.skills`; office JPGs verified current.
 
 ## Done — 2026-10-01
 

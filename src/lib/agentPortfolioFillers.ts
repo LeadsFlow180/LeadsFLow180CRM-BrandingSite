@@ -289,7 +289,10 @@ export function getPortfolioFillers(profile: AgentProfile & { agent: Agent }) {
   const first = agentFirstName(agent.name);
 
   const skills: PortfolioSkill[] =
-    SKILLS_BY_ID[agent.id] ?? SKILLS_BY_GROUP[agent.group] ?? ["Collaboration", "Clarity", "Owner approvals", "Fast drafts"];
+    (profile.skills && profile.skills.length > 0
+      ? profile.skills
+      : SKILLS_BY_ID[agent.id] ?? SKILLS_BY_GROUP[agent.group]) ??
+    ["Collaboration", "Clarity", "Owner approvals", "Fast drafts"];
 
   const steps: GetStartedStep[] = [
     {
