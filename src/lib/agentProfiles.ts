@@ -163,7 +163,8 @@ const PROFILE_BY_ID: Record<
       "Mug motto: Better Processes Brighter People",
       "People Process Progress on the wall",
       "Desk stack: Operational Excellence, The Toyota Way, Process Mapping, Good to Great",
-      "Operations whiteboard: Plan → Improve → Execute → Measure"
+      "Operations whiteboard: Plan → Improve → Execute → Measure",
+      "Goals on glass: Simplify, Standardize, Scale, People First"
     ],
     favoriteFood: "TBD",
     skills: [
@@ -345,7 +346,11 @@ const PROFILE_BY_ID: Record<
       "Meeting preparation",
       "Proposal and document drafts",
       "Follow-up tracking",
-      "Warm, efficient communication"
+      "Warm, efficient communication",
+      "Desk sign: Progress People Possibilities",
+      "Wall print: A Calmer More Productive You",
+      "Corkboard: Good Food Brighter Days",
+      "Atomic Habits on the shelf"
     ],
     favoriteFood: "TBD",
     skills: [
@@ -436,7 +441,11 @@ const PROFILE_BY_ID: Record<
       "Campaign copy review",
       "Segmentation",
       "Deliverability checks",
-      "Testing and reporting"
+      "Testing and reporting",
+      "Q3 Email Campaigns board: Welcome Series, Customer Spotlight, and more",
+      "Desk stack: Email Strategy, Audience Growth, Small Business Big Opportunities",
+      "Golf bag in the corner",
+      "Board note: Build relationships. Create opportunities. Repeat."
     ],
     favoriteFood: "TBD",
     skills: [
@@ -1091,7 +1100,13 @@ const PROFILE_BY_ID: Record<
       "Local search foundations",
       "Search-intent research",
       "AEO and GEO content",
-      "Measurement and reporting"
+      "Measurement and reporting",
+      "Search Strategy board: Content, Authority, Visibility → Growth",
+      "Mug motto: Good Search Better Business",
+      "Poster: SEARCH / AI VISIBILITY / REAL GROWTH",
+      "People Process Progress pen cup",
+      "Guitar beside the desk",
+      "Sci-fi stack: Dune, Project Hail Mary, The Expanse"
     ],
     favoriteFood: "TBD",
     skills: [
@@ -1182,7 +1197,10 @@ const PROFILE_BY_ID: Record<
       "Web and interface design",
       "Marketing graphics",
       "Layout and hierarchy",
-      "Design systems"
+      "Design systems",
+      "Fabric swatches and sketchbook on the desk",
+      "Desk stack: The Art of Everyday Things, Creative Spaces",
+      "Architectural prints on the wall"
     ],
     favoriteFood: "TBD",
     skills: [
@@ -1273,7 +1291,11 @@ const PROFILE_BY_ID: Record<
       "Short-form video",
       "Explainers and commercials",
       "Visual pacing",
-      "Creative collaboration"
+      "Creative collaboration",
+      "Mug motto: Good Frames Brighter Days",
+      "Video timeline on the monitor",
+      "Volleyball and camera on the cabinet",
+      "Cooking book on the desk"
     ],
     favoriteFood: "TBD",
     skills: [
@@ -1365,7 +1387,12 @@ const PROFILE_BY_ID: Record<
       "Discovery questions",
       "Sales scripts",
       "Objection preparation",
-      "Follow-up planning"
+      "Follow-up planning",
+      "Sales Pipeline board on the monitor",
+      "Q4 Sales Pipeline whiteboard",
+      "Tumbler: Better Conversations Bigger Opportunities",
+      "Shelf stack: The Mamba Mentality, Shoe Dog, Atomic Habits",
+      "Board quote: Discipline Creates Opportunity"
     ],
     favoriteFood: "TBD",
     skills: [
@@ -1459,7 +1486,8 @@ const PROFILE_BY_ID: Record<
       "Testing and maintenance",
       "Whiteboard: Build Smarter Together — Scalable, Reliable, Human-Centered, Big Opportunities",
       "Sci-fi stack: Dune, Project Hail Mary, The Expanse",
-      "Family photo on the desk"
+      "Family photo on the desk",
+      "People Process Progress on the wall"
     ],
     favoriteFood: "TBD",
     skills: [
@@ -1739,7 +1767,8 @@ const PROFILE_BY_ID: Record<
       "Pilot planning",
       "AI Automation board: Data → LLM → Agents → Tools / Workflows / Outcomes",
       "Shelf sign: Build Automate Scale",
-      "Katana and anime art on the shelf"
+      "Katana and anime art on the shelf",
+      "Desk stack: Clean Architecture, Designing LLM Systems, AI Automation Playbook"
     ],
     favoriteFood: "TBD",
     skills: [
@@ -1830,7 +1859,12 @@ const PROFILE_BY_ID: Record<
       "Weekly reporting",
       "Operations dashboards",
       "Data quality checks",
-      "Owner and action tracking"
+      "Owner and action tracking",
+      "Operations Overview dashboard on the monitor",
+      "Whiteboard: Operations KPIs + Create Lead → Qualify → Process → Report",
+      "Pen cup: Good Data Better People",
+      "Systems People Progress on the wall",
+      "Desk stack: Measure What Matters, The Lean Startup, Atomic Habits"
     ],
     favoriteFood: "TBD",
     skills: [

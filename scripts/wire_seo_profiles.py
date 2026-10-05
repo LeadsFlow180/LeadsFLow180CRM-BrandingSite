@@ -67,11 +67,13 @@ OFFICE_EXTRA = {
         "People Process Progress on the wall",
         "Desk stack: Operational Excellence, The Toyota Way, Process Mapping, Good to Great",
         "Operations whiteboard: Plan → Improve → Execute → Measure",
+        "Goals on glass: Simplify, Standardize, Scale, People First",
     ],
     "ali": [
         "Whiteboard: Build Smarter Together — Scalable, Reliable, Human-Centered, Big Opportunities",
         "Sci-fi stack: Dune, Project Hail Mary, The Expanse",
         "Family photo on the desk",
+        "People Process Progress on the wall",
     ],
     "ava": [
         "Mug motto: Good Stories Drive Growth",
@@ -94,6 +96,7 @@ OFFICE_EXTRA = {
         "AI Automation board: Data → LLM → Agents → Tools / Workflows / Outcomes",
         "Shelf sign: Build Automate Scale",
         "Katana and anime art on the shelf",
+        "Desk stack: Clean Architecture, Designing LLM Systems, AI Automation Playbook",
     ],
     "shelly": [
         "Mug motto: Good Strategy Better Days",
@@ -109,6 +112,51 @@ OFFICE_EXTRA = {
     "jojo": [
         "Desk stack: Atomic Habits, Dare to Lead, Big Magic, The Midnight Library",
         "Mug motto: Good Copy Brighter Days",
+    ],
+    "danica": [
+        "Desk sign: Progress People Possibilities",
+        "Wall print: A Calmer More Productive You",
+        "Corkboard: Good Food Brighter Days",
+        "Atomic Habits on the shelf",
+    ],
+    "niki": [
+        "Mug motto: Good Frames Brighter Days",
+        "Video timeline on the monitor",
+        "Volleyball and camera on the cabinet",
+        "Cooking book on the desk",
+    ],
+    "jay": [
+        "Q3 Email Campaigns board: Welcome Series, Customer Spotlight, and more",
+        "Desk stack: Email Strategy, Audience Growth, Small Business Big Opportunities",
+        "Golf bag in the corner",
+        "Board note: Build relationships. Create opportunities. Repeat.",
+    ],
+    "jordan": [
+        "Sales Pipeline board on the monitor",
+        "Q4 Sales Pipeline whiteboard",
+        "Tumbler: Better Conversations Bigger Opportunities",
+        "Shelf stack: The Mamba Mentality, Shoe Dog, Atomic Habits",
+        "Board quote: Discipline Creates Opportunity",
+    ],
+    "caleb": [
+        "Search Strategy board: Content, Authority, Visibility → Growth",
+        "Mug motto: Good Search Better Business",
+        "Poster: SEARCH / AI VISIBILITY / REAL GROWTH",
+        "People Process Progress pen cup",
+        "Guitar beside the desk",
+        "Sci-fi stack: Dune, Project Hail Mary, The Expanse",
+    ],
+    "leila": [
+        "Fabric swatches and sketchbook on the desk",
+        "Desk stack: The Art of Everyday Things, Creative Spaces",
+        "Architectural prints on the wall",
+    ],
+    "amir": [
+        "Operations Overview dashboard on the monitor",
+        "Whiteboard: Operations KPIs + Create Lead → Qualify → Process → Report",
+        "Pen cup: Good Data Better People",
+        "Systems People Progress on the wall",
+        "Desk stack: Measure What Matters, The Lean Startup, Atomic Habits",
     ],
 }
 
