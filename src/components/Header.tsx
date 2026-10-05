@@ -9,17 +9,22 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useEffect, useState, type PointerEvent } from "react";
 import { links } from "@/lib/site";
 import { ease } from "./Motion";
 
 const navItems = [
-  { id: "team", label: "Team" },
-  { id: "features", label: "Features" },
-  { id: "pricing", label: "Pricing" },
+  { id: "team", label: "Team", href: "/#team" },
+  { id: "features", label: "Features", href: "/#features" },
+  { id: "integrations", label: "Integrations", href: "/integrations" },
+  { id: "pricing", label: "Pricing", href: "/#pricing" },
 ] as const;
 
-type SectionId = (typeof navItems)[number]["id"];
+type NavId = (typeof navItems)[number]["id"];
+type SectionId = "team" | "features" | "pricing";
+
+const sectionIds: SectionId[] = ["team", "features", "pricing"];
 
 function useActiveSection() {
   const [active, setActive] = useState<SectionId | null>(null);
@@ -28,13 +33,13 @@ function useActiveSection() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => seen.set(e.target.id, e.isIntersecting));
-        const current = navItems.find((n) => seen.get(n.id));
-        setActive(current ? current.id : null);
+        const current = sectionIds.find((id) => seen.get(id));
+        setActive(current ?? null);
       },
       { rootMargin: "-45% 0px -50% 0px" },
     );
-    navItems.forEach((n) => {
-      const el = document.getElementById(n.id);
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
@@ -84,14 +89,18 @@ function TiltLogo() {
 }
 
 export function Header() {
+  const pathname = usePathname();
   const reduce = useReducedMotion();
   const { scrollY, scrollYProgress } = useScroll();
   const [scrolled, setScrolled] = useState(false);
-  const [hovered, setHovered] = useState<SectionId | null>(null);
-  const active = useActiveSection();
+  const [hovered, setHovered] = useState<NavId | null>(null);
+  const sectionActive = useActiveSection();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
 
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
+
+  // Reason: Integrations is a route; Team/Features/Pricing stay hash sections on home.
+  const active: NavId | null = pathname === "/integrations" ? "integrations" : sectionActive;
 
   const highlight = hovered ?? active;
 
@@ -138,10 +147,10 @@ export function Header() {
                     return (
                       <li key={item.id} className="relative">
                         <a
-                          href={`/#${item.id}`}
+                          href={item.href}
                           onMouseEnter={() => setHovered(item.id)}
-                          aria-current={isActive ? "location" : undefined}
-                          className={`relative z-10 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                          aria-current={isActive ? "page" : undefined}
+                          className={`relative z-10 flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-colors lg:px-4 ${
                             highlight === item.id ? "text-white" : "text-white/65 hover:text-white"
                           }`}
                         >

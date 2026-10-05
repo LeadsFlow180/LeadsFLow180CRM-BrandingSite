@@ -4,7 +4,7 @@ Promotional site for LeadsFlow180. AI Office is the WHO. FLOW is the HOW. Launch
 
 ## Stack
 
-TypeScript, Next.js App Router, React, Tailwind CSS, Framer Motion, Stripe Checkout. Routes: `/`, `/agents`, `/agents/[id]`. APIs: `POST /api/checkout`, `/api/agents/email`, `/api/agents/verify`, `/api/agents/chat`.
+TypeScript, Next.js App Router, React, Tailwind CSS, Framer Motion, Stripe Checkout. Routes: `/`, `/agents`, `/agents/[id]`, `/integrations`. APIs: `POST /api/checkout`, `/api/agents/email`, `/api/agents/verify`, `/api/agents/chat`.
 
 ## Run
 
@@ -30,9 +30,9 @@ See `docs/STRIPE-SETUP.md`.
 ## Agent offices
 
 - Directory: `/agents`
-- Profile: `/agents/mia` (etc.) — office hero, personality, work, FAQs, talk panel
-- Bios: `src/lib/agentProfiles.ts` (draft until the sole document is pasted)
-- Office stills: `public/agents/offices/{id}.jpg` (falls back to portrait)
+- Profile: `/agents/[id]` — portfolio layout (specialty, intro, facts, tilted sample portfolio, about/skills, FAQs, get started, free quick guide, ask modal)
+- Copy / capabilities: `docs/LeadsFlow180_Team_Profiles_SEO_AEO_Content.md` → `src/lib/agentProfiles.ts` (re-run `python scripts/wire_seo_profiles.py` after pack edits). Each `/agents/[id]` page shows every Core skill as Capabilities.
+- Office stills: `public/agents/offices/{id}.png` (then `.jpg` / `.webp`; falls back to portrait)
 - Talk: verify email → 3-minute chat → soft CTA to AI Office signup
   - Optional `RESEND_API_KEY` + `RESEND_FROM_EMAIL` to send magic links (without them, the API returns a verify URL for local testing)
   - Optional `OPENAI_API_KEY` for live replies (`OPENAI_MODEL` defaults to `gpt-4o-mini`; without a key, a mock reply is used)

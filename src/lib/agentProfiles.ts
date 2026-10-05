@@ -8,6 +8,16 @@ export type AgentWorkSample = {
   detail: string;
 };
 
+export type AgentGuide = {
+  title: string;
+  /** Optional blurb under the guide title from the SEO pack. */
+  summary?: string;
+  steps: string[];
+  downloadCta: string;
+};
+
+export type AgentGetStarted = { title: string; detail: string };
+
 export type AgentProfile = {
   id: string;
   /** Full-bleed office / desk scene path (may 404 until stills land — UI falls back to portrait). */
@@ -15,15 +25,29 @@ export type AgentProfile = {
   portraitPhoto: string;
   tagline: string;
   bio: string;
+  /** Hero supporting paragraph from SEO pack. */
+  intro?: string;
+  specialtyLabel?: string;
+  pageTitle?: string;
+  metaDescription?: string;
+  /** Exact Ask CTA from SEO pack (e.g. "Ask Ava about your story"). */
+  askCta?: string;
+  /** Line under the Ask button (e.g. "Free 5-minute chat. No obligation."). */
+  ctaHelper?: string;
   personality: string[];
   favoriteFood: string;
   faqs: AgentFaq[];
   work: AgentWorkSample[];
-  /** Core skills from office markup / sole bio — used on portfolio when present. */
+  /** Core skills from SEO pack / office markup. */
   skills?: string[];
+  getStarted?: AgentGetStarted[];
+  guide?: AgentGuide;
   /** True when copy is draft until the sole bio document is pasted in. */
   draft: boolean;
 };
+
+
+
 
 /** Role-flavored SEO + personality scaffolds. Replace when the sole bio doc arrives. */
 const PROFILE_BY_ID: Record<
@@ -31,652 +55,1965 @@ const PROFILE_BY_ID: Record<
   Omit<AgentProfile, "id" | "officePhoto" | "portraitPhoto" | "draft">
 > = {
   mia: {
-    tagline: "A clear plan. A comfortable place to check in.",
-    bio: "Mia is the first person you meet on the floor. She assigns work, chairs meetings, and keeps every job moving so the rest of the team can ship.",
-    personality: ["Loves a tidy board", "Morning coffee before standups", "Remembers every deadline"],
-    favoriteFood: "Iced oat latte and a warm croissant",
+    tagline: "Clear plans. Clear owners. Work that keeps moving.",
+    bio: "I bring order to complex work without adding unnecessary process. I clarify the goal, find the right people to involve, and make sure the team leaves with decisions and next actions.",
+    intro: "I help organize projects, coordinate the right specialists, and keep decisions, approvals, owners, and next steps visible. You can work with me directly or go straight to any specialist on the team.",
+    specialtyLabel: "PROJECT MANAGEMENT & TEAM COORDINATION",
+    pageTitle: "Mia Carter | AI Project Manager for Small Business",
+    metaDescription: "Meet Mia, the LeadsFlow180 AI project manager who organizes priorities, coordinates specialists, tracks decisions, and turns complex work into clear next steps.",
+    askCta: "Ask Mia about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Organized project plans",
+      "Meeting and action-item follow-up",
+      "Cross-team coordination",
+      "Decision tracking",
+      "Calm, concise updates"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Project planning",
+      "Meeting facilitation",
+      "Work breakdown",
+      "Cross-functional coordination",
+      "Risk and dependency tracking",
+      "Status reporting"
+    ],
     faqs: [
       {
-        q: "What does an AI Project Manager actually do?",
-        a: "Mia routes requests to the right specialist, tracks status, and brings drafts back for your approval before anything goes live.",
+        q: "What does an AI project manager do?",
+        a: "An AI project manager helps organize tasks, deadlines, owners, and updates. Mia can structure a project and coordinate team work; a person should approve important business decisions and commitments.",
       },
       {
-        q: "How do I start work with the AI Office?",
-        a: "Talk to Mia first. She opens the job, picks the lane, and keeps humans in the loop on approvals that matter.",
+        q: "How do I organize a project with multiple people?",
+        a: "Start with one outcome, divide it into deliverables, assign one owner and due date to each, identify dependencies, and review open risks on a regular schedule.",
       },
+      {
+        q: "How can I keep meetings from wasting time?",
+        a: "Share the decision needed before the meeting, use a short agenda, capture decisions and owners, and end by confirming the next steps.",
+      },
+      {
+        q: "Can Mia work with one specialist instead of the whole team?",
+        a: "Yes. You can ask Mia to coordinate a project or contact any specialist directly when you already know what help you need.",
+      },
+      {
+        q: "How do I track project delays?",
+        a: "Record the blocker, who can resolve it, the impact on the timeline, and the next check-in. Update the plan instead of hiding a missed date.",
+      }
     ],
     work: [
-      { id: "kickoff", title: "Founders kickoff map", detail: "Week-one desk plan across Growth, Creative, and Ops." },
-      { id: "standup", title: "Daily standup briefs", detail: "Short status packs so owners stay unblocked." },
+      {
+        id: "p1",
+        title: "30-Day Local Launch Plan",
+        detail: "a sample timeline with milestones, owners, dependencies, and approval points. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Meeting-to-Action Brief",
+        detail: "sample agenda, decision log, action list, due dates, and unresolved questions. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Project Status Dashboard",
+        detail: "mock dashboard showing progress, blockers, upcoming decisions, and risks without fabricated results. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Tell Mia the result you want and the deadline",
+        detail: "",
+      },
+      {
+        title: "Mia outlines work, owners, and decisions needed",
+        detail: "",
+      },
+      {
+        title: "You review the plan and approve the next steps",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "The Small-Business Project Plan: From Idea to Done",
+      summary: "Use this on-page guide and offer a matching PDF download.",
+      steps: [
+        "Write the outcome in one sentence and define what \"done\" means.",
+        "List the deliverables; break each into tasks small enough to assign.",
+        "Give every task one owner, a due date, and a clear status.",
+        "Mark dependencies and decisions that could hold up the work.",
+        "Review progress weekly; change the plan when evidence or priorities change."
+      ],
+      downloadCta: "Download the free project planning checklist.",
+    },
   },
   adam: {
-    tagline: "Better processes. Brighter people.",
-    bio: "Adam Mitchell leads Operations Process Improvement on the LeadsFlow180 floor. His glass board runs Plan → Improve → Execute → Measure, with Simplify, Standardize, Scale, and People First underneath. He spots bottlenecks on real FLOW data and points the team at the next highest-leverage move — always with owner approval on the changes that matter.",
+    tagline: "Find the bottleneck before adding more effort.",
+    bio: "Sustainable improvement starts by understanding the current process and the people doing the work. I help identify the real constraint and design a change small enough to test and strong enough to measure.",
+    intro: "I help examine how work actually moves through a business. We establish a baseline, find friction and root causes, then test practical improvements that can be measured and sustained.",
+    specialtyLabel: "PROCESS IMPROVEMENT & BUSINESS OPERATIONS",
+    pageTitle: "Adam Mitchell | AI Process Improvement Specialist",
+    metaDescription: "Meet Adam, the LeadsFlow180 process specialist who helps small businesses find bottlenecks, reduce avoidable rework, and improve workflows with measurable changes.",
+    askCta: "Ask Adam about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
     personality: [
+      "Workflow mapping",
+      "Root-cause analysis",
+      "Baseline measures",
+      "Waste reduction",
+      "Improvement plans",
       "Mug motto: Better Processes Brighter People",
       "People Process Progress on the wall",
       "Desk stack: Operational Excellence, The Toyota Way, Process Mapping, Good to Great",
-      "Shelf: A Stronger Smaller Business, Built to Last",
-      "Operations whiteboard: Plan → Improve → Execute → Measure",
-      "Goals on glass: Simplify, Standardize, Scale, People First",
-      "Globe and plant on the bookshelf",
+      "Operations whiteboard: Plan → Improve → Execute → Measure"
     ],
-    favoriteFood: "Grilled steak and roasted vegetables",
+    favoriteFood: "TBD",
+    skills: [
+      "Process mapping",
+      "Root-cause analysis",
+      "Six Sigma methods",
+      "Workflow improvement",
+      "Measurement planning",
+      "Change support"
+    ],
     faqs: [
       {
-        q: "What does Operations Process Improvement cover?",
-        a: "Adam maps how work actually flows — handoffs, bottlenecks, and wasted steps — then drafts a clearer path for owners to approve.",
+        q: "What is process improvement for a small business?",
+        a: "It is a structured way to make everyday work more reliable, efficient, and useful to customers by understanding the current process and testing improvements.",
       },
       {
-        q: "How does process improvement help a sales team?",
-        a: "He trims funnel friction: fewer handoff gaps, clearer KPIs, and focus on the steps that create revenue.",
+        q: "How do I find bottlenecks in my business?",
+        a: "Map each step from request to completion, measure wait and work time, identify rework and queues, and ask the people involved where work gets stuck.",
       },
       {
-        q: "What is Plan → Improve → Execute → Measure?",
-        a: "Adam’s operating loop on the Operations board — diagnose, redesign, run the change, then prove it with numbers before you scale.",
+        q: "What is the 5 Whys method?",
+        a: "It is a simple root-cause technique that asks why a problem occurred repeatedly until the team reaches a cause it can investigate. It should be supported with evidence, not used to assign blame.",
       },
       {
-        q: "Do process changes go live without me?",
-        a: "No. Adam drafts the map and recommendations; you approve anything that changes how the business runs.",
+        q: "How do I reduce wasted time at work?",
+        a: "Identify repeated delays, duplicate entry, unclear approvals, and avoidable rework. Test one change and compare the result with a baseline.",
       },
       {
-        q: "What books shape Adam’s approach?",
-        a: "His desk stack includes Operational Excellence, The Toyota Way, Process Mapping, and Good to Great — practical ops, not vanity theory.",
-      },
+        q: "Do small businesses need Six Sigma?",
+        a: "They may benefit from its focus on process and evidence without adopting a large formal program. Use only the methods that help solve the actual problem.",
+      }
     ],
     work: [
-      { id: "funnel", title: "Funnel friction audit", detail: "Mapped drop-offs from lead to booked call with clear next fixes." },
-      { id: "kpi", title: "Owner KPI one-pager", detail: "Readable metrics without vanity noise." },
-      { id: "loop", title: "Plan-Improve-Execute-Measure pack", detail: "A one-page operating loop for the week’s highest-leverage change." },
+      {
+        id: "p1",
+        title: "Lead Response Process Map",
+        detail: "fictional current-state and future-state workflow with handoffs and wait points. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Root-Cause Analysis Brief",
+        detail: "sample fishbone/5 Whys analysis for missed appointments, clearly marked as illustrative. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "90-Day Improvement Scorecard",
+        detail: "sample measures, owners, tests, and review cadence; no promised savings or outcomes. (Sample concept.)",
+      }
     ],
-    skills: [
-      "Operations Process Improvement",
-      "Process mapping",
-      "Plan → Improve → Execute → Measure",
-      "Simplify / Standardize / Scale",
-      "People First operating design",
-      "Funnel friction audits",
-      "KPI design",
-      "Lean / Toyota Way methods",
-      "Operational Excellence",
-      "Owner briefings",
+    getStarted: [
+      {
+        title: "Describe the recurring problem and who it affects",
+        detail: "",
+      },
+      {
+        title: "Adam maps the workflow and baseline",
+        detail: "",
+      },
+      {
+        title: "Agree on one improvement test, owner, and review date",
+        detail: "",
+      }
     ],
+    guide: {
+      title: "Find and Fix One Business Bottleneck",
+      summary: "",
+      steps: [
+        "Pick a repeated problem customers or staff can describe.",
+        "Map the steps from start to finish and note handoffs.",
+        "Measure where work waits, repeats, or gets returned for correction.",
+        "Ask why the largest delay occurs and verify the answer with records and staff.",
+        "Test one change, compare it with the baseline, and keep or revise it based on evidence."
+      ],
+      downloadCta: "Download the free workflow mapping worksheet.",
+    },
   },
   sonja: {
-    tagline: "Inbox, phone, and reviews — with a human tone.",
-    bio: "Sonja keeps community and customer support warm. She handles the inbox and phone so customers feel heard.",
-    personality: ["Mom of two boys", "Patient listener", "Weekend soccer sidelines"],
-    favoriteFood: "Homemade lasagna",
+    tagline: "Support that listens, clarifies, and follows through.",
+    bio: "I start by understanding the customer's concern, then help find a clear and respectful way forward. Good support combines empathy with accurate information, realistic expectations, and follow-through.",
+    intro: "I help small businesses respond to customers with care and clarity. I can organize support workflows, draft replies, and spot patterns in customer questions so teams can improve the experience.",
+    specialtyLabel: "CUSTOMER SUPPORT & COMMUNITY CARE",
+    pageTitle: "Sonja Williams | AI Customer Support Specialist",
+    metaDescription: "Meet Sonja, the LeadsFlow180 AI support specialist who helps organize customer questions, write clear responses, and improve service follow-through.",
+    askCta: "Ask Sonja about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Customer response drafts",
+      "Support workflows",
+      "Issue summaries",
+      "Community responses",
+      "Feedback themes"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Customer communication",
+      "Support triage",
+      "Response templates",
+      "Feedback analysis",
+      "Community moderation",
+      "Escalation notes"
+    ],
     faqs: [
       {
-        q: "Can AI handle customer support without sounding robotic?",
-        a: "Sonja drafts replies in your brand voice and escalates anything that needs a human decision.",
+        q: "How should a small business respond to a customer complaint?",
+        a: "Acknowledge the concern, ask for needed details, explain what you can verify, offer a realistic next step, and follow through. Avoid arguing or making promises you cannot keep.",
       },
+      {
+        q: "What should a customer support process include?",
+        a: "Include intake channels, issue categories, urgency rules, owners, response expectations, escalation paths, and a way to record resolution.",
+      },
+      {
+        q: "How quickly should a business answer customer messages?",
+        a: "Set a response target your team can meet consistently. Publish the hours and expectations, then prioritize urgent safety or service issues appropriately.",
+      },
+      {
+        q: "How do I handle a negative online review?",
+        a: "Respond calmly, protect private information, acknowledge the experience, and invite the reviewer to a suitable private channel to resolve details.",
+      },
+      {
+        q: "Can AI answer my customer support messages?",
+        a: "AI can draft or help organize replies, but a person should review sensitive, financial, safety-related, or unusual issues and approve messages according to business policy.",
+      }
     ],
     work: [
-      { id: "inbox", title: "Support inbox pack", detail: "Templates for FAQs, refunds, and review replies." },
-      { id: "voice", title: "Phone greeting scripts", detail: "Short, friendly openings in multiple languages." },
+      {
+        id: "p1",
+        title: "Customer Support Response Library",
+        detail: "sample empathetic replies for delays, returns, scheduling, and complaints. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Support Request Tracker",
+        detail: "fictional dashboard showing category, urgency, owner, status, and next update. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Customer Feedback Theme Report",
+        detail: "sample anonymized review analysis with recurring themes and practical service improvements. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Share common questions and your support policies",
+        detail: "",
+      },
+      {
+        title: "Sonja drafts response tools and an escalation flow",
+        detail: "",
+      },
+      {
+        title: "Your team reviews and uses them, then improves them from real feedback",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "A Simple Customer Complaint Response Framework",
+      summary: "",
+      steps: [
+        "Listen without interrupting or arguing.",
+        "Restate the concern to confirm what happened.",
+        "Check records and policy before explaining options.",
+        "Give one realistic next step, owner, and update time.",
+        "Close the loop and record what the business can learn."
+      ],
+      downloadCta: "Download the free customer support response checklist.",
+    },
   },
   danica: {
-    tagline: "Calendars, bookings, and the official schedule.",
-    bio: "Danica is Michelle’s executive assistant on the floor — bookings, calendars, and keeping the day on rails.",
-    personality: ["Husband and two little boys at home", "Early riser", "Color-coded calendar"],
-    favoriteFood: "Chicken taco salad",
+    tagline: "A more prepared day starts with a clearer plan.",
+    bio: "I help turn a crowded day into a workable plan. I gather what matters, surface conflicts early, and prepare drafts and reminders so you can make decisions with less scrambling.",
+    intro: "I help business owners protect their time and stay ready for what is next. I can organize a daily plan, prepare meeting briefs, draft proposals, and track follow-ups for your review.",
+    specialtyLabel: "EXECUTIVE SUPPORT & DAILY PLANNING",
+    pageTitle: "Danica Bato | AI Executive Assistant for Small Business",
+    metaDescription: "Meet Danica, the LeadsFlow180 AI executive assistant who helps prepare schedules, briefs, proposals, task lists, and follow-ups.",
+    askCta: "Ask Danica about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Calendar and task organization",
+      "Meeting preparation",
+      "Proposal and document drafts",
+      "Follow-up tracking",
+      "Warm, efficient communication"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Calendar review",
+      "Task prioritization",
+      "Brief preparation",
+      "Proposal drafting",
+      "Follow-up tracking",
+      "Executive summaries"
+    ],
     faqs: [
       {
-        q: "How does an AI executive assistant help founders?",
-        a: "Danica protects focus time, confirms meetings, and keeps the official schedule accurate so leadership is not buried in logistics.",
+        q: "What can an AI executive assistant do for a small business?",
+        a: "An AI executive assistant can organize schedules, prepare briefs, draft documents, and track follow-ups. The business owner should review drafts and approve changes or messages before they are sent.",
       },
+      {
+        q: "How do I plan my workday as a business owner?",
+        a: "Choose three priority outcomes, group similar tasks, protect time for focused work, add realistic buffers, and leave room for urgent customer needs.",
+      },
+      {
+        q: "Can an AI assistant write a business proposal?",
+        a: "It can draft a proposal from your scope, pricing, timeline, and terms. Review every detail for accuracy and approve it before sending.",
+      },
+      {
+        q: "What should a meeting brief include?",
+        a: "Include the purpose, participants, background, decisions needed, relevant documents, and questions to resolve. Afterward, record decisions, owners, and due dates.",
+      },
+      {
+        q: "How do I stop forgetting client follow-ups?",
+        a: "Record each promised action in one tracker with an owner and due date, then review overdue and upcoming items daily.",
+      }
     ],
     work: [
-      { id: "calendar", title: "Executive week layout", detail: "Blocked focus, meetings, and follow-ups." },
-      { id: "booking", title: "Booking confirmation flow", detail: "Clean confirmations with prep notes." },
+      {
+        id: "p1",
+        title: "Your Day, Clearly Planned",
+        detail: "sample daily agenda with focus blocks, travel buffers, preparation notes, and priority tasks. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Client Proposal Draft",
+        detail: "a clearly labeled sample proposal with scope, deliverables, timeline, assumptions, and next step. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Meeting Brief & Follow-Up Pack",
+        detail: "sample pre-meeting summary, questions, decisions, and action tracker. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Share your goals, schedule, and commitments",
+        detail: "",
+      },
+      {
+        title: "Danica prepares a proposed plan or draft",
+        detail: "",
+      },
+      {
+        title: "Review and approve anything that changes a calendar, record, or message",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "The Business Owner's Weekly Planning Kit",
+      summary: "",
+      steps: [
+        "Review the next two weeks before adding new commitments.",
+        "Choose three outcomes that matter most this week.",
+        "Block preparation and follow-up time around meetings.",
+        "Turn every promise into an owner, action, and due date.",
+        "End each day by moving unfinished work deliberately—not by letting it disappear."
+      ],
+      downloadCta: "Download the free weekly planning worksheet.",
+    },
   },
   jay: {
-    tagline: "Nurture sequences and campaigns that land.",
-    bio: "Jay owns email marketing, lifecycle, deliverability, and outbound — so the right message hits the right inbox.",
-    personality: ["Subject-line tinkerer", "Metrics nerd", "Playlist for deep work"],
-    favoriteFood: "Spicy ramen",
+    tagline: "Send the right message at the right stage of the relationship.",
+    bio: "I treat email as a relationship channel and a technical system. Good campaigns are relevant and well-timed; good deliverability depends on permission, list quality, sound setup, and careful monitoring.",
+    intro: "I help plan email campaigns around customer needs and timing. I can map welcome and follow-up sequences, review campaign performance, and help investigate deliverability issues responsibly.",
+    specialtyLabel: "EMAIL MARKETING & CUSTOMER LIFECYCLE",
+    pageTitle: "Jay Collins | AI Email Marketing and Deliverability Specialist",
+    metaDescription: "Meet Jay, the LeadsFlow180 email specialist who plans lifecycle campaigns, improves email processes, and helps protect sending reputation and deliverability.",
+    askCta: "Ask Jay about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Lifecycle email planning",
+      "Campaign copy review",
+      "Segmentation",
+      "Deliverability checks",
+      "Testing and reporting"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Lifecycle strategy",
+      "Email campaign planning",
+      "Segmentation",
+      "Deliverability review",
+      "A/B testing",
+      "Campaign analysis"
+    ],
     faqs: [
       {
-        q: "What makes email marketing work with AI?",
-        a: "Jay builds sequences, watches deliverability, and keeps human approval on offers that touch your brand.",
+        q: "How do I improve email deliverability?",
+        a: "Use a properly authenticated sending domain, mail people who expect your messages, keep lists current, honor unsubscribes, and monitor bounces and complaints. Follow current provider requirements.",
       },
+      {
+        q: "What emails should a small business send to new customers?",
+        a: "Start with a useful welcome or confirmation, explain what happens next, provide relevant help, and invite a suitable follow-up. Send only messages allowed by the person's preferences and applicable rules.",
+      },
+      {
+        q: "How often should a business email its customers?",
+        a: "Use a cadence that matches customer expectations and the value of the content. Watch engagement and complaints, and make preferences and unsubscribe options easy to find.",
+      },
+      {
+        q: "What is email segmentation?",
+        a: "Segmentation groups subscribers by relevant characteristics or behavior so messages are more useful. Use only data you have a legitimate reason to use and avoid sensitive or surprising targeting.",
+      },
+      {
+        q: "Why are my marketing emails going to spam?",
+        a: "Possible causes include weak authentication, poor list quality, unexpected volume changes, spam complaints, or content and reputation issues. Diagnose the sending domain and provider reports before increasing volume.",
+      }
     ],
     work: [
-      { id: "nurture", title: "Launch nurture sequence", detail: "Five-touch Founders welcome series." },
-      { id: "outbound", title: "Outbound starter pack", detail: "Cold + warm templates with clear CTAs." },
+      {
+        id: "p1",
+        title: "New Customer Welcome Journey",
+        detail: "sample three-message sequence with timing, purpose, audience rules, and suppression notes. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Deliverability Health Checklist",
+        detail: "illustrative audit template for authentication, list hygiene, complaint signals, and sending practices. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Campaign Test Report",
+        detail: "mock comparison of subject-line or content tests with sample-size caveats and next steps; no fabricated lift claims. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Explain your audience, email goal, and current platform",
+        detail: "",
+      },
+      {
+        title: "Jay proposes a sequence and checks the sending fundamentals",
+        detail: "",
+      },
+      {
+        title: "Review permissions, copy, and test plan before launch",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "Small-Business Email Health Checklist",
+      summary: "",
+      steps: [
+        "Confirm your sending domain and current authentication status with your provider.",
+        "Send to people who have a valid basis to receive your messages.",
+        "Remove invalid addresses and honor unsubscribes and preferences promptly.",
+        "Monitor delivery, bounce, complaint, and engagement trends.",
+        "Change one major campaign variable at a time and document the result."
+      ],
+      downloadCta: "Download the free email campaign and deliverability checklist.",
+    },
   },
   ava: {
-    tagline: "Bigger stories. Brighter people.",
-    bio: "Ava Morgan is Director of Media on the LeadsFlow180 floor. She runs a Media & PR board — Pitch, In Progress, Placed — and shapes stories that sound like you: press angles, podcast talking points, and campaign copy. Media Creates Opportunity is on the wall; Good Stories Drive Growth sits on the desk. Drafts move fast; publishing waits for your approval.",
+    tagline: "Find the story your audience will remember.",
+    bio: "A strong story gives people a reason to listen and something useful to carry away. I help find that structure without forcing a message or changing what the speaker actually means.",
+    intro: "I help shape interviews, podcast episodes, and media messages around a clear audience takeaway. We find the strongest story, prepare thoughtfully, and protect accuracy while making the content engaging.",
+    specialtyLabel: "MEDIA, PUBLIC RELATIONS & PODCASTING",
+    pageTitle: "Ava Morgan | AI Podcast Producer and Media Strategist",
+    metaDescription: "Meet Ava, the LeadsFlow180 media specialist who helps shape podcast episodes, interviews, public relations messages, and audience-focused stories.",
+    askCta: "Ask Ava about your story",
+    ctaHelper: "Free 5-minute chat. No obligation.",
     personality: [
+      "Podcast planning",
+      "Interview preparation",
+      "Episode structure",
+      "Media messaging",
+      "Story development",
       "Mug motto: Good Stories Drive Growth",
-      "Media Creates Opportunity on the wall",
-      "STRATEGY FOCUS GROWTH IMPACT poster",
-      "PEOPLE STORIES BRANDS IMPACT on the shelf",
-      "Board quote: Bigger Stories, Brighter People",
-      "Media & PR — Pitch: Forbes AI in SMB, Inc. Growth Series, Entrepreneur Founder Story",
-      "Media & PR — In Progress: Fast Company Lead Gen, CNBC SMB Tools, Spotify Podcast",
-      "Media & PR — Placed: Business Insider Q2, Yahoo Finance Expert Quote, Local NBC Segment",
-      "Desk stack: Dare to Lead, Talking to Strangers, The Creative Act",
-      "Tennis racket, tennis ball, and MEDIA badge on the shelf",
-      "Studio mic ready for podcast and PR takes",
+      "Media & PR board: Pitch / In Progress / Placed",
+      "Board quote: Bigger Stories Brighter People",
+      "Tennis racket and MEDIA badge on the shelf"
     ],
-    favoriteFood: "Mediterranean bowl",
+    favoriteFood: "TBD",
+    skills: [
+      "Podcast production planning",
+      "Interview questions",
+      "Media preparation",
+      "Story structure",
+      "Episode repurposing",
+      "Audience development"
+    ],
     faqs: [
       {
-        q: "What does a Director of Media handle?",
-        a: "Ava covers media communications and PR — pitches, placements, show notes, and on-brand talking points across channels.",
+        q: "How do I start a business podcast?",
+        a: "Define the audience and purpose, choose a repeatable format, plan a short season, prepare guests and recording, and set a realistic production schedule.",
       },
       {
-        q: "How can AI help with podcasting and PR?",
-        a: "She drafts show notes, guest briefs, and press angles so your media lane stays consistent without a blank page.",
+        q: "What makes a good podcast interview?",
+        a: "A clear topic, thoughtful open questions, active listening, accurate context, and an ending that gives the audience a useful takeaway.",
       },
       {
-        q: "What is on Ava’s Media & PR board?",
-        a: "Three columns — Pitch, In Progress, and Placed — tracking outlets and stories from idea to live placement.",
+        q: "How long should a podcast episode be?",
+        a: "Long enough to deliver the episode's promise without unnecessary repetition. Choose length based on subject, format, and audience behavior.",
       },
       {
-        q: "Does Ava publish without approval?",
-        a: "No. Media drafts and angles land for your review before anything represents the brand publicly.",
+        q: "How can a small business get media attention?",
+        a: "Offer a timely, relevant story with credible details and a clear public value. Build a focused media list and personalize a concise pitch; coverage cannot be guaranteed.",
       },
       {
-        q: "Which outlets does Ava think about?",
-        a: "Her board tracks real placement targets — trade, business, and podcast surfaces — always tailored to your story.",
-      },
+        q: "How do I repurpose a podcast episode?",
+        a: "Identify a few self-contained insights, get appropriate permissions, create short clips or summaries, and link them back to the full episode with accurate context.",
+      }
     ],
     work: [
-      { id: "podcast", title: "Podcast episode outline", detail: "Hooks, segments, and CTA for a founder show." },
-      { id: "pr", title: "PR angle sheet", detail: "Three story angles for local and trade press." },
-      { id: "board", title: "Pitch-to-placed tracker", detail: "Media board snapshot: what is pitched, live, and next." },
+      {
+        id: "p1",
+        title: "Podcast Episode Blueprint",
+        detail: "sample concept, audience promise, guest brief, question arc, and closing takeaway. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Founder Media Kit",
+        detail: "sample short bio, company overview, talking points, and press-ready facts for a fictional business. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Repurposing Map",
+        detail: "sample plan turning one interview into an episode, short clips, quote cards, and an article with consent and review steps. (Sample concept.)",
+      }
     ],
-    skills: [
-      "Media pitching",
-      "PR placements",
-      "Podcast production talking points",
-      "Press kit drafts",
-      "Brand storytelling",
-      "Pitch / In Progress / Placed tracking",
-      "Outlet targeting (Forbes, Inc., CNBC, Spotify, and more)",
-      "Campaign messaging",
-      "STRATEGY FOCUS GROWTH IMPACT planning",
-      "Owner-approved publishing",
+    getStarted: [
+      {
+        title: "Share your audience, topic, and intended outcome",
+        detail: "",
+      },
+      {
+        title: "Ava develops a story or episode plan",
+        detail: "",
+      },
+      {
+        title: "Review facts, permissions, and production needs before recording or pitching",
+        detail: "",
+      }
     ],
+    guide: {
+      title: "Plan a Podcast Episode People Want to Finish",
+      summary: "",
+      steps: [
+        "Promise one clear benefit to a defined audience.",
+        "Build an outline with a strong opening, useful middle, and meaningful close.",
+        "Prepare questions that invite examples instead of yes/no answers.",
+        "Record clean audio and confirm guest permissions and names.",
+        "Edit for clarity, verify claims, and create a useful next step for listeners."
+      ],
+      downloadCta: "Download the free podcast episode planner.",
+    },
   },
   mark: {
-    tagline: "Research and prospecting so Jordan has real leads.",
-    bio: "Mark digs into markets and prospects so sales is never guessing.",
-    personality: ["Curious researcher", "Spreadsheet comfort", "Late-night rabbit holes"],
-    favoriteFood: "BBQ brisket sandwich",
+    tagline: "Make your next business decision with better evidence.",
+    bio: "I investigate before I recommend. My work helps you understand what is known, what is only a signal, and what information would strengthen a decision.",
+    intro: "I research markets, companies, competitors, and potential customers. I separate verified facts from assumptions, so you can see what the evidence supports—and what still needs checking.",
+    specialtyLabel: "MARKET RESEARCH & PROSPECT INTELLIGENCE",
+    pageTitle: "Mark Bennett | AI Market Research and Prospect Intelligence",
+    metaDescription: "Meet Mark, the LeadsFlow180 research specialist who verifies market, company, competitor, and prospect information to support better business decisions.",
+    askCta: "Ask Mark about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Source-based research",
+      "Competitor reviews",
+      "Prospect qualification",
+      "Market signals",
+      "Clear confidence and unknowns"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Market research",
+      "Company and prospect research",
+      "Competitor analysis",
+      "ICP evidence",
+      "Source evaluation",
+      "Research briefs"
+    ],
     faqs: [
       {
-        q: "What is AI prospect intelligence?",
-        a: "Mark finds fit signals and account context so outreach is specific, not spray-and-pray.",
+        q: "How do I research my competitors?",
+        a: "Compare their offers, target audiences, pricing when public, customer feedback, and how clearly they explain their value. Use dated sources and distinguish what you observe from what you infer.",
       },
+      {
+        q: "What is an ideal customer profile?",
+        a: "An ideal customer profile describes the types of businesses or people most likely to benefit from your offer, based on fit, need, ability to buy, and evidence from current customers.",
+      },
+      {
+        q: "How can I find qualified business prospects?",
+        a: "Define fit criteria first, identify organizations that meet them, verify relevant details from reliable sources, and prioritize prospects based on evidence rather than volume alone.",
+      },
+      {
+        q: "What should a competitor analysis include?",
+        a: "Include competitors' services, audience, positioning, customer experience, strengths, weaknesses, and sources. Focus on useful differences instead of copying their messaging.",
+      },
+      {
+        q: "How do I know if market research is reliable?",
+        a: "Check who published it, when it was published, how the data was collected, and whether other credible sources support the finding.",
+      }
     ],
     work: [
-      { id: "icp", title: "ICP research brief", detail: "Who buys, why now, and where they hang out." },
-      { id: "list", title: "Prospect shortlist", detail: "Qualified accounts ready for Jordan." },
+      {
+        id: "p1",
+        title: "Local Competitor Snapshot",
+        detail: "sample comparison of services, positioning, reviews, and visible customer experience using cited public sources. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Ideal Customer Evidence Map",
+        detail: "sample table connecting target-customer criteria to evidence, confidence, and open questions. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Prospect Research Brief",
+        detail: "fictional company profile showing verified facts, likely fit, and next research steps. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Tell Mark the decision you need to make",
+        detail: "",
+      },
+      {
+        title: "Define the market, customer, or competitor scope",
+        detail: "",
+      },
+      {
+        title: "Review findings with sources, confidence, and recommended next questions",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "A Practical Competitor Research Checklist",
+      summary: "",
+      steps: [
+        "Name the business decision this research should inform.",
+        "Select three to five direct competitors and explain why each is comparable.",
+        "Record public offers, audience, positioning, proof, and customer feedback with source dates.",
+        "Separate facts from interpretations; note missing information.",
+        "Choose one useful market gap to test with customers."
+      ],
+      downloadCta: "Download the free competitor research worksheet.",
+    },
   },
   lee: {
-    tagline: "Same audience. Bigger opportunities.",
-    bio: "Lee Park runs paid media with a clear board and calm spend discipline. Google, Meta, LinkedIn, and YouTube stay on the glass — and every dollar waits for your approval.",
+    tagline: "Put ad spend behind a clear plan—and measure what it brings back.",
+    bio: "I help small businesses grow through smart, results-driven advertising. I focus on finding creative ways to reach new customers and turn clicks into real opportunities. When I'm not optimizing ad campaigns, I'm probably watching soccer, trying new restaurants, or planning my next travel adventure.",
+    intro: "I plan and manage paid campaigns designed to bring qualified leads and customers to your business. I work on strategy, targeting, creative, tracking, and optimization so you can make better decisions about your budget.",
+    specialtyLabel: "PAID MEDIA SPECIALIST",
+    pageTitle: "Lee Park | AI Paid Media and Performance Advertising Specialist",
+    metaDescription: "Meet Lee, the LeadsFlow180 paid media specialist who plans, manages, and evaluates advertising campaigns across Google, Meta, YouTube, and LinkedIn.",
+    askCta: "Ask Lee about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
     personality: [
+      "Soccer",
+      "Travel and new foods",
+      "Coffee",
+      "Photography",
+      "Music and podcasts",
       "Soccer on the shelf after work",
-      "Sci-fi stack: Dune, The Martian, Project Hail Mary",
       "Mug motto: Good Ads Better People",
+      "Sci-fi stack: Dune, The Martian, Project Hail Mary"
     ],
     favoriteFood: "Sushi rolls",
+    skills: [
+      "Google Ads",
+      "Meta Ads (Facebook and Instagram)",
+      "YouTube Ads",
+      "LinkedIn Ads",
+      "Ad strategy and planning",
+      "Audience targeting",
+      "Campaign management",
+      "Creative development",
+      "Conversion tracking",
+      "Analytics and reporting",
+      "Budget optimization"
+    ],
     faqs: [
       {
         q: "What types of ads does Lee manage?",
-        a: "Paid performance across Google Ads, Meta, LinkedIn, and YouTube — tracked on one performance board.",
+        a: "Lee plans and manages campaigns across Google Ads, Meta platforms such as Facebook and Instagram, YouTube, and LinkedIn, depending on the audience and business goal.",
       },
       {
-        q: "How does AI paid media stay safe?",
-        a: "Lee drafts campaigns and creative tests, but spend and final launches wait for your approval.",
+        q: "Do I need a big budget to get started with advertising?",
+        a: "Not always, but a budget must be large enough to test the audience, offer, and conversion path. Start with a defined test budget and stop conditions; never spend money you cannot afford to test.",
       },
       {
-        q: "How quickly can campaigns launch?",
-        a: "Drafts can move same-day once goals and guardrails are clear — go-live still needs your approval.",
+        q: "How long does it take to see results from ads?",
+        a: "Timing varies with competition, budget, tracking, offer, and sales process. Early data can inform adjustments, but it may take time to collect enough evidence for a reliable decision.",
       },
       {
-        q: "Do I need a big budget to start?",
-        a: "Lee plans around the budget you set. Small tests come first; scale waits for proof and your OK.",
+        q: "Can you help with ad creatives?",
+        a: "Yes. Lee can plan creative concepts and coordinate copy and design with the team. Ads should match the landing page and use accurate, policy-compliant claims.",
       },
       {
-        q: "What happens after the free chat?",
-        a: "Continue in AI Office with Launch Founders access — same lane, clearer handoffs across the floor.",
-      },
+        q: "Do you work with specific industries?",
+        a: "The team can adapt campaigns to different industries, including home services and local businesses. Strategy depends on the market, platform rules, customer, and offer.",
+      }
     ],
     work: [
-      { id: "plumber", title: "Local Plumber", detail: "Search + Local Services ads with call-first creative." },
-      { id: "skincare", title: "Clean Skincare", detail: "Meta carousel for a DTC beauty launch week." },
-      { id: "home", title: "Home Protection", detail: "YouTube + Google demand gen for a security brand." },
+      {
+        id: "p1",
+        title: "Local Plumber Search Campaign",
+        detail: "sample ad and landing-page concept focused on emergency and scheduled service, with a measurement plan. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Med Spa Meta Campaign",
+        detail: "sample offer creative and audience assumptions; include required terms and avoid unsupported health claims. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Home Services Retargeting Concept",
+        detail: "sample creative sequence and consent/privacy notes. Present all three as demonstrations, not client results. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Tell Lee about your business, goals, audience, and current marketing",
+        detail: "",
+      },
+      {
+        title: "Lee builds a plan with targeting, budget recommendations, tracking, and creative needs",
+        detail: "",
+      },
+      {
+        title: "After your approval, campaigns can launch; results are monitored and optimized",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "Before You Spend on Online Ads",
+      summary: "",
+      steps: [
+        "Choose one goal: calls, booked appointments, qualified leads, or sales.",
+        "Make sure the offer, service area, landing page, and follow-up process are ready.",
+        "Set a test budget, timeframe, and rules for pausing or changing the campaign.",
+        "Confirm conversion tracking works before spending.",
+        "Review lead quality and business outcomes—not clicks alone."
+      ],
+      downloadCta: "Download the free paid advertising readiness checklist.",
+    },
   },
   zenda: {
-    tagline: "Drafts and schedules for social and community.",
-    bio: "Zenda keeps social and community content moving — drafts, schedules, and a consistent voice.",
-    personality: ["Trend scout", "Caption craftsman", "Weekend hike reset"],
-    favoriteFood: "Veggie wrap",
+    tagline: "Show up consistently with content that sounds like you.",
+    bio: "I pay attention to how people communicate on each platform, while keeping the business's own voice intact. Trends are useful only when they make sense for your audience and goals.",
+    intro: "I help businesses plan useful social content and respond to their community in a voice that fits the brand. We focus on what your audience cares about, what each platform supports, and what you can sustain.",
+    specialtyLabel: "SOCIAL MEDIA CONTENT & COMMUNITY",
+    pageTitle: "Zenda Okafor | AI Social Media Content Specialist",
+    metaDescription: "Meet Zenda, the LeadsFlow180 social media specialist who helps small businesses plan platform-aware content, engage their community, and learn from performance.",
+    askCta: "Ask Zenda about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Social content calendars",
+      "Platform-aware writing",
+      "Community engagement",
+      "Trend evaluation",
+      "Performance learning"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Social content planning",
+      "Platform adaptation",
+      "Community responses",
+      "Trend assessment",
+      "Content calendars",
+      "Engagement review"
+    ],
     faqs: [
       {
-        q: "Can AI manage social media content?",
-        a: "Zenda drafts and schedules posts; you approve anything that represents the brand publicly.",
+        q: "What should a small business post on social media?",
+        a: "Share helpful advice, real examples, customer questions, team or process stories, and offers that fit the audience. Choose formats you can produce consistently.",
       },
+      {
+        q: "How often should a small business post?",
+        a: "Pick a schedule you can maintain with quality. Consistency and audience relevance matter more than an arbitrary daily posting target.",
+      },
+      {
+        q: "How do I create a social media content calendar?",
+        a: "Choose a goal, define a few recurring content themes, map posts to audience questions and business events, assign an owner, and leave room for timely updates.",
+      },
+      {
+        q: "Should my business use every social media platform?",
+        a: "No. Start where your customers are active and where your team can create useful content. Review results before adding more channels.",
+      },
+      {
+        q: "How do I know if a social media trend fits my brand?",
+        a: "Check whether the trend suits your audience, values, timing, and ability to participate naturally. Skip it if it distracts from your message or creates risk.",
+      }
     ],
     work: [
-      { id: "calendar", title: "Two-week social calendar", detail: "Posts mapped to campaign themes." },
-      { id: "hooks", title: "Hook pack", detail: "Ten scroll-stopping openers." },
+      {
+        id: "p1",
+        title: "30-Day Local Business Content Calendar",
+        detail: "sample mix of education, proof, people, offers, and community prompts. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "One Idea, Three Platforms",
+        detail: "sample adaptation of a home-maintenance tip for Instagram, Facebook, and LinkedIn. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Community Response Playbook",
+        detail: "sample response patterns for questions, praise, criticism, and escalation. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Share your audience, platforms, and business goal",
+        detail: "",
+      },
+      {
+        title: "Zenda maps content themes and a realistic calendar",
+        detail: "",
+      },
+      {
+        title: "Approve posts and review audience response to refine the plan",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "A 30-Minute Social Content Planning Routine",
+      summary: "",
+      steps: [
+        "Write down the three questions customers ask most often.",
+        "Turn each question into a tip, short video, and story or post.",
+        "Add one proof point and one clear offer, if appropriate.",
+        "Adapt wording and format to the platform instead of copying blindly.",
+        "Review saves, meaningful replies, clicks, and inquiries—not likes alone."
+      ],
+      downloadCta: "Download the free social content calendar.",
+    },
   },
   jojo: {
-    tagline: "Better stories build brighter businesses.",
-    bio: "Johana “JoJo” Alvarez writes and personalizes content so every channel tells the same story — from landing pages to the lines that make a campaign feel human.",
+    tagline: "Words that sound like your business—and speak to your customer.",
+    bio: "I look for the human need behind the message. Clear copy should help people understand who you serve, what problem you solve, and what they can do next—without making claims you cannot support.",
+    intro: "I help turn what you do into clear, human messaging. From website copy to campaign emails and scripts, I shape the message around your audience, your brand, and the next action you want readers to take.",
+    specialtyLabel: "COPYWRITING & CUSTOMER MESSAGING",
+    pageTitle: "JoJo Alvarez | AI Copywriter for Small Business",
+    metaDescription: "Meet JoJo, the LeadsFlow180 AI copywriter who creates clear, audience-aware website, email, campaign, and sales content grounded in verified information.",
+    askCta: "Ask JoJo about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
     personality: [
+      "Website and landing-page copy",
+      "Email campaigns",
+      "Sales materials",
+      "Brand voice",
+      "Audience-focused messaging",
       "Desk stack: Atomic Habits, Dare to Lead, Big Magic, The Midnight Library",
-      "Mug motto: Good Copy Brighter Days",
-      "Grateful for the good people — family photo on the shelf",
+      "Mug motto: Good Copy Brighter Days"
     ],
-    favoriteFood: "Margherita pizza",
+    favoriteFood: "TBD",
+    skills: [
+      "Website copy",
+      "Email copy",
+      "Campaign messaging",
+      "Scripts",
+      "Personalization",
+      "Brand voice"
+    ],
     faqs: [
       {
-        q: "How does AI copywriting stay on brand?",
-        a: "JoJo drafts from your voice notes and brand bank; final publishing waits for approval.",
+        q: "What should a small-business website say on its homepage?",
+        a: "Explain who you help, what problem you solve, where you work if relevant, why customers can trust you, and the next step to take.",
       },
       {
-        q: "What is content personalization?",
-        a: "JoJo adapts the same core story for segments and channels so it still sounds like you.",
+        q: "How do I write copy that attracts customers?",
+        a: "Start with a specific audience and need, explain your offer in plain language, support claims with proof, and use one clear call to action.",
       },
+      {
+        q: "What is a brand voice?",
+        a: "Brand voice is the consistent way a business sounds in its writing. It should fit the company's values, audience, and service—not imitate a trend.",
+      },
+      {
+        q: "Can AI write my website and email copy?",
+        a: "AI can draft and revise copy using your approved facts and brand guidance. A person should verify claims, pricing, terms, and any personal details before publication.",
+      },
+      {
+        q: "How long should a landing page be?",
+        a: "Long enough to answer the audience's key questions and support the decision. Remove sections that repeat information or do not help the reader act.",
+      }
     ],
     work: [
-      { id: "landing", title: "Landing page draft", detail: "Hero, proof, and CTA in one pass." },
-      { id: "personal", title: "Personalization snippets", detail: "Segment-aware lines for email and ads." },
+      {
+        id: "p1",
+        title: "Homepage Message Refresh",
+        detail: "sample before-and-after hero, service summary, proof points, and CTA for a fictional home service company. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Three-Email Welcome Sequence",
+        detail: "sample welcome, helpful advice, and next-step emails with clear purpose and consent-conscious language. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Service Page Copy Set",
+        detail: "sample service description, benefits, process, FAQs, and booking CTA. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Share your audience, offer, and goal",
+        detail: "",
+      },
+      {
+        title: "JoJo drafts the content and explains the message choices",
+        detail: "",
+      },
+      {
+        title: "You review voice, facts, and claims before anything goes live",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "Five Steps to Clearer Small-Business Website Copy",
+      summary: "",
+      steps: [
+        "Write one sentence describing your best-fit customer.",
+        "Name the problem they are trying to solve in the words they use.",
+        "Explain your service, location, process, and point of difference plainly.",
+        "Add proof you can verify: reviews, examples, credentials, or clear policies.",
+        "Give each page one main next step and make it easy to find."
+      ],
+      downloadCta: "Download the free website copy planner.",
+    },
   },
   shelly: {
-    tagline: "Good strategy. Better days.",
-    bio: "Shelly Allen is Director of Marketing Strategy & Growth. She sets the week-level plan the floor executes — brand awareness, thought leadership, demand generation, strategic partnerships, and community growth. People Develop People is on the wall; More Opportunities for More People sits at the bottom of her Marketing Strategy board. Strategy Drives Growth on the desk. You approve the plan before the team runs it.",
+    tagline: "Focus your marketing on the growth lever that matters now.",
+    bio: "I look at marketing as a connected system. The right plan depends on the customer, the offer, what the business can deliver, and which growth opportunity deserves attention first.",
+    intro: "I help connect your audience, offer, and marketing channels into a focused plan. We choose priorities based on your business goals and capacity, then test and learn instead of spreading effort everywhere.",
+    specialtyLabel: "MARKETING STRATEGY & BUSINESS GROWTH",
+    pageTitle: "Shelly Allen | AI Marketing Strategy and Growth Specialist",
+    metaDescription: "Meet Shelly, the LeadsFlow180 marketing strategist who helps small businesses choose priorities, connect channels, and build a measurable growth plan.",
+    askCta: "Ask Shelly about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
     personality: [
+      "Marketing strategy",
+      "Audience and positioning",
+      "Channel planning",
+      "Growth experiments",
+      "Prioritization",
       "Mug motto: Good Strategy Better Days",
-      "Pen cup: Strategy Drives Growth",
       "People Develop People on the wall",
-      "Marketing Strategy board: Brand Awareness, Thought Leadership, Demand Generation, Strategic Partnerships, Community & Growth",
       "Board note: More Opportunities for More People",
-      "Desk stack: Dare to Lead, Atomic Habits, The Coaching Habit",
-      "Tote: Stronger People Brighter Tomorrows",
-      "Family photos and globe on the shelf",
+      "Tote: Stronger People Brighter Tomorrows"
     ],
-    favoriteFood: "Thai green curry",
+    favoriteFood: "TBD",
+    skills: [
+      "Marketing strategy",
+      "Positioning",
+      "Customer journey planning",
+      "Channel prioritization",
+      "Growth experiments",
+      "Performance review"
+    ],
     faqs: [
       {
-        q: "What does a Director of Marketing Strategy & Growth plan?",
-        a: "Shelly sets campaign themes, channel mix, and weekly priorities so specialists are not improvising alone.",
+        q: "How do I create a marketing strategy for a small business?",
+        a: "Define the business goal, best-fit audience, offer, proof, channels, budget, and measures. Choose a manageable set of actions and review results regularly.",
       },
       {
-        q: "What is on Shelly’s Marketing Strategy board?",
-        a: "Brand Awareness, Thought Leadership, Demand Generation, Strategic Partnerships, and Community & Growth — checked against the week’s plan.",
+        q: "Which marketing channel should my small business use first?",
+        a: "Start with where your target customers seek help and where your business can deliver useful communication consistently. Use current evidence rather than channel popularity alone.",
       },
       {
-        q: "How does strategy connect to the rest of the floor?",
-        a: "Shelly’s week plan routes work to paid, content, social, sales, and media — with clear owners and success metrics.",
+        q: "How much should a small business spend on marketing?",
+        a: "There is no single correct percentage. Consider cash flow, margin, growth goals, capacity, and the cost to acquire and serve a customer; test spending in stages.",
       },
       {
-        q: "Do campaigns launch without my OK?",
-        a: "No. Shelly drafts the strategy and calendar; spend and publish wait for your approval.",
+        q: "What is a 90-day marketing plan?",
+        a: "It is a short planning period with a defined goal, priority actions, owners, budget, and review dates. It should be adjustable as results and conditions change.",
       },
       {
-        q: "What books shape Shelly’s coaching style?",
-        a: "Dare to Lead, Atomic Habits, and The Coaching Habit sit on her desk — people development next to growth math.",
-      },
+        q: "How do I measure marketing results?",
+        a: "Connect channel activity to qualified inquiries, sales, retention, or another business outcome. Include cost and capacity so activity is not mistaken for growth.",
+      }
     ],
     work: [
-      { id: "week", title: "Growth week plan", detail: "Themes, owners, and success metrics for the floor." },
-      { id: "offer", title: "Offer narrative", detail: "Positioning for a Founders-style launch." },
-      { id: "board", title: "Strategy board snapshot", detail: "Awareness → demand → partnerships checklist for the week." },
+      {
+        id: "p1",
+        title: "90-Day Growth Plan",
+        detail: "sample objectives, audience, channel roles, experiments, budget assumptions, owners, and review dates. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Customer Journey Map",
+        detail: "fictional awareness-to-retention path with touchpoints and gaps. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Channel Priority Matrix",
+        detail: "sample comparison of opportunity, effort, cost, evidence, and business fit. (Sample concept.)",
+      }
     ],
-    skills: [
-      "Brand Awareness",
-      "Thought Leadership",
-      "Demand Generation",
-      "Strategic Partnerships",
-      "Community & Growth",
-      "Week-level growth plans",
-      "Offer narrative",
-      "Channel mix",
-      "People Develop People coaching",
-      "Strategy Drives Growth planning",
+    getStarted: [
+      {
+        title: "Share your business goal, audience, offer, and current marketing",
+        detail: "",
+      },
+      {
+        title: "Shelly identifies priorities and a testable plan",
+        detail: "",
+      },
+      {
+        title: "Approve the plan, assign owners, and review results on schedule",
+        detail: "",
+      }
     ],
+    guide: {
+      title: "Build a Focused 90-Day Marketing Plan",
+      summary: "",
+      steps: [
+        "Pick one measurable business outcome.",
+        "Describe the audience and why the offer fits their need.",
+        "Select two or three channels that match customer behavior and team capacity.",
+        "Plan specific actions, costs, owners, and measures.",
+        "Review monthly; stop, adjust, or expand based on qualified results."
+      ],
+      downloadCta: "Download the free 90-day marketing planner.",
+    },
   },
   caleb: {
-    tagline: "Search and AI visibility — not a fake SEO score.",
-    bio: "Caleb improves how you show up in search and AI answers with real visibility work.",
-    personality: ["SERP watcher", "Technical calm", "Dark mode forever"],
-    favoriteFood: "Burrito bowl",
+    tagline: "Help customers find clear, trustworthy answers about your business.",
+    bio: "I look for the real question behind a search and help the business answer it clearly. SEO and answer-engine visibility depend on many factors, so I focus on sound foundations, useful content, and transparent measurement.",
+    intro: "I review how your website, local listings, and content serve real search questions. My work focuses on technical access, useful information, local accuracy, and measurable improvements—not guaranteed rankings.",
+    specialtyLabel: "SEARCH, ANSWER ENGINE & AI VISIBILITY",
+    pageTitle: "Caleb Whitaker | SEO, AEO and GEO Specialist",
+    metaDescription: "Meet Caleb, the LeadsFlow180 search specialist who helps improve technical SEO, local visibility, helpful content, and eligibility to be understood by answer and AI search systems.",
+    askCta: "Ask Caleb about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Technical SEO reviews",
+      "Local search foundations",
+      "Search-intent research",
+      "AEO and GEO content",
+      "Measurement and reporting"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Technical SEO",
+      "Local SEO",
+      "Search intent",
+      "AEO/GEO content planning",
+      "On-page audits",
+      "Search reporting"
+    ],
     faqs: [
       {
-        q: "How does AI help with SEO and AI visibility?",
-        a: "Caleb structures pages, FAQs, and topical coverage so people — and AI systems — can find and cite you.",
+        q: "What is the difference between SEO, AEO, and GEO?",
+        a: "SEO helps content be discovered and understood in search. AEO focuses on clear answers to questions. GEO is a newer term for improving how content may be represented in generative or AI search experiences; practices and systems continue to change.",
       },
+      {
+        q: "How can a small business improve local SEO?",
+        a: "Keep business details accurate, create helpful pages for real services and locations, earn genuine customer reviews, make the website easy to use, and monitor relevant search and call outcomes.",
+      },
+      {
+        q: "How do I get my business into AI search results?",
+        a: "There is no guaranteed placement method. Make accurate business information and useful, well-structured content available on accessible pages, use trustworthy sources and clear expertise signals, and monitor how platforms represent you.",
+      },
+      {
+        q: "What should a local service business include on its website?",
+        a: "Explain each service, who it helps, where it is offered, what the process involves, how to request service, and what proof supports the business's claims.",
+      },
+      {
+        q: "How long does SEO take to work?",
+        a: "Timing varies by competition, site condition, authority, content, and search system changes. Track improvements over time; no responsible specialist can promise a specific ranking or date.",
+      }
     ],
     work: [
-      { id: "audit", title: "Visibility audit", detail: "Gaps in topics, titles, and internal links." },
-      { id: "faq", title: "FAQ cluster", detail: "Questions that win featured and AI answers." },
+      {
+        id: "p1",
+        title: "Local Search Visibility Audit",
+        detail: "sample audit covering crawl/index checks, business details, service pages, internal links, and measurement. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Customer Question Content Map",
+        detail: "sample search-question map grouped by intent and matched to useful page types. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Before-and-After Service Page Structure",
+        detail: "illustrative page outline with headings, service area, process, proof, and concise answers; no ranking claims. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Share your website, service area, and customer goals",
+        detail: "",
+      },
+      {
+        title: "Caleb audits the search foundations and customer questions",
+        detail: "",
+      },
+      {
+        title: "Review prioritized fixes and a measurement plan",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "Local SEO and AEO Starter Checklist for Small Businesses",
+      summary: "",
+      steps: [
+        "Make your name, address/service area, phone, hours, and services consistent.",
+        "Create a useful page for each important service; include process, location, proof, and next step.",
+        "Answer genuine customer questions directly, with enough context to be trustworthy.",
+        "Check that important pages can be crawled, load well, and work on mobile.",
+        "Measure calls, forms, qualified leads, and search visibility; rankings alone do not equal revenue."
+      ],
+      downloadCta: "Download the free Local SEO and AEO checklist.",
+    },
   },
   leila: {
-    tagline: "Brand graphics and slides that land in Done.",
-    bio: "Leila is lead product and visual designer — brand graphics and decks ready for your approval.",
-    personality: ["Color perfectionist", "Gallery hopper", "Quiet focus hours"],
-    favoriteFood: "Avocado toast",
+    tagline: "Design that helps people see what matters first.",
+    bio: "Good design helps people understand and act. I balance visual appeal with hierarchy, accessibility, brand fit, and the real needs of the people using the page or graphic.",
+    intro: "I turn business goals into clear visual experiences. I consider hierarchy, brand, accessibility, and the user's next step so design looks purposeful and works in context.",
+    specialtyLabel: "PRODUCT DESIGN & VISUAL COMMUNICATION",
+    pageTitle: "Leila Patel | AI Product and Graphic Designer",
+    metaDescription: "Meet Leila, the LeadsFlow180 designer who helps make websites, interfaces, graphics, and marketing materials clear, useful, and consistent with a brand.",
+    askCta: "Ask Leila about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Visual identity",
+      "Web and interface design",
+      "Marketing graphics",
+      "Layout and hierarchy",
+      "Design systems"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Graphic design",
+      "UI/UX design",
+      "Web layout",
+      "Visual systems",
+      "Brand consistency",
+      "Accessibility-aware design"
+    ],
     faqs: [
       {
-        q: "Can AI design brand graphics?",
-        a: "Leila drafts visuals and slides into Done for approval so creative moves fast without skipping your taste.",
+        q: "How can graphic design help a small business attract customers?",
+        a: "Clear graphics help a business communicate its offer, look consistent, and make the next step easy to see. Design supports a strong offer; it cannot guarantee customer response by itself.",
       },
+      {
+        q: "What makes a good website design?",
+        a: "A good website is easy to understand, navigate, and use on mobile. It presents relevant information in a clear order and supports the visitor's main task.",
+      },
+      {
+        q: "How do I make a flyer look professional?",
+        a: "Use one main message, readable type, consistent brand colors, strong contrast, accurate details, and a clear contact or response step. Leave enough space for the content to breathe.",
+      },
+      {
+        q: "What is visual hierarchy in design?",
+        a: "Visual hierarchy guides attention through size, placement, contrast, spacing, and typography so the viewer can tell what matters first.",
+      },
+      {
+        q: "Can you redesign my existing logo or website?",
+        a: "A designer can review the current work, understand what must stay, and propose improvements. Scope and deliverables should be agreed before design begins.",
+      }
     ],
     work: [
-      { id: "deck", title: "Pitch deck visuals", detail: "Clean slides aligned to brand." },
-      { id: "kit", title: "Campaign creative kit", detail: "Hero, social crops, and icons." },
+      {
+        id: "p1",
+        title: "Service Business Brand Starter",
+        detail: "sample color, type, logo usage, and graphic direction for a fictional local company. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Landing Page Wireframe to Visual Design",
+        detail: "sample page showing hierarchy, trust elements, and a clear CTA. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Campaign Graphic Set",
+        detail: "three coordinated social/email graphics with accessible text contrast and platform crops. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Share the audience, goal, brand assets, and examples you like",
+        detail: "",
+      },
+      {
+        title: "Leila proposes a visual direction or layout",
+        detail: "",
+      },
+      {
+        title: "Review a draft and approve refinements before final files are prepared",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "Make a Small-Business Graphic Easier to Notice and Understand",
+      summary: "",
+      steps: [
+        "Choose one audience and one message for the graphic.",
+        "Make the main benefit or event the strongest visual element.",
+        "Use readable type and high contrast, including on a phone screen.",
+        "Add only the details people need to act; verify dates and contact information.",
+        "Test the design at its actual size and include alt text when publishing online."
+      ],
+      downloadCta: "Download the free graphic design checklist.",
+    },
   },
   niki: {
-    tagline: "Brand video and motion for campaigns.",
-    bio: "Niki designs video and motion so campaigns feel alive without losing the brand.",
-    personality: ["Frame-by-frame patience", "Soundtrack hunter", "Golden-hour shooter"],
-    favoriteFood: "Fish tacos",
+    tagline: "Make the first seconds count—and give viewers a reason to stay.",
+    bio: "I think in images, movement, and moments. I help find the visual approach that makes a message feel memorable while keeping the story clear, accurate, and right for the audience.",
+    intro: "I help shape business ideas into visual stories, from short social videos to explainers and commercials. I plan the opening, pacing, imagery, sound, and message so every creative choice supports the audience and the goal.",
+    specialtyLabel: "VIDEO DESIGN & VISUAL STORYTELLING",
+    pageTitle: "Niki Kalogerakis | AI Video Design Specialist",
+    metaDescription: "Meet Niki, the LeadsFlow180 video designer who helps small businesses plan engaging videos, commercials, explainers, and social content with a clear audience and message.",
+    askCta: "Ask Niki about your video",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Video concepts and storyboards",
+      "Short-form video",
+      "Explainers and commercials",
+      "Visual pacing",
+      "Creative collaboration"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Video concepts",
+      "Storyboarding",
+      "Short-form content",
+      "Commercials",
+      "Explainer video planning",
+      "Visual direction",
+      "Accessibility-aware captions"
+    ],
     faqs: [
       {
-        q: "How does AI help with brand video?",
-        a: "Niki drafts motion concepts and cuts that match campaign briefs; final publish waits for approval.",
+        q: "How do I make a business video that gets attention?",
+        a: "Open with a relevant visual or question, make the audience and benefit clear, keep the story focused, use captions, and end with one useful next step. Attention cannot be guaranteed.",
       },
+      {
+        q: "How long should a social media video be?",
+        a: "Use the time needed to deliver one clear idea and check the platform's current format limits. A shorter video is not automatically better if it leaves out needed context.",
+      },
+      {
+        q: "What should a 30-second commercial include?",
+        a: "A clear opening, the customer need, what the business offers, a credible reason to trust it, and one direct call to action.",
+      },
+      {
+        q: "Do I need professional equipment to make a marketing video?",
+        a: "Not always. Clear audio, good lighting, a stable frame, and a focused message often matter more than expensive equipment. Production needs depend on the use and brand.",
+      },
+      {
+        q: "How do I plan an explainer video?",
+        a: "Define the audience and learning goal, write a concise script, match visuals to each point, add captions, and test whether viewers understand the intended takeaway.",
+      }
     ],
     work: [
-      { id: "reel", title: "Campaign reel concept", detail: "15-second hook for paid and organic." },
-      { id: "motion", title: "Logo motion study", detail: "Subtle brand intro for video opens." },
+      {
+        id: "p1",
+        title: "30-Second Home Service Commercial",
+        detail: "sample storyboard with a strong opening, problem, service proof, and clear booking action. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Social Video Series",
+        detail: "three short-video concepts showing a useful tip, behind-the-scenes process, and customer question. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Explainer Video Treatment",
+        detail: "sample script, shot list, motion notes, captions, and sound plan for a fictional product. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Tell Niki the audience, message, platform, and desired action",
+        detail: "",
+      },
+      {
+        title: "Niki creates a concept, storyboard, or production plan",
+        detail: "",
+      },
+      {
+        title: "Review the script and visuals before production begins",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "Design a Business Video That Holds Attention",
+      summary: "",
+      steps: [
+        "Choose one viewer and one outcome for the video.",
+        "Put the most relevant moment, question, or benefit in the opening.",
+        "Use each shot to explain, prove, or advance the message.",
+        "Keep spoken lines concise; add accurate captions and readable on-screen text.",
+        "End with one clear action and check the finished video on a phone with sound off."
+      ],
+      downloadCta: "Download the free video planning and storyboard worksheet.",
+    },
   },
   jordan: {
-    tagline: "First touch to close — pipeline, funnels, partners.",
-    bio: "Jordan directs sales and business development: pipeline, funnels, proposals, partners, and affiliates.",
-    personality: ["Relationship builder", "Follow-up discipline", "Friday pipeline review"],
-    favoriteFood: "Cheeseburger and fries",
+    tagline: "Better sales conversations start by understanding the real need.",
+    bio: "I focus on the customer's problem and the business's ability to solve it. A good sales process helps both sides decide whether there is a fit and what should happen next.",
+    intro: "I help you prepare for customer conversations, ask better questions, and identify a practical next step. The goal is a good-fit customer and a clear decision—not pressure for its own sake.",
+    specialtyLabel: "SALES CONVERSATIONS & BUSINESS DEVELOPMENT",
+    pageTitle: "Jordan Brooks | AI Sales and Business Development Coach",
+    metaDescription: "Meet Jordan, the LeadsFlow180 AI sales specialist who helps small businesses qualify leads, prepare conversations, and create a clear follow-up process.",
+    askCta: "Ask Jordan about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Lead qualification",
+      "Discovery questions",
+      "Sales scripts",
+      "Objection preparation",
+      "Follow-up planning"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Lead qualification",
+      "Discovery calls",
+      "Sales enablement",
+      "Follow-up systems",
+      "Objection handling",
+      "Pipeline review"
+    ],
     faqs: [
       {
-        q: "How does an AI sales director work with humans?",
-        a: "Jordan drafts outreach, proposals, and next steps — you approve offers and close the relationship.",
+        q: "How do I qualify a sales lead?",
+        a: "Confirm the person's need, fit with your service, timing, decision process, and willingness to take a next step. Avoid treating interest alone as a guaranteed sale.",
       },
+      {
+        q: "What questions should I ask on a discovery call?",
+        a: "Ask what prompted the conversation, what outcome they want, what they have tried, what constraints matter, and how they will evaluate a solution.",
+      },
+      {
+        q: "How often should I follow up with a prospect?",
+        a: "Set a reasonable cadence based on the conversation and channel permissions. Make each follow-up useful, respect requests to stop, and do not send messages just to fill a quota.",
+      },
+      {
+        q: "How do I handle \"I need to think about it\"?",
+        a: "Ask what information would help them decide and agree on whether and when to reconnect. Do not pressure someone who is not ready.",
+      },
+      {
+        q: "What makes a sales script effective?",
+        a: "It gives structure and key questions while leaving room for a natural conversation. It should not force claims or make every prospect sound the same.",
+      }
     ],
     work: [
-      { id: "pipeline", title: "Pipeline stage map", detail: "From lead capture to signed deal." },
-      { id: "proposal", title: "Proposal outline", detail: "Problem, plan, pricing, next step." },
+      {
+        id: "p1",
+        title: "Discovery Call Playbook",
+        detail: "sample opening, needs questions, fit checks, and close for a fictional service business. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Lead Follow-Up Sequence",
+        detail: "sample call, email, and reminder cadence with opt-out and consent considerations. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Sales Pipeline Review",
+        detail: "mock pipeline with stage definitions, next actions, and sample coaching notes; no invented results. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Explain your offer and current sales challenge",
+        detail: "",
+      },
+      {
+        title: "Jordan maps the conversation and follow-up needs",
+        detail: "",
+      },
+      {
+        title: "Practice the approach, then review what customers actually say",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "The 10-Minute Discovery Call Planner",
+      summary: "",
+      steps: [
+        "State the purpose and ask permission to learn about the customer's needs.",
+        "Ask open questions about the problem, impact, and desired outcome.",
+        "Confirm fit, timeline, decision factors, and any constraints.",
+        "Summarize what you heard and check that you understood correctly.",
+        "Offer a relevant next step—or say clearly when the fit is not right."
+      ],
+      downloadCta: "Download the free discovery call planner.",
+    },
   },
   ali: {
-    tagline: "Build smarter together.",
-    bio: "Ali Khan is Lead Full Stack Engineer. He ships site and product pages with Carlos — scalable, reliable, and human-centered. His Build Smarter Together board checks Scalable, Reliable, Human-Centered, and Big Opportunities. Sci-fi stack on the desk, family photo nearby, controller for after ship. Changes land for review before they go live.",
+    tagline: "Practical software built around clear requirements.",
+    bio: "Reliable software starts with clear requirements. I ask what users need to accomplish, then build the simplest maintainable solution that meets those needs and can be tested.",
+    intro: "I help turn a defined business need into a working web experience. I focus on understanding requirements, choosing a maintainable approach, and making sure the finished feature is tested against the goal.",
+    specialtyLabel: "WEB APPLICATIONS & SOFTWARE DEVELOPMENT",
+    pageTitle: "Ali Khan | AI Full-Stack Web Developer",
+    metaDescription: "Meet Ali, the LeadsFlow180 full-stack engineering specialist who helps plan and build reliable web applications, websites, and software features.",
+    askCta: "Ask Ali about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
     personality: [
-      "Whiteboard: Build Smarter Together",
-      "Checked: Scalable, Reliable, Human-Centered, Big Opportunities",
-      "People Process Progress on the wall",
+      "Front-end and back-end development",
+      "Web applications",
+      "API integration",
+      "Requirements clarification",
+      "Testing and maintenance",
+      "Whiteboard: Build Smarter Together — Scalable, Reliable, Human-Centered, Big Opportunities",
       "Sci-fi stack: Dune, Project Hail Mary, The Expanse",
-      "Family photo on the desk",
-      "Game controller after deploy",
-      "Partners with Carlos on WordPress and pages",
+      "Family photo on the desk"
     ],
-    favoriteFood: "Shawarma plate",
+    favoriteFood: "TBD",
+    skills: [
+      "Full-stack development",
+      "Front-end interfaces",
+      "Back-end services",
+      "API integration",
+      "Data modeling",
+      "Debugging and testing"
+    ],
     faqs: [
       {
-        q: "What does a Lead Full Stack Engineer do here?",
-        a: "Ali builds and fixes websites and product pages with Carlos — production-ready work that holds up under real traffic.",
+        q: "What is full-stack web development?",
+        a: "Full-stack development covers the user-facing parts of a web product and the server, data, and integrations that support them.",
       },
       {
-        q: "What is Build Smarter Together?",
-        a: "Ali's quality bar on glass: Scalable, Reliable, Human-Centered, and aimed at Big Opportunities — not throwaway demos.",
+        q: "How much does it cost to build a web application?",
+        a: "Cost depends on scope, integrations, security, design, and ongoing support. Define the first useful version and request a scoped estimate before development.",
       },
       {
-        q: "Does code ship without approval?",
-        a: "No. Ali drafts and implements; launches and production changes wait for your review.",
+        q: "How long does it take to build a website or app?",
+        a: "Timelines vary with requirements, content, design, integrations, and review. A small, clear first release is usually easier to estimate than a broad feature list.",
       },
       {
-        q: "How does Ali work with Carlos?",
-        a: "Ali owns full-stack delivery; Carlos specializes in WordPress — together they keep sites fast, editable, and on brand.",
+        q: "What should I prepare before hiring a developer?",
+        a: "Explain the users, problem, key tasks, required data, integrations, examples, budget range, and what success should look like.",
       },
       {
-        q: "What is on Ali's desk for downtime?",
-        a: "Dune, Project Hail Mary, The Expanse, a family photo, and a controller — human-centered work includes humans.",
-      },
+        q: "How do I keep custom software maintainable?",
+        a: "Use clear requirements, understandable code, version control, testing, documentation, secure access, and a plan for updates and ownership.",
+      }
     ],
     work: [
-      { id: "page", title: "Marketing page build", detail: "Fast, accessible section layout ready for review." },
-      { id: "form", title: "Lead form hardening", detail: "Validation and thank-you flow that does not drop leads." },
-      { id: "bar", title: "Build Smarter checklist", detail: "Scalable / Reliable / Human-Centered pass before ship." },
+      {
+        id: "p1",
+        title: "Small-Business Booking Web App",
+        detail: "functional demo concept with service selection, availability, and confirmation states; use sample data only. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Customer Portal Dashboard",
+        detail: "sample responsive interface for appointments, documents, and account updates. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "API-Connected Lead Intake",
+        detail: "demo form-to-CRM flow with validation, error states, and privacy-conscious data handling. (Sample concept.)",
+      }
     ],
-    skills: [
-      "Full-stack delivery",
-      "Scalable architecture",
-      "Reliable production systems",
-      "Human-Centered product work",
-      "Big Opportunities roadmap",
-      "Marketing page builds",
-      "Lead form hardening",
-      "Performance checks",
-      "Partner handoffs with Carlos",
-      "Build Smarter Together QA",
+    getStarted: [
+      {
+        title: "Explain the user problem and required outcome",
+        detail: "",
+      },
+      {
+        title: "Ali clarifies scope and proposes a technical approach",
+        detail: "",
+      },
+      {
+        title: "Review milestones, test criteria, and ownership before building",
+        detail: "",
+      }
     ],
+    guide: {
+      title: "Plan Your First Useful Web App Version",
+      summary: "",
+      steps: [
+        "Name the user and the task they need to complete.",
+        "List only the features required for that task.",
+        "Identify data, permissions, integrations, and failure cases.",
+        "Sketch the main screens and define acceptance criteria.",
+        "Plan testing, hosting, maintenance, and who owns the code and accounts."
+      ],
+      downloadCta: "Download the free web app planning brief.",
+    },
   },
   carlos: {
-    tagline: "Good sites build business.",
-    bio: "Carlos Rivera is the WordPress Specialist. He partners with Ali on websites and pages — especially WordPress builds owners can still run. Welcome to WordPress stays on the glass; Good Sites Build Business sits on the mug; Build Optimize Grow is on the wall. Dominoes and a motorcycle print remind you the craft has personality. Updates ship with clear handoff notes.",
+    tagline: "A WordPress site that works well behind the scenes, too.",
+    bio: "I look under the hood before recommending changes. A WordPress site should be stable, useful, and manageable for the business—not weighed down by unnecessary plugins or quick fixes that create future problems.",
+    intro: "I help small businesses improve WordPress websites, from fixing practical issues to building service pages and improving performance. I check the foundation before adding more tools or visual polish.",
+    specialtyLabel: "WORDPRESS WEBSITES & SITE IMPROVEMENT",
+    pageTitle: "Carlos Rivera | AI WordPress Website Specialist",
+    metaDescription: "Meet Carlos, the LeadsFlow180 WordPress specialist who helps build, repair, improve, and maintain practical WordPress websites.",
+    askCta: "Ask Carlos about your website",
+    ctaHelper: "Free 5-minute chat. No obligation.",
     personality: [
+      "WordPress troubleshooting",
+      "Page building",
+      "Performance review",
+      "Plugin and theme checks",
+      "Site maintenance",
       "Mug motto: Good Sites Build Business",
       "Build Optimize Grow on the wall",
       "WordPress dashboard on the monitor",
-      "WordPress W cap on the shelf",
-      "Dominoes box on the desk",
-      "Vintage motorcycle print",
-      "Desk stack: The Grilling Bible, Motor Trend",
-      "Globe on the bookshelf — builds that travel well",
+      "Dominoes box on the desk"
     ],
-    favoriteFood: "Empanadas",
+    favoriteFood: "TBD",
+    skills: [
+      "WordPress setup and maintenance",
+      "Theme and plugin review",
+      "Website repair",
+      "Page design",
+      "Performance basics",
+      "Content structure"
+    ],
     faqs: [
       {
-        q: "What does a WordPress Specialist handle?",
-        a: "Carlos drafts theme polish, landing sections, and maintainable WP updates so your site stays fast and editable.",
+        q: "How much does a WordPress website cost?",
+        a: "Price depends on design, content, page count, integrations, hosting, and maintenance. Agree on scope, ownership, and ongoing costs before work begins.",
       },
       {
-        q: "Can AI maintain a WordPress site?",
-        a: "Yes — with handoff notes. Carlos prepares the change; you approve before it goes live.",
+        q: "Why is my WordPress website slow?",
+        a: "Causes can include hosting limits, large images, inefficient plugins or themes, scripts, or configuration. Measure first, then fix the largest verified problems.",
       },
       {
-        q: "How does Carlos work with Ali?",
-        a: "Carlos owns the WordPress craft; Ali covers full-stack delivery. Together they keep marketing pages production-ready.",
+        q: "How often should I update WordPress plugins?",
+        a: "Keep WordPress, themes, and plugins maintained with backups and a tested update process. Timing depends on security notices and compatibility; do not ignore critical updates.",
       },
       {
-        q: "What does Build Optimize Grow mean?",
-        a: "Carlos's wall motto: ship the page, tighten performance, then grow traffic and conversions — in that order.",
+        q: "How do I secure a WordPress website?",
+        a: "Use supported software, strong unique credentials, least-privilege accounts, backups, HTTPS, reputable hosting, and a recovery plan. No single plugin guarantees security.",
       },
       {
-        q: "Will my site stay editable?",
-        a: "That is the point. Carlos avoids plugin sprawl and leaves clear notes so owners are not locked out of their own site.",
-      },
+        q: "Do I need a plugin for every website feature?",
+        a: "No. Each plugin adds maintenance and possible compatibility or security concerns. Use a plugin when it is maintained, necessary, and appropriate for the site.",
+      }
     ],
     work: [
-      { id: "theme", title: "Theme polish pass", detail: "Spacing, type, and mobile fixes on a live WP theme." },
-      { id: "landing", title: "WP landing section", detail: "Campaign block ready to publish after approval." },
-      { id: "handoff", title: "Owner handoff notes", detail: "How to edit, where assets live, what not to break." },
+      {
+        id: "p1",
+        title: "Local Contractor Website Refresh",
+        detail: "sample home, service, about, and contact pages for a fictional business. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "WordPress Speed and Stability Report",
+        detail: "sample findings with prioritized fixes and measurement notes; no invented speed scores. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Service Area Landing Page Set",
+        detail: "three sample page layouts with unique, useful information rather than duplicate city-name pages. (Sample concept.)",
+      }
     ],
-    skills: [
-      "WordPress builds",
-      "Theme polish",
-      "Landing sections",
-      "Build Optimize Grow",
-      "Owner handoff notes",
-      "Plugin minimalism",
-      "Mobile fixes",
-      "Maintainable updates",
-      "Performance pass",
-      "Good Sites Build Business craft",
+    getStarted: [
+      {
+        title: "Share your site address and the issue or goal",
+        detail: "",
+      },
+      {
+        title: "Carlos reviews the relevant setup and scope",
+        detail: "",
+      },
+      {
+        title: "Approve a fix or improvement plan with backup and testing steps",
+        detail: "",
+      }
     ],
+    guide: {
+      title: "WordPress Website Health Check for Owners",
+      summary: "",
+      steps: [
+        "Confirm hosting, domain, admin access, and renewal ownership.",
+        "Check that WordPress, themes, and plugins are supported and maintained.",
+        "Confirm recent backups can be restored and access is limited to the right people.",
+        "Test key pages and forms on mobile; remove tools that are no longer needed.",
+        "Record baseline performance and resolve the highest-impact issue first."
+      ],
+      downloadCta: "Download the free WordPress site health checklist.",
+    },
   },
   omar: {
-    tagline: "Workflows that follow up while you work the next lead.",
-    bio: "Omar covers platform, DevOps, infrastructure, and cloud — the pipes that keep automation reliable.",
-    personality: ["Uptime pride", "Runbook writer", "Night-owl deploys"],
-    favoriteFood: "Chicken biryani",
+    tagline: "Build a safer, more reliable foundation for your technology.",
+    bio: "Reliability comes from knowing what is running, what can fail, and how to recover. I take a measured approach: assess the environment, explain risk in plain language, and recommend changes with a rollback or recovery plan.",
+    intro: "I help assess the infrastructure behind your business systems. We look at access, backups, updates, monitoring, and recovery so you can understand practical risks and plan responsible improvements.",
+    specialtyLabel: "CLOUD INFRASTRUCTURE & SECURITY",
+    pageTitle: "Omar Haddad | AI Cloud Infrastructure and Security Specialist",
+    metaDescription: "Meet Omar, the LeadsFlow180 infrastructure specialist who helps review cloud setup, reliability, access controls, backups, and security practices.",
+    askCta: "Ask Omar about your infrastructure",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "Cloud and server planning",
+      "Deployment reliability",
+      "Access control review",
+      "Backup and recovery planning",
+      "Security posture reporting"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "Cloud infrastructure",
+      "DevOps",
+      "Network administration",
+      "Access controls",
+      "Backup and recovery",
+      "Security reviews"
+    ],
     faqs: [
       {
-        q: "How does AI DevOps help a small team?",
-        a: "Omar keeps workflows, hosting, and follow-ups stable so marketing and sales tools do not fall over mid-campaign.",
+        q: "What is a cloud security assessment?",
+        a: "It is a structured review of cloud assets, identities, access, configuration, updates, monitoring, and recovery practices to identify risks and prioritize fixes.",
       },
+      {
+        q: "How do I protect a small business server?",
+        a: "Keep software updated, restrict access, use unique credentials and multifactor authentication, monitor logs, maintain tested backups, and document how to recover.",
+      },
+      {
+        q: "How often should I back up my business data?",
+        a: "Set frequency based on how much data you can afford to lose and how quickly you need recovery. Test restores regularly; an untested backup may not be usable.",
+      },
+      {
+        q: "What is the difference between a backup and disaster recovery?",
+        a: "A backup is a copy of data. Disaster recovery is the broader plan to restore systems, access, and business operations after an incident.",
+      },
+      {
+        q: "How do I know if my cloud setup is secure?",
+        a: "Review identity permissions, exposed services, software updates, encryption, logging, backup and restore tests, and incident procedures. Security is ongoing and cannot be guaranteed by one scan.",
+      }
     ],
     work: [
-      { id: "flow", title: "Follow-up automation", detail: "Trigger → wait → nudge, with guards." },
-      { id: "health", title: "Infra health checklist", detail: "What to watch before a launch." },
+      {
+        id: "p1",
+        title: "Cloud Security Posture Snapshot",
+        detail: "illustrative report with asset inventory, access review, patch status, backup evidence, and prioritized findings. Do not expose real IPs, credentials, or vulnerabilities. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Backup and Recovery Runbook",
+        detail: "sample recovery objectives, backup schedule, restore test, owners, and escalation steps. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Deployment and Rollback Diagram",
+        detail: "demo architecture showing staging, production, monitoring, and safe rollback path. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Describe your systems and main concern; do not send passwords in chat",
+        detail: "",
+      },
+      {
+        title: "Omar scopes a safe review and evidence needed",
+        detail: "",
+      },
+      {
+        title: "Review prioritized findings and approve a remediation and recovery plan",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "Small-Business Cybersecurity Foundation Checklist",
+      summary: "",
+      steps: [
+        "List important accounts, systems, devices, and who owns them.",
+        "Turn on multifactor authentication and remove unused access.",
+        "Patch supported systems and protect admin accounts.",
+        "Back up critical information and test restoring it.",
+        "Write down who to contact and what to do if an account or system is compromised."
+      ],
+      downloadCta: "Download the free cybersecurity foundation checklist.",
+    },
   },
   nova: {
-    tagline: "Data → LLM → Agents → Outcomes.",
-    bio: "Nova Chen is Chief AI Architect. She designs how agents share context and tools so work compounds instead of restarting every chat. Her AI Automation board maps Data → LLM → Agents → Tools, Workflows, and Outcomes. Clean Architecture, Designing LLM Systems, and the AI Automation Playbook sit on the desk. Katana and anime on the shelf — serious systems, human taste. Research feeds the floor; you still approve what ships.",
+    tagline: "Use AI where it solves a real business problem.",
+    bio: "I'm curious about new technology, but I test it against the job it needs to do. A useful AI system should improve a workflow in a measurable way while fitting the business's cost, privacy, and review requirements.",
+    intro: "I help evaluate AI systems and automation with practical tests. We compare quality, reliability, cost, speed, and risks so new technology earns its place in your workflow instead of adding complexity.",
+    specialtyLabel: "AI SYSTEMS & BUSINESS AUTOMATION",
+    pageTitle: "Nova Chen | AI Automation and Systems Architect",
+    metaDescription: "Meet Nova, the LeadsFlow180 AI systems specialist who evaluates automation and AI tools against business needs, quality, reliability, latency, and cost.",
+    askCta: "Ask Nova about AI for your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
     personality: [
+      "AI tool evaluation",
+      "Workflow automation",
+      "Model comparisons",
+      "Cost and latency reviews",
+      "Pilot planning",
       "AI Automation board: Data → LLM → Agents → Tools / Workflows / Outcomes",
       "Shelf sign: Build Automate Scale",
-      "Desk stack: Clean Architecture, Designing LLM Systems, AI Automation Playbook",
-      "LF180 water bottle on the desk",
-      "Katana on the shelf",
-      "Anime figurines and framed art by the window",
-      "Code on the monitor — architecture in the open",
+      "Katana and anime art on the shelf"
     ],
-    favoriteFood: "Miso soup and rice",
+    favoriteFood: "TBD",
+    skills: [
+      "AI system design",
+      "Automation planning",
+      "Model evaluation",
+      "Workflow mapping",
+      "Cost and latency analysis",
+      "Human-in-the-loop design"
+    ],
     faqs: [
       {
-        q: "What does a Chief AI Architect do in an AI office?",
-        a: "Nova designs how agents share context, tools, and handoffs so the floor compounds work instead of restarting every conversation.",
+        q: "How can a small business use AI automation?",
+        a: "Start with a repeated, well-defined task such as sorting inquiries or drafting routine responses. Set human review, privacy, error handling, and a way to measure whether the workflow improves.",
       },
       {
-        q: "What is on the AI Automation board?",
-        a: "Data feeds the LLM, which powers Agents, which then use Tools and Workflows to drive Outcomes — Nova’s operating diagram.",
+        q: "Which AI tool is best for my business?",
+        a: "The best fit depends on the task, data, quality needs, integrations, cost, privacy, and support. Test options with representative examples before committing.",
       },
       {
-        q: "Does Nova change production systems alone?",
-        a: "No. She drafts architecture and automation plans; you approve anything that changes how the business or customer data is handled.",
+        q: "How much does AI automation cost?",
+        a: "Costs may include software, usage, setup, integration, monitoring, and human review. Estimate the full workflow cost, not only the model price.",
       },
       {
-        q: "How does Nova help the rest of the team?",
-        a: "She feeds research and shared tooling into Growth, Creative, and Ops so specialists work from the same context.",
+        q: "Can AI make business decisions without human review?",
+        a: "Some low-risk tasks may be automated with safeguards. High-impact, sensitive, financial, or customer-specific decisions should have appropriate human oversight.",
       },
       {
-        q: "What books shape Nova’s stack?",
-        a: "Clean Architecture, Designing LLM Systems, and AI Automation Playbook — practical systems design for AI teams.",
-      },
+        q: "How do I know if an AI pilot is working?",
+        a: "Set a baseline and success measures before launch, test representative cases, track errors and review time, and compare total cost and quality with the current process.",
+      }
     ],
     work: [
-      { id: "map", title: "Agent workflow map", detail: "Who hands off to whom, and when." },
-      { id: "eval", title: "Quality assessment", detail: "Checks before drafts hit Done." },
-      { id: "flow", title: "Data-LLM-Agents diagram", detail: "Automation path from input to owner-ready outcomes." },
+      {
+        id: "p1",
+        title: "AI Vendor Evaluation Scorecard",
+        detail: "sample comparison across task quality, privacy, integration, reliability, cost, and human review needs. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Automated Lead Intake Workflow",
+        detail: "demo flow with validation, consent, error handling, and human handoff. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "AI Pilot Results Brief",
+        detail: "fictional test plan and reporting template; clearly separate measured results from hypotheses. (Sample concept.)",
+      }
     ],
-    skills: [
-      "AI architecture",
-      "Data → LLM → Agents design",
-      "Tools / Workflows / Outcomes automation",
-      "Designing LLM systems",
-      "Clean Architecture",
-      "AI Automation playbooks",
-      "Agent workflow maps",
-      "Quality evaluations",
-      "Build Automate Scale",
-      "Owner-safe change plans",
+    getStarted: [
+      {
+        title: "Describe the task, volume, and current process",
+        detail: "",
+      },
+      {
+        title: "Nova maps risks and test criteria",
+        detail: "",
+      },
+      {
+        title: "Run a limited pilot and review measured quality, cost, and time saved",
+        detail: "",
+      }
     ],
+    guide: {
+      title: "A Small-Business AI Pilot Scorecard",
+      summary: "",
+      steps: [
+        "State the task and the problem it causes today.",
+        "Define quality, speed, cost, and safety measures before testing.",
+        "Test normal cases, edge cases, and failure cases using non-sensitive data where possible.",
+        "Record human review time, errors, and integration effort.",
+        "Continue only if the full workflow beats the current approach and risks are manageable."
+      ],
+      downloadCta: "Download the free AI pilot scorecard.",
+    },
   },
   amir: {
-    tagline: "Pipeline health and readable KPIs.",
-    bio: "Amir owns operations, reporting, and KPI management — numbers founders can actually use.",
-    personality: ["Dashboard gardener", "Precision over flash", "Morning metrics scan"],
-    favoriteFood: "Falafel plate",
+    tagline: "Know what the numbers mean—and what to do next.",
+    bio: "I want every number to have a definition and a purpose. A useful report makes it clear what changed, how confident we are in the data, who owns the next step, and when we will review it.",
+    intro: "I help turn business activity into useful operating information. We define measures clearly, review the source data, and connect performance changes to decisions and owners.",
+    specialtyLabel: "BUSINESS OPERATIONS & KPI REPORTING",
+    pageTitle: "Amir Rahman | AI Operations and KPI Reporting Specialist",
+    metaDescription: "Meet Amir, the LeadsFlow180 operations specialist who helps define business KPIs, build clear dashboards, and connect numbers to owners and next steps.",
+    askCta: "Ask Amir about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
+    personality: [
+      "KPI definitions",
+      "Weekly reporting",
+      "Operations dashboards",
+      "Data quality checks",
+      "Owner and action tracking"
+    ],
+    favoriteFood: "TBD",
+    skills: [
+      "KPI design",
+      "Dashboard planning",
+      "Operations reporting",
+      "Process tracking",
+      "Data validation",
+      "Action ownership"
+    ],
     faqs: [
       {
-        q: "What KPIs should a lead-gen team watch?",
-        a: "Amir focuses on pipeline health, conversion by stage, and capacity — not vanity charts.",
+        q: "What KPIs should a small business track?",
+        a: "Track measures tied to current goals, such as qualified leads, conversion, response time, repeat business, delivery capacity, margin, and cash flow. The right set depends on the business model.",
       },
+      {
+        q: "How do I build a KPI dashboard?",
+        a: "Define each metric, identify its data source and owner, set a useful review period, show trend and target where appropriate, and highlight actions—not just numbers.",
+      },
+      {
+        q: "What is the difference between a KPI and a metric?",
+        a: "A metric measures activity or an outcome. A KPI is a measure selected because it is important to a specific business goal.",
+      },
+      {
+        q: "Why do my reports show different numbers?",
+        a: "Common causes include different date ranges, duplicate records, inconsistent definitions, delayed updates, or different source systems. Reconcile definitions and sources before acting.",
+      },
+      {
+        q: "How often should a small business review KPIs?",
+        a: "Review operational measures often enough to act on them—weekly for many workflows—and financial or strategic measures on an appropriate monthly or quarterly schedule.",
+      }
     ],
     work: [
-      { id: "dash", title: "Ops dashboard sketch", detail: "Weekly owner view of pipeline health." },
-      { id: "report", title: "KPI narrative", detail: "What moved, why, and what to do." },
+      {
+        id: "p1",
+        title: "Small-Business KPI Scorecard",
+        detail: "mock weekly view of leads, bookings, response time, completed jobs, and cash collected, with definitions and data notes. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Operations Health Report",
+        detail: "sample report showing targets, actuals, trend, variance, likely cause, and next action; clearly label sample data. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Lead-to-Cash Process Map",
+        detail: "fictional workflow showing handoffs, timing measures, and where data should be recorded. (Sample concept.)",
+      }
     ],
+    getStarted: [
+      {
+        title: "Choose the business outcome you want to improve",
+        detail: "",
+      },
+      {
+        title: "Amir defines the measures, sources, and review rhythm",
+        detail: "",
+      },
+      {
+        title: "Review a sample report and assign the actions it reveals",
+        detail: "",
+      }
+    ],
+    guide: {
+      title: "The Small-Business KPI Starter Kit",
+      summary: "",
+      steps: [
+        "Choose one business goal for the next 90 days.",
+        "Select a small set of measures that show progress and quality.",
+        "Write a plain-language definition and source for each measure.",
+        "Name the person responsible for data quality and review.",
+        "Discuss the trend, cause, and next action—not just whether a target was hit."
+      ],
+      downloadCta: "Download the free KPI dashboard planning sheet.",
+    },
   },
   dante: {
-    tagline: "A brighter financial future.",
-    bio: "Dante' Price is Finance Director. He drafts books, forecasts, and CFO-style strategy notes — Financial Overview on the glass, Corporate Finance / Investment Strategies / Wealth Management on the desk. People Process Progress is on the wall; travel books and skyline photos remind you money serves a life. The owner issues and pays. No bank logins. Ever.",
+    tagline: "See the financial picture before you make the next move.",
+    bio: "Good financial planning starts by making assumptions visible. I help compare options and understand cash timing, costs, risks, and potential upside so business owners can make informed decisions.",
+    intro: "I help organize business financial information into clear budgets, cash-flow views, and planning scenarios. My work supports better questions and decisions; it does not replace a licensed accountant, tax professional, or financial adviser.",
+    specialtyLabel: "FINANCE, CASH FLOW & BUSINESS PLANNING",
+    pageTitle: "Dante' Price | AI Finance and Business Planning Specialist",
+    metaDescription: "Meet Dante', the LeadsFlow180 finance specialist who helps organize budgets, cash-flow views, forecasts, and decision scenarios for small businesses.",
+    askCta: "Ask Dante' about your business",
+    ctaHelper: "Free 5-minute chat. No obligation.",
     personality: [
-      "Financial Overview: Revenue Trend, Expense Breakdown, cash & forecast metrics",
+      "Budget planning",
+      "Cash-flow forecasting",
+      "Scenario analysis",
+      "Financial reporting",
+      "Assumption review",
+      "Financial Overview dashboard on the monitor",
       "People Process Progress on the wall",
-      "Desk stack: Corporate Finance, Investment Strategies, Wealth Management",
-      "Shelf: Financial Planning, Behavioral Finance, The Intelligent Investor",
-      "Travel books and photos: Dubai, London, Eiffel Tower, Burj Khalifa",
-      "Side table: A Brighter Financial Future",
-      "LEADSFLOW180 mug on the desk",
+      "Side table: A Brighter Financial Future"
     ],
-    favoriteFood: "Seared salmon",
+    favoriteFood: "TBD",
+    skills: [
+      "Budgeting",
+      "Cash-flow planning",
+      "Forecasting",
+      "Scenario analysis",
+      "Pricing support",
+      "Management reporting"
+    ],
     faqs: [
       {
-        q: "What does a Finance Director do in AI Office?",
-        a: "Dante drafts books, forecasts, and finance checklists. You keep banking credentials and approve anything that moves money.",
+        q: "How do I create a cash-flow forecast for a small business?",
+        a: "List expected cash receipts and payments by week or month, use realistic timing, identify assumptions, and update the forecast as actuals arrive.",
       },
       {
-        q: "How can AI help with finance safely?",
-        a: "Drafts and recommendations only — no bank logins. Dante prepares; you issue, pay, and approve.",
+        q: "What is the difference between profit and cash flow?",
+        a: "Profit compares revenue and expenses over a period under accounting rules. Cash flow tracks when money actually enters and leaves the business; the timing can differ.",
       },
       {
-        q: "What is on Dante’s Financial Overview?",
-        a: "Owner-readable charts — line, bar, and mix views — so cash and performance are clear without vanity noise.",
+        q: "How much should my business keep in an emergency fund?",
+        a: "The right reserve depends on fixed costs, revenue stability, obligations, access to credit, and risk. Model several months of expenses and discuss the target with your financial professional.",
       },
       {
-        q: "What books shape Dante’s advice?",
-        a: "Corporate Finance, Investment Strategies, Wealth Management on the desk; Behavioral Finance and The Intelligent Investor on the shelf.",
+        q: "How do I know if I can afford to hire an employee?",
+        a: "Estimate total employment cost, expected workload and revenue, cash timing, and downside scenarios. Confirm legal and tax details with qualified professionals.",
       },
       {
-        q: "Will Dante access my bank?",
-        a: "Never. Finance work here is draft-only. Credentials and payments stay with you.",
-      },
+        q: "Can an AI finance assistant give tax or investment advice?",
+        a: "AI can help organize information and explain general concepts, but tax, legal, investment, and accounting decisions should be reviewed with qualified professionals familiar with your circumstances.",
+      }
     ],
     work: [
-      { id: "forecast", title: "Cash forecast draft", detail: "Simple forward look for owners." },
-      { id: "books", title: "Monthly books checklist", detail: "What to review before close." },
-      { id: "overview", title: "Financial Overview pack", detail: "One-page chart narrative: what moved and why." },
+      {
+        id: "p1",
+        title: "13-Week Cash-Flow Forecast",
+        detail: "sample template with clearly labeled fictional figures, expected receipts, obligations, and assumptions. (Sample concept.)",
+      },
+      {
+        id: "p2",
+        title: "Service Pricing and Margin Model",
+        detail: "illustrative calculator showing labor, materials, overhead assumptions, and contribution margin. (Sample concept.)",
+      },
+      {
+        id: "p3",
+        title: "Growth Investment Scenario Brief",
+        detail: "sample best/base/worst-case comparison for hiring or advertising, with risks and break-even assumptions. (Sample concept.)",
+      }
     ],
-    skills: [
-      "Financial Overview dashboards",
-      "Cash forecasts",
-      "Expense breakdown analysis",
-      "Revenue trend reporting",
-      "Books checklists",
-      "Corporate Finance",
-      "Investment Strategies",
-      "Wealth Management",
-      "Behavioral Finance literacy",
-      "Zero bank-login policy",
+    getStarted: [
+      {
+        title: "Share the business decision and relevant, non-sensitive figures",
+        detail: "",
+      },
+      {
+        title: "Dante' organizes assumptions and scenarios",
+        detail: "",
+      },
+      {
+        title: "Review the analysis with your accountant or adviser before acting where needed",
+        detail: "",
+      }
     ],
+    guide: {
+      title: "Build a Simple 13-Week Cash-Flow View",
+      summary: "",
+      steps: [
+        "Record the starting cash balance from a verified source.",
+        "Estimate receipts by the week you expect to collect them—not just invoice date.",
+        "Schedule payroll, bills, taxes, debt, and other known outflows.",
+        "Mark uncertain assumptions and model a conservative scenario.",
+        "Update actuals weekly and investigate gaps early."
+      ],
+      downloadCta: "Download the free cash-flow planning worksheet.",
+    },
   },
 };
 
 function officePhotoFor(agent: Agent): string {
-  // Reason: newest office stills ship as jpg; keep webp/png as fallbacks.
-  return `/agents/offices/${agent.id}.jpg`;
+  // Reason: high-res office stills land as png; jpg/webp remain fallbacks in candidates().
+  return `/agents/offices/${agent.id}.png`;
 }
 
-/** Resolve office still URL for the hero (jpg first for latest stills). */
+/** Resolve office still URL for the hero (png first for latest high-res stills). */
 export function officePhotoCandidates(id: string): string[] {
   return [
+    `/agents/offices/${id}.png`,
     `/agents/offices/${id}.jpg`,
     `/agents/offices/${id}.webp`,
-    `/agents/offices/${id}.png`,
     `/agents/offices/${id}.jpeg`,
   ];
 }
@@ -697,7 +2034,7 @@ export function getAgentProfile(id: string): (AgentProfile & { agent: Agent }) |
       favoriteFood: "TBD",
       faqs: [],
       work: [],
-      draft: true,
+      draft: false,
     };
   }
   return {
@@ -706,7 +2043,7 @@ export function getAgentProfile(id: string): (AgentProfile & { agent: Agent }) |
     officePhoto: officePhotoFor(agent),
     portraitPhoto: agent.photo,
     ...base,
-    draft: true,
+    draft: false,
   };
 }
 

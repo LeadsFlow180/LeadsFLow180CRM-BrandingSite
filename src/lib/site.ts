@@ -40,8 +40,8 @@ export type Agent = {
 export const agents: Agent[] = [
   {
     id: "mia",
-    name: "Mia",
-    title: "Project Manager",
+    name: "Mia Carter",
+    title: "Project Manager & AI Office Orchestrator",
     skill: "First person you talk to. Assigns work, chairs meetings, keeps every job moving in AI Office.",
     group: "Leadership & Executive Operations",
     photo: "/agents/mia.png",
@@ -56,7 +56,7 @@ export const agents: Agent[] = [
   },
   {
     id: "jay",
-    name: "Jay",
+    name: "Jay Collins",
     title: "Email Marketing, Lifecycle, Deliverability & Outbound",
     skill: "Nurture sequences and campaigns.",
     group: "Growth & Client Success",
@@ -64,7 +64,7 @@ export const agents: Agent[] = [
   },
   {
     id: "mark",
-    name: "Mark",
+    name: "Mark Bennett",
     title: "Director of Market & Prospect Intelligence",
     skill: "Research and prospecting so Jordan has real leads.",
     group: "Growth & Client Success",
@@ -80,7 +80,7 @@ export const agents: Agent[] = [
   },
   {
     id: "zenda",
-    name: "Zenda",
+    name: "Zenda Okafor",
     title: "Social Media & Community Content",
     skill: "Drafts and schedules.",
     group: "Growth & Client Success",
@@ -88,7 +88,7 @@ export const agents: Agent[] = [
   },
   {
     id: "jojo",
-    name: "JoJo",
+    name: "JoJo Alvarez",
     title: "Content, Copywriting & Personalization",
     skill: "Content across channels so the story stays consistent.",
     group: "Creative & Content",
@@ -104,7 +104,7 @@ export const agents: Agent[] = [
   },
   {
     id: "caleb",
-    name: "Caleb",
+    name: "Caleb Whitaker",
     title: "Director of Search & AI Visibility",
     skill: "Search and AI visibility. Not a single fake SEO score.",
     group: "Engineering & Automation",
@@ -112,7 +112,7 @@ export const agents: Agent[] = [
   },
   {
     id: "leila",
-    name: "Leila",
+    name: "Leila Patel",
     title: "Lead Product & Visual Designer",
     skill: "Brand graphics and slides. Lands in Done for approval.",
     group: "Creative & Content",
@@ -120,7 +120,7 @@ export const agents: Agent[] = [
   },
   {
     id: "niki",
-    name: "Niki",
+    name: "Niki Kalogerakis",
     title: "Video Designer",
     skill: "Brand video / motion for campaigns.",
     group: "Creative & Content",
@@ -128,7 +128,7 @@ export const agents: Agent[] = [
   },
   {
     id: "jordan",
-    name: "Jordan",
+    name: "Jordan Brooks",
     title: "Director of Sales & Business Development",
     skill: "Pipeline, funnels, lead capture, proposals, partners, affiliates. First touch to close.",
     group: "Growth & Client Success",
@@ -152,7 +152,7 @@ export const agents: Agent[] = [
   },
   {
     id: "sonja",
-    name: "Sonja",
+    name: "Sonja Williams",
     title: "Community & Customer Support",
     skill: "Inbox, phone, reviews.",
     group: "Growth & Client Success",
@@ -160,15 +160,15 @@ export const agents: Agent[] = [
   },
   {
     id: "danica",
-    name: "Danica",
-    title: "Executive Assistant to Michelle",
+    name: "Danica Bato",
+    title: "Executive Assistant",
     skill: "Bookings, calendars, official schedule.",
     group: "Leadership & Executive Operations",
     photo: "/agents/danica.png",
   },
   {
     id: "omar",
-    name: "Omar",
+    name: "Omar Haddad",
     title: "Platform, DevOps, Infrastructure, Cloud",
     skill: "Workflows that follow up while you work the next lead.",
     group: "Engineering & Automation",
@@ -192,7 +192,7 @@ export const agents: Agent[] = [
   },
   {
     id: "amir",
-    name: "Amir",
+    name: "Amir Rahman",
     title: "Operations, Reporting & KPI Management",
     skill: "Pipeline health and readable KPIs.",
     group: "Engineering & Automation",

@@ -49,6 +49,7 @@ export function Footer() {
             <FooterColumn label="Features">
               <FooterLink href="/#team">Team</FooterLink>
               <FooterLink href="/agents">Offices</FooterLink>
+              <FooterLink href="/integrations">Integrations</FooterLink>
               <FooterLink href="/#features">The HOW</FooterLink>
               <FooterLink href="/#pricing">Pricing</FooterLink>
               <FooterLink href={links.office}>AI Office</FooterLink>

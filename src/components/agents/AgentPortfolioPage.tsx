@@ -168,7 +168,7 @@ function HeroWaves() {
 export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
   const { agent } = profile;
   const fillers = getPortfolioFillers(profile);
-  const { firstName, displayName, roleLabel } = fillers;
+  const { firstName, displayName, specialtyLabel, roleLabel, askCta, ctaHelper, heroHeadline } = fillers;
   const [askOpen, setAskOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
   const candidates = [...officePhotoCandidates(agent.id), profile.officePhoto, profile.portraitPhoto].filter(
@@ -219,7 +219,7 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
 
           <div className="relative max-w-md lg:max-w-lg">
             <p className="text-[11px] font-extrabold tracking-[0.22em] uppercase" style={{ color: LIME }}>
-              {roleLabel}
+              {specialtyLabel}
             </p>
             <h1
               className="mt-3 text-[clamp(2.75rem,5.5vw,3.85rem)] leading-[1.02] font-bold tracking-[-0.048em]"
@@ -230,7 +230,12 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
             <p className="mt-2 text-[1.125rem] font-semibold" style={{ color: NAVY }}>
               AI {roleLabel}
             </p>
-            <p className="mt-5 text-[15px] leading-[1.7] text-slate-600">{fillers.heroBlurb}</p>
+            {heroHeadline ? (
+              <p className="mt-4 text-[1.2rem] leading-snug font-semibold tracking-[-0.02em]" style={{ color: NAVY }}>
+                {heroHeadline}
+              </p>
+            ) : null}
+            <p className="mt-4 text-[15px] leading-[1.7] text-slate-600">{fillers.heroBlurb}</p>
             <button
               type="button"
               onClick={() => setAskOpen(true)}
@@ -238,11 +243,11 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
               style={{ background: LIME }}
             >
               <ChatIcon className="size-[18px]" />
-              Ask {firstName} about your business
+              {askCta}
             </button>
             <p className="mt-3.5 flex items-center gap-2 text-[12px] text-slate-500">
               <LockIcon className="size-3.5 shrink-0 opacity-70" />
-              Free 5-minute chat. No obligation.
+              {ctaHelper}
             </p>
           </div>
         </div>
@@ -252,14 +257,9 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-4 pt-6 pb-14 sm:px-6 sm:pt-8 sm:pb-16">
           <SectionTitle title={`Facts About ${firstName}`} />
-          <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-6 lg:gap-0">
-            {fillers.facts.map((f, i) => (
-              <li
-                key={`${f.icon}-${f.label}`}
-                className={`flex items-start gap-3 lg:px-4 ${
-                  i < fillers.facts.length - 1 ? "lg:border-r lg:border-[#e6ecf5]" : ""
-                }`}
-              >
+          <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
+            {fillers.facts.map((f) => (
+              <li key={`${f.icon}-${f.label}`} className="flex items-start gap-3 lg:border-r lg:border-[#e6ecf5] lg:px-4 lg:[&:nth-child(6n)]:border-r-0">
                 <FactGlyph icon={f.icon} />
                 <span className="pt-0.5 text-[13px] leading-snug font-medium" style={{ color: NAVY }}>
                   {f.label}
@@ -274,9 +274,7 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
           <SectionTitle title={`${firstName}'s Portfolio`} />
-          <p className="mt-4 max-w-xl text-[15px] text-slate-500">
-            A few examples of the ad campaigns I create for clients.
-          </p>
+          <p className="mt-4 max-w-xl text-[15px] text-slate-500">{fillers.portfolioLead}</p>
           <div className="relative mt-14 flex flex-wrap items-center justify-center gap-3 pb-4 sm:gap-0 lg:min-h-[400px]">
             {fillers.portfolio.map((card, i) => {
               const tone = cardShell[card.tone];
@@ -338,8 +336,9 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
             </div>
           </div>
           <div>
-            <SectionTitle title={`${firstName}'s Core Skills`} />
-            <ul className="mt-7 grid grid-cols-1 gap-x-8 gap-y-3.5 min-[420px]:grid-cols-2">
+            <SectionTitle title={`${firstName}'s Capabilities`} />
+            <p className="mt-3 text-[13px] text-slate-500">Core skills from the team profile pack — every item listed.</p>
+            <ul className="mt-6 grid grid-cols-1 gap-x-8 gap-y-3.5 min-[420px]:grid-cols-2">
               {fillers.skills.map((skill) => (
                 <li key={skill} className="flex items-center gap-2.5 text-[14px] font-medium text-slate-800">
                   <span
@@ -411,7 +410,9 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
                   </span>
                   <div className="pt-0.5">
                     <p className="text-[15px] font-bold text-slate-950">{step.title}</p>
-                    <p className="mt-1 text-[13px] leading-relaxed text-slate-600">{step.detail}</p>
+                    {step.detail ? (
+                      <p className="mt-1 text-[13px] leading-relaxed text-slate-600">{step.detail}</p>
+                    ) : null}
                   </div>
                 </li>
               ))}
@@ -419,6 +420,57 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Free Quick Guide */}
+      {fillers.guide ? (
+        <section className="bg-white">
+          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
+            <SectionTitle title="Free Quick Guide" />
+            <div className="mt-8 rounded-2xl border border-[#d9e2f2] bg-[#f8fafc] p-6 sm:p-8">
+              <h3 className="text-[1.25rem] font-bold tracking-[-0.03em]" style={{ color: NAVY }}>
+                {fillers.guide.title}
+              </h3>
+              {fillers.guide.summary ? (
+                <p className="mt-3 text-[14px] leading-relaxed text-slate-600">{fillers.guide.summary}</p>
+              ) : null}
+              <ol className="mt-6 space-y-3">
+                {fillers.guide.steps.map((step, i) => (
+                  <li key={step} className="flex gap-3 text-[14px] leading-relaxed text-slate-700">
+                    <span
+                      className="grid size-7 shrink-0 place-items-center rounded-full text-[12px] font-bold text-slate-950"
+                      style={{ background: LIME }}
+                    >
+                      {i + 1}
+                    </span>
+                    <span className="pt-1">{step}</span>
+                  </li>
+                ))}
+              </ol>
+              {/* Reason: SEO pack forbids placeholder download links — show CTA text until a real PDF URL exists. */}
+              <p className="mt-7 inline-flex rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-slate-700 ring-1 ring-[#d9e2f2]">
+                {fillers.guide.downloadCta}
+              </p>
+              <p className="mt-2 text-[12px] text-slate-400">
+                On-page guide is free to use now. PDF file will attach here when ready.
+              </p>
+              <p className="mt-4 text-[13px] text-slate-500">
+                Prefer to talk it through?{" "}
+                <button type="button" onClick={() => setAskOpen(true)} className="cursor-pointer font-semibold text-brand hover:underline">
+                  {askCta}
+                </button>
+                {" · "}
+                <Link href="/#pricing" className="font-semibold text-brand hover:underline">
+                  View Launch Founders pricing
+                </Link>
+                {" · "}
+                <Link href="/agents" className="font-semibold text-brand hover:underline">
+                  Meet the Team
+                </Link>
+              </p>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <AgentAskModal
         open={askOpen}

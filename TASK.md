@@ -4,8 +4,12 @@
 
 - [ ] Set canonical and Open Graph URL after the public domain is confirmed.
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
-- [ ] Replace draft agent bios in `src/lib/agentProfiles.ts` with the sole bio document (Lee + JoJo office cues already applied; stills in `public/agents/offices/`).
-- [ ] 2026-10-02 — Apply remaining team profile document in FULL when user sends it (no fields skipped).
+- [ ] Guide PDF file URLs — on-page guide + download CTA text live for all 21; attach real PDFs when designed (no placeholder links).
+- [ ] Updated office stills still needed for 14 agents: Mia, Danica, Mark, Lee, Zenda, JoJo, Caleb, Leila, Niki, Jordan, Omar, Amir, Sonja, Jay. (Done: Adam, Ali, Ava, Carlos, Dante, Nova, Shelly.)
+- [x] 2026-10-05 — Integration Center page at `/integrations` (filler connectors, Discover/Installed, search/filters) in LeadsFlow theme; footer link added.
+- [x] 2026-10-05 — Verified markdown capabilities (Core skills) for all 21 agents are in UI; pack file at `docs/LeadsFlow180_Team_Profiles_SEO_AEO_Content.md`; Capabilities section shows every skill.
+- [x] 2026-10-05 — Used full SEO pack on every profile page: specialty, hero headline, intro, SEO CTAs, all facts, sample-concept portfolio, about, skills, FAQs + FAQPage JSON-LD, get-started, guide summary/steps/download CTA, Person JSON-LD, metadata.
+- [x] 2026-10-05 — Wired full SEO/AEO content pack into all 21 agent profiles (intro, specialty, facts, portfolio, skills, FAQs, get-started, free guide) + page metadata; portfolio UI shows guide section.
 - [x] 2026-10-02 — Wired full office-markup skills + personality for Ava, Carlos, Adam, Nova, Ali, Shelly, Dante; portfolio uses `profile.skills`; office JPGs verified current.
 
 ## Done — 2026-10-01

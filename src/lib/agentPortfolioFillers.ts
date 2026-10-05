@@ -16,167 +16,22 @@ export type PortfolioSkill = string;
 export type GetStartedStep = { title: string; detail: string };
 export type PortfolioFaq = { q: string; a: string };
 
-/** Role-specific skills when available — otherwise fall back to group skills. */
-const SKILLS_BY_ID: Record<string, string[]> = {
-  lee: [
-    "Google Ads",
-    "Meta Ads",
-    "YouTube Ads",
-    "LinkedIn Ads",
-    "Ad Strategy & Planning",
-    "Audience Targeting",
-    "Campaign Management",
-    "Creative Development",
-    "Conversion Tracking",
-    "Analytics & Reporting",
-    "Budget Optimization",
-  ],
-  ava: [
-    "Media pitching",
-    "PR angle development",
-    "Podcast outlines",
-    "Press kit drafts",
-    "Talking points",
-    "Campaign messaging",
-    "Placement tracking",
-    "Brand voice for media",
-  ],
-  adam: [
-    "Process mapping",
-    "Funnel friction audits",
-    "KPI design",
-    "Operating loops",
-    "Standard work",
-    "Handoff redesign",
-    "Owner briefings",
-    "Continuous improvement",
-  ],
-  shelly: [
-    "Week-level growth plans",
-    "Brand awareness",
-    "Thought leadership",
-    "Demand generation",
-    "Strategic partnerships",
-    "Community growth",
-    "Offer narrative",
-    "Channel mix",
-  ],
-  ali: [
-    "Full-stack delivery",
-    "Marketing page builds",
-    "Lead form hardening",
-    "Accessibility basics",
-    "Performance checks",
-    "Production hygiene",
-    "Partner handoffs with Carlos",
-    "Human-centered UX",
-  ],
-  carlos: [
-    "WordPress builds",
-    "Theme polish",
-    "Landing sections",
-    "Owner handoff notes",
-    "Plugin minimalism",
-    "Mobile fixes",
-    "Maintainable updates",
-    "Performance pass",
-  ],
-  nova: [
-    "AI architecture",
-    "Agent workflow maps",
-    "LLM system design",
-    "Tooling & integrations",
-    "Automation playbooks",
-    "Quality evaluations",
-    "Context sharing across agents",
-    "Owner-safe change plans",
-  ],
-  dante: [
-    "Cash forecasts",
-    "Books checklists",
-    "Financial overviews",
-    "Owner-ready narratives",
-    "Budget guardrails",
-    "Close prep",
-    "CFO-style strategy notes",
-    "Zero bank-login policy",
-  ],
-};
-
-const SKILLS_BY_GROUP: Record<string, string[]> = {
-  "Leadership & Executive Operations": [
-    "Meeting facilitation",
-    "Priority routing",
-    "Owner briefings",
-    "Approval workflows",
-    "KPI rollups",
-    "Cross-team handoffs",
-    "Agenda design",
-    "Status reporting",
-  ],
-  "Growth & Client Success": [
-    "Google Ads",
-    "Meta Ads",
-    "YouTube Ads",
-    "LinkedIn Ads",
-    "Ad Strategy & Planning",
-    "Audience Targeting",
-    "Campaign Management",
-    "Creative Development",
-    "Conversion Tracking",
-    "Analytics & Reporting",
-    "Budget Optimization",
-  ],
-  "Creative & Content": [
-    "Brand systems",
-    "Pitch decks",
-    "Social crops",
-    "Motion concepts",
-    "Landing copy",
-    "Campaign kits",
-    "Storyboards",
-    "Asset systems",
-  ],
-  "Engineering & Automation": [
-    "WordPress builds",
-    "CRM workflows",
-    "Automations",
-    "Integrations",
-    "QA checklists",
-    "Deploy hygiene",
-    "API wiring",
-    "Monitoring",
-  ],
-};
-
 const FACT_ICONS: FactIcon[] = ["soccer", "food", "travel", "coffee", "camera", "music", "book", "target"];
 
 const CARD_TONES: Array<PortfolioCard["tone"]> = ["blue", "rose", "navy", "green"];
-const CARD_CTAS = ["BOOK NOW", "SHOP NOW", "Get a Free Estimate", "LEARN MORE"] as const;
 
-const LEE_PORTFOLIO: PortfolioCard[] = [
+/** Optional demo images keyed by portfolio title keywords (Lee reference stills). */
+const PORTFOLIO_IMAGE_BY_HINT: Array<{ match: RegExp; image: string }> = [
   {
-    id: "plumber",
-    title: "LOCAL PLUMBERS",
-    subtitle: "Search + Local Services ads with call-first creative.",
-    cta: "BOOK NOW",
-    tone: "blue",
+    match: /plumber|local plumber/i,
     image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "skincare",
-    title: "Reveal Your Natural Glow",
-    subtitle: "Meta carousel for a DTC beauty launch week.",
-    cta: "BOOK NOW",
-    tone: "rose",
+    match: /med spa|glow|skincare|beauty/i,
     image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "home",
-    title: "Protect Your Home All Year",
-    subtitle: "YouTube + Google demand gen for home services.",
-    cta: "Get a Free Estimate",
-    tone: "navy",
+    match: /home service|retarget|protect your home/i,
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80",
   },
 ];
@@ -203,8 +58,8 @@ function iconForLabel(label: string, index: number): FactIcon {
 }
 
 /**
- * Build the facts row from ALL available personality + favorite food.
- * Shows up to 6 (screenshot layout); never invents fake facts when real ones exist.
+ * Build the facts row from ALL personality cues (+ favorite food).
+ * Reason: SEO pack + office markup — never drop extras just to fit six cells.
  */
 function buildFacts(profile: AgentProfile & { agent: Agent }): PortfolioFact[] {
   const facts: PortfolioFact[] = [];
@@ -222,116 +77,109 @@ function buildFacts(profile: AgentProfile & { agent: Agent }): PortfolioFact[] {
     push("food", `Favorite food: ${profile.favoriteFood}`);
   }
 
-  // Reason: layout expects six cells; only pad when we truly lack copy.
-  let i = 0;
-  while (facts.length < 6) {
-    const pad = [
-      { icon: "target" as const, label: `${agentFirstName(profile.agent.name)}'s lane: ${profile.agent.title}` },
-      { icon: "book" as const, label: profile.tagline },
-      { icon: "coffee" as const, label: "Always learning on the floor" },
-    ];
-    const next = pad[i % pad.length]!;
-    push(next.icon, next.label);
-    i += 1;
-    if (i > 10) break;
+  if (facts.length === 0) {
+    push("target", `${agentFirstName(profile.agent.name)}'s lane: ${profile.agent.title}`);
+    push("book", profile.tagline);
   }
 
-  return facts.slice(0, 6);
+  return facts;
 }
 
-/** Use every work sample; pad to 3 only if short. Lee keeps screenshot ad creatives. */
-function buildPortfolio(profile: AgentProfile & { agent: Agent }): PortfolioCard[] {
-  if (profile.id === "lee") return LEE_PORTFOLIO;
+function imageForWorkTitle(title: string): string | undefined {
+  return PORTFOLIO_IMAGE_BY_HINT.find((h) => h.match.test(title))?.image;
+}
 
+/** Use every SEO portfolio concept; label as Sample concept per publishing notes. */
+function buildPortfolio(profile: AgentProfile & { agent: Agent }): PortfolioCard[] {
   const fromWork: PortfolioCard[] = profile.work.map((w, i) => ({
     id: w.id,
     title: w.title.toUpperCase(),
-    subtitle: w.detail,
-    cta: CARD_CTAS[i % CARD_CTAS.length]!,
+    // Reason: strip trailing sample label from detail — CTA badge carries it.
+    subtitle: w.detail.replace(/\s*\(Sample concept\.\)\s*$/i, "").trim(),
+    cta: "Sample concept",
     tone: CARD_TONES[i % CARD_TONES.length]!,
+    image: imageForWorkTitle(w.title),
   }));
 
-  const fallback: PortfolioCard[] = [
+  if (fromWork.length > 0) return fromWork;
+
+  return [
     {
       id: "sample-a",
       title: `${profile.agent.name.toUpperCase()} SAMPLE A`,
       subtitle: profile.tagline,
-      cta: "LEARN MORE",
+      cta: "Sample concept",
       tone: "blue",
     },
     {
       id: "sample-b",
       title: `${profile.agent.name.toUpperCase()} SAMPLE B`,
-      subtitle: profile.agent.skill,
-      cta: "LEARN MORE",
+      subtitle: profile.intro || profile.agent.skill,
+      cta: "Sample concept",
       tone: "rose",
     },
     {
       id: "sample-c",
       title: `${profile.agent.name.toUpperCase()} SAMPLE C`,
       subtitle: "Owner-approved drafts from this lane.",
-      cta: "LEARN MORE",
+      cta: "Sample concept",
       tone: "navy",
     },
   ];
-
-  const portfolio = fromWork.length > 0 ? [...fromWork] : [...fallback];
-  while (portfolio.length < 3) {
-    portfolio.push(fallback[portfolio.length]!);
-  }
-  // Reason: show all real work samples (not capped at 3 when more exist).
-  return portfolio;
 }
 
-/** Filler portfolio content derived from each agent profile — uses every field available. */
+/** Portfolio content derived from each agent profile — uses every SEO field available. */
 export function getPortfolioFillers(profile: AgentProfile & { agent: Agent }) {
   const { agent } = profile;
   const first = agentFirstName(agent.name);
 
   const skills: PortfolioSkill[] =
-    (profile.skills && profile.skills.length > 0
+    profile.skills && profile.skills.length > 0
       ? profile.skills
-      : SKILLS_BY_ID[agent.id] ?? SKILLS_BY_GROUP[agent.group]) ??
-    ["Collaboration", "Clarity", "Owner approvals", "Fast drafts"];
+      : ["Collaboration", "Clarity", "Owner approvals", "Fast drafts"];
 
-  const steps: GetStartedStep[] = [
+  const defaultSteps: GetStartedStep[] = [
     {
       title: `Tell ${first} about your business`,
       detail: "Share your goals, target audience, and what success looks like.",
     },
     {
       title: `${first} builds your strategy`,
-      detail: "A custom plan with targeting, creative direction, and clear guardrails for this lane.",
+      detail: "A custom plan with clear owners and next steps for this lane.",
     },
     {
-      title: "Work goes live with your OK",
+      title: "You review and approve",
       detail: "Drafts move fast — spend, publish, and payments stay with you.",
     },
   ];
+  const steps: GetStartedStep[] =
+    profile.getStarted && profile.getStarted.length > 0 ? profile.getStarted : defaultSteps;
 
+  const heroHeadline = profile.tagline?.trim() || "";
   const heroBlurb =
-    profile.id === "lee"
-      ? "I plan, create, and manage high-performing ad campaigns across Google, Meta, LinkedIn, and YouTube — so you get more leads without wasting spend."
-      : [profile.tagline, profile.bio].filter(Boolean).join(" ") ||
-        `${agent.name} is your AI ${agent.title} on the LeadsFlow180 floor — ready to help with ${agent.skill.toLowerCase()}`;
+    (profile.intro && profile.intro.trim()) ||
+    `${agent.name} is your AI ${agent.title} on the LeadsFlow180 floor — ready to help with ${agent.skill.toLowerCase()}`;
 
-  // Reason: about uses the full bio plus every personality cue + favorite food — nothing skipped.
-  const aboutParagraphs =
-    profile.id === "lee"
-      ? [
-          "Lee is passionate about helping small businesses compete with bigger brands through smarter paid media. Every campaign is built for clarity, ROAS, and owner approval before spend goes live.",
-          "When he is off the board you will find soccer on the shelf, a sci-fi stack nearby, and a mug that still says Good Ads Better People. Favorite food: sushi.",
-        ]
-      : [
-          profile.bio,
-          profile.personality.length > 0
-            ? `Around the office: ${profile.personality.join(". ")}.`
-            : null,
-          profile.favoriteFood && profile.favoriteFood !== "TBD"
-            ? `Favorite food: ${profile.favoriteFood}.`
-            : null,
-          agent.skill ? `Lane focus: ${agent.skill}` : null,
-        ].filter((p): p is string => Boolean(p));
+  // Reason: About uses full SEO bio; office cues already listed under Facts.
+  const aboutParagraphs = [profile.bio].filter((p): p is string => Boolean(p && p.trim()));
+
+  const specialtyLabel = (profile.specialtyLabel || agent.title).trim();
+  const roleLabel = agent.title;
+  const askCta = (profile.askCta && profile.askCta.trim()) || `Ask ${first} about your business`;
+  const ctaHelper =
+    (profile.ctaHelper && profile.ctaHelper.trim()) || "Free 5-minute chat. No obligation.";
+
+  const portfolioLead =
+    "Sample concepts for this lane — labeled as demonstrations until real, permissioned work replaces them.";
+
+  const guide = profile.guide?.title
+    ? {
+        title: profile.guide.title,
+        summary: profile.guide.summary?.trim() || "",
+        steps: profile.guide.steps ?? [],
+        downloadCta: profile.guide.downloadCta || `Download the free guide from ${first}`,
+      }
+    : null;
 
   const defaultFaqs: PortfolioFaq[] = [
     {
@@ -343,32 +191,29 @@ export function getPortfolioFillers(profile: AgentProfile & { agent: Agent }) {
       a: "Drafts and recommendations come fast; spend, publish, and payments wait for your approval.",
     },
     {
-      q: `How quickly can work launch with ${first}?`,
-      a: "Drafts can move same-day once goals are clear — go-live still needs your approval.",
-    },
-    {
       q: "Is this a free trial of AI Office?",
       a: "No. This page offers a short verified talk. Paid access uses Launch Founders pricing on the home page.",
     },
-    {
-      q: "What happens after the chat?",
-      a: "You can open AI Office to keep working with the full team — same lane, clearer handoffs.",
-    },
   ];
 
-  // Reason: never drop profile FAQs — use all of them; only fall back when empty.
   const faqs: PortfolioFaq[] = profile.faqs.length > 0 ? profile.faqs : defaultFaqs;
 
   return {
     firstName: first,
     displayName: agent.name,
-    roleLabel: agent.title,
+    specialtyLabel,
+    roleLabel,
+    heroHeadline,
+    askCta,
+    ctaHelper,
     facts: buildFacts(profile),
     portfolio: buildPortfolio(profile),
+    portfolioLead,
     skills,
     steps,
     heroBlurb,
     aboutParagraphs,
     faqs,
+    guide,
   };
 }

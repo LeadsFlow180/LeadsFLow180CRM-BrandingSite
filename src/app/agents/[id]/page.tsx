@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const profile = getAgentProfile(id);
   if (!profile) return { title: "Agent · LeadsFlow180" };
   return {
-    title: `${profile.agent.name} — ${profile.agent.title} · LeadsFlow180`,
-    description: profile.bio,
+    title: profile.pageTitle ?? `${profile.agent.name} — ${profile.agent.title} · LeadsFlow180`,
+    description: profile.metaDescription ?? profile.intro ?? profile.bio,
   };
 }
 
@@ -38,14 +38,51 @@ export default async function AgentPage({ params, searchParams }: Props) {
   const profile = getAgentProfile(id);
   if (!profile) notFound();
 
-  // const others = getAllAgentProfiles().filter((p) => p.id !== id).slice(0, 8);
+  // Reason: FAQPage JSON-LD only mirrors Q&A already visible on the page (SEO pack note).
+  const faqJsonLd =
+    profile.faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: profile.faqs.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: f.a,
+            },
+          })),
+        }
+      : null;
+
+  const profileJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: profile.agent.name,
+    jobTitle: profile.agent.title,
+    description: profile.metaDescription ?? profile.intro ?? profile.bio,
+    worksFor: {
+      "@type": "Organization",
+      name: "LeadsFlow180",
+    },
+    knowsAbout: profile.skills ?? [],
+  };
 
   return (
     <div id="top" className="bg-white">
       <Header />
       <main>
+        {faqJsonLd ? (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          />
+        ) : null}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd) }}
+        />
         <AgentPortfolioPage profile={profile} initialVerifyToken={verify ?? null} />
-
         {/*
         <AgentOfficeHero
           agentId={profile.id}

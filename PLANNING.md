@@ -15,7 +15,7 @@ This site does not authenticate into CRM APIs. Stripe Checkout is the paid path.
 - Framer Motion
 - Stripe Checkout (`/api/checkout`)
 - Agent talk APIs (`/api/agents/email`, `/verify`, `/chat`)
-- Marketing routes: `/`, `/agents`, `/agents/[id]`
+- Marketing routes: `/`, `/agents`, `/agents/[id]`, `/integrations` (filler Integration Center)
 
 ## Structure
 
@@ -23,7 +23,8 @@ This site does not authenticate into CRM APIs. Stripe Checkout is the paid path.
 - `src/app/page.tsx` — home scroll.
 - `src/app/agents/page.tsx` — floor directory.
 - `src/app/agents/[id]/page.tsx` — screenshot-style portfolio (hero, facts, tilted cards, about/skills, FAQ + get-started, ask modal).
-- `src/app/api/checkout/route.ts` — Stripe Checkout Session (or `STRIPE_PAYMENT_LINK`).
+- `src/app/integrations/page.tsx` — Integration Center (Discover/Installed, search, filters) with filler connectors; LeadsFlow theme.
+- `src/lib/integrationsFillers.ts` — filler integration catalog.
 - `src/app/api/agents/*` — email verify + timed chat.
 - `src/components/` — `Header`, `Hero`, `TeamStage`, `Languages`, `Features`, `Pricing`, `ClosingCta`, `Footer`, `agents/*`, shared `Motion`.
 - `src/lib/site.ts` — URLs, the 21 agents, languages, workspace modules.
@@ -41,10 +42,10 @@ Agent pages: `/agents` is the team directory; each `/agents/[id]` uses `AgentPor
 
 ## Constraints
 
-- Marketing routes: home + `/agents` directory + `/agents/[id]` portfolio/talk pages. Walkthrough floor tour (`public/walkthrough/`) is paused.
+- Marketing routes: home + `/agents` directory + `/agents/[id]` portfolio/talk pages + `/integrations` (filler catalog). Walkthrough floor tour (`public/walkthrough/`) is paused.
 - Public pricing is the Launch Founders offer in `src/lib/pricing.ts` only — do not invent alternate tiers, trials, or “no credit card” claims. Agent chat may soft-CTA to AI Office signup.
 - No “Hermes” in human-facing copy. Mia is Project Manager.
 - Do not describe the product as GoHighLevel or a white-label of it.
 - Creative work (Design Hub, Brand Bank) is presented as part of the CRM.
-- Navbar is logo plus product CTAs and in-page jumps (Team, Features, Pricing). Privacy and Terms stay out of the navbar until real legal URLs exist.
-- Profile bios marked `draft: true` until the sole bio document replaces scaffolds.
+- Navbar is logo plus product CTAs and jumps (Team, Features, Integrations → `/integrations`, Pricing). Privacy and Terms stay out of the navbar until real legal URLs exist.
+- Agent portfolio copy comes from `docs/LeadsFlow180_Team_Profiles_SEO_AEO_Content.md` (wired via `scripts/wire_seo_profiles.py`). Every pack field is used on `/agents/[id]`: specialty, hero headline, intro, ask CTA + helper, all facts, sample-concept portfolio, about, skills, FAQs (+ FAQPage JSON-LD), get-started, free guide (summary/steps/download CTA text), Person JSON-LD, page title + meta. Portfolio concepts stay labeled “Sample concept” until real work replaces them. No placeholder PDF links until files exist.
