@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { agents, filters, type Agent, type Filter } from "@/lib/site";
 import { groupTone } from "./groupTone";
@@ -74,39 +75,48 @@ export function TeamRoster({ filter, list, activeId, onFilter, onPick }: Props) 
                   isActive ? "brand-line shadow-[0_16px_30px_-12px_rgba(1,13,255,0.6)]" : ""
                 }`}
               >
-                <button
-                  type="button"
-                  onClick={() => onPick(a.id)}
-                  aria-label={`Put ${a.name} on stage`}
-                  aria-current={isActive ? "true" : undefined}
-                  className="group relative block w-full overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-900/5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_30px_-14px_rgba(15,23,42,0.55)]"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={a.photo}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className={`aspect-[4/5] w-full object-cover object-top transition duration-300 group-hover:scale-105 ${
-                      isActive ? "" : "saturate-[0.85] group-hover:saturate-100"
-                    }`}
-                  />
-                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-2 pt-8 pb-2 text-left">
-                    <span className="flex items-center gap-1.5">
-                      <span className={`size-1.5 shrink-0 rounded-full ${tone.dot}`} />
-                      <span className="truncate text-xs font-semibold text-white">{a.name}</span>
+                <div className="group relative overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-900/5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_30px_-14px_rgba(15,23,42,0.55)]">
+                  <button
+                    type="button"
+                    onClick={() => onPick(a.id)}
+                    aria-label={`Put ${a.name} on stage`}
+                    aria-current={isActive ? "true" : undefined}
+                    className="relative block w-full"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={a.photo}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className={`aspect-[4/5] w-full object-cover object-top transition duration-300 group-hover:scale-105 ${
+                        isActive ? "" : "saturate-[0.85] group-hover:saturate-100"
+                      }`}
+                    />
+                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-2 pt-8 pb-2 text-left">
+                      <span className="flex items-center gap-1.5">
+                        <span className={`size-1.5 shrink-0 rounded-full ${tone.dot}`} />
+                        <span className="truncate text-xs font-semibold text-white">{a.name}</span>
+                      </span>
+                      <span className="mt-0.5 block max-h-0 truncate text-[10px] text-white/70 opacity-0 transition-all duration-300 group-hover:max-h-4 group-hover:opacity-100">
+                        {a.title}
+                      </span>
                     </span>
-                    <span className="mt-0.5 block max-h-0 truncate text-[10px] text-white/70 opacity-0 transition-all duration-300 group-hover:max-h-4 group-hover:opacity-100">
-                      {a.title}
-                    </span>
-                  </span>
-                  {isActive && (
-                    <span className="absolute top-1.5 right-1.5 inline-flex items-center gap-1 rounded-full bg-brand px-1.5 py-0.5 text-[9px] font-bold tracking-wider text-white uppercase shadow-[0_4px_10px_-2px_rgba(1,13,255,0.8)]">
-                      <span className="size-1 animate-pulse rounded-full bg-brand-green motion-reduce:animate-none" />
-                      Now
-                    </span>
-                  )}
-                </button>
+                    {isActive && (
+                      <span className="absolute top-1.5 right-1.5 inline-flex items-center gap-1 rounded-full bg-brand px-1.5 py-0.5 text-[9px] font-bold tracking-wider text-white uppercase shadow-[0_4px_10px_-2px_rgba(1,13,255,0.8)]">
+                        <span className="size-1 animate-pulse rounded-full bg-brand-green motion-reduce:animate-none" />
+                        Now
+                      </span>
+                    )}
+                  </button>
+                  <Link
+                    href={`/agents/${a.id}`}
+                    className="absolute top-1.5 left-1.5 z-10 rounded-full bg-black/55 px-2 py-0.5 text-[9px] font-bold tracking-wider text-white uppercase opacity-0 ring-1 ring-white/20 backdrop-blur-sm transition group-hover:opacity-100 focus:opacity-100"
+                    aria-label={`Open ${a.name}'s profile`}
+                  >
+                    Profile
+                  </Link>
+                </div>
               </li>
             );
           })}

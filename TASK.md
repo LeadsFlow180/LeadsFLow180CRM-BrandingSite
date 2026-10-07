@@ -6,6 +6,10 @@
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
 - [ ] Guide PDF file URLs — on-page guide + download CTA text live for all 21; attach real PDFs when designed (no placeholder links).
 - [ ] Updated office stills still needed (7): Mia, Sonja, Mark, Lee, Zenda, JoJo, Omar.
+- [ ] Wire “Ask {name} a question” CTA deeper into Office chat (email-verify + signup handoff live; deeper floor chat TBD).
+- [x] 2026-10-07 — “+ thousands more” expands to Make / Zapier / n8n cards (official connector pages); removed in-house `/integrations/catalog` list.
+- [x] 2026-10-07 — Integrations: dropped Featured; 11 core cards + “+ thousands more”; Make/Zapier/n8n own-account note.
+- [x] 2026-10-07 — Branding team stage: Visit office on StageCard + Profile hover link on roster tiles → `/agents/[id]`.
 - [x] 2026-10-07 — Integrations catalog set to 11 connectors (Sheets, Gmail, Calendar, Drive, Airtable, FB Lead Ads, Outlook, ClickUp, WordPress, Twilio, Shopify) with Simple Icons from jsDelivr.
 - [x] 2026-10-05 — Redesigned `/integrations` into a cinematic brand page (hero + logo orbit, lanes, featured catalog, owner-control closer) matching site theme.
 - [x] 2026-10-05 — Installed office stills for Danica, Niki, Jay, Ali, Jordan, Caleb, Nova, Leila, Amir, Adam + office cue facts; SEO extras re-wired.

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Connect ads, inbox, bookings, payments, and websites to the LeadsFlow180 FLOW workspace — with human approval still on.",
 };
 
-/** Marketing integrations page — cinematic brand section + connector catalog (fillers). */
+/** Marketing integrations — 11 core connectors + expandable Make / Zapier / n8n bridges. */
 export default function IntegrationsPage() {
   return (
     <div id="top" className="bg-white">
