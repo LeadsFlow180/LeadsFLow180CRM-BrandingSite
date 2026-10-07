@@ -6,6 +6,7 @@
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
 - [ ] Guide PDF file URLs — on-page guide + download CTA text live for all 21; attach real PDFs when designed (no placeholder links).
 - [ ] Updated office stills still needed (7): Mia, Sonja, Mark, Lee, Zenda, JoJo, Omar.
+- [x] 2026-10-07 — Integrations catalog set to 11 connectors (Sheets, Gmail, Calendar, Drive, Airtable, FB Lead Ads, Outlook, ClickUp, WordPress, Twilio, Shopify) with Simple Icons from jsDelivr.
 - [x] 2026-10-05 — Redesigned `/integrations` into a cinematic brand page (hero + logo orbit, lanes, featured catalog, owner-control closer) matching site theme.
 - [x] 2026-10-05 — Installed office stills for Danica, Niki, Jay, Ali, Jordan, Caleb, Nova, Leila, Amir, Adam + office cue facts; SEO extras re-wired.
 - [x] 2026-10-05 — Integration Center page at `/integrations` (filler connectors, Discover/Installed, search/filters) in LeadsFlow theme; footer link added.

@@ -13,10 +13,10 @@ import { ease, fadeUp, Reveal, stagger } from "@/components/Motion";
 type Tab = "discover" | "installed";
 
 const LANES = [
-  { label: "Ads & spend", detail: "Google, Meta, LinkedIn, YouTube — spend waits for your OK." },
-  { label: "Inbox & phone", detail: "Gmail, Slack, Twilio keep conversations in one FLOW desk." },
-  { label: "Book & pay", detail: "Calendly, Stripe, QuickBooks for schedule and money loops." },
-  { label: "Site & automate", detail: "WordPress, Zapier, Make wire pages and follow-ups." },
+  { label: "Google Workspace", detail: "Sheets, Gmail, Calendar, and Drive stay synced to FLOW." },
+  { label: "Leads & inbox", detail: "Facebook Lead Ads, Outlook, and Twilio bring conversations in." },
+  { label: "Work & ops", detail: "Airtable and ClickUp keep projects and pipelines organized." },
+  { label: "Site & commerce", detail: "WordPress and Shopify connect pages, forms, and orders." },
 ] as const;
 
 function SearchIcon({ className }: { className?: string }) {
@@ -276,7 +276,7 @@ export function IntegrationsCenter() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search Google Ads, Stripe, Slack…"
+              placeholder="Search Gmail, Sheets, Shopify…"
               className="w-full rounded-full border-0 bg-white py-3 pr-4 pl-11 text-sm text-slate-800 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.45)] ring-1 ring-slate-200/90 outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-brand/35"
             />
           </label>
