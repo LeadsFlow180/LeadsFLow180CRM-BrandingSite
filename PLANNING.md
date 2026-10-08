@@ -48,5 +48,5 @@ Agent pages: `/agents` is the team directory; each `/agents/[id]` uses `AgentPor
 - No “Hermes” in human-facing copy. Mia is Project Manager.
 - Do not describe the product as GoHighLevel or a white-label of it.
 - Creative work (Design Hub, Brand Bank) is presented as part of the CRM.
-- Navbar is logo plus product CTAs and jumps (Team, Features, Integrations → `/integrations`, Pricing). Privacy and Terms stay out of the navbar until real legal URLs exist.
+- Navbar is logo plus product CTAs and jumps (Team dropdown → agent profiles + Meet the team, Features, Integrations → `/integrations`, Pricing). Privacy and Terms stay out of the navbar until real legal URLs exist.
 - Agent portfolio copy comes from `docs/LeadsFlow180_Team_Profiles_SEO_AEO_Content.md` (wired via `scripts/wire_seo_profiles.py`). Every pack field is used on `/agents/[id]`: specialty, hero headline, intro, ask CTA + helper, all facts, sample-concept portfolio, about, skills, FAQs (+ FAQPage JSON-LD), get-started, free guide (summary/steps/download CTA text), Person JSON-LD, page title + meta. Portfolio concepts stay labeled “Sample concept” until real work replaces them. No placeholder PDF links until files exist.

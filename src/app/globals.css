@@ -25,6 +25,15 @@ body {
   overflow-x: hidden;
 }
 
+/* Hide scrollbars while keeping scroll (team offices strip, etc.). */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 ::selection {
   background: #010dff;
   color: #fff;

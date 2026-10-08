@@ -2,6 +2,8 @@
 
 ## Active
 
+- [x] 2026-10-08 — Header Team dropdown → all `/agents/[id]` profiles + Meet the team / directory (SEO crawl links).
+- [x] 2026-10-08 — StageCard: corner desk icon “Go to {name}’s office” replaces big white Visit button.
 - [x] 2026-10-08 — Hero “Need help?” picker (6 slots → Ask); top Jordan/Ava/Jay, bottom Lee/Shelly/Caleb with real titles; CRM mock in FlowShowcase.
 - [ ] Set canonical and Open Graph URL after the public domain is confirmed.
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).

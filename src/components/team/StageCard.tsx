@@ -254,7 +254,25 @@ export function StageCard({
         </div>
 
         <div className="relative flex min-w-0 flex-col justify-between gap-6 p-4 min-[380px]:p-6 sm:gap-8 sm:p-10 md:py-12 md:pr-12 md:pl-6">
-          <div className="grid" aria-live={autoplay ? "off" : "polite"}>
+          {/* Reason: desk icon in the corner — less clutter than a full-width white CTA. */}
+          <a
+            href={`/agents/${displayed.id}`}
+            className="group absolute top-3 right-3 z-20 flex max-w-[9.5rem] flex-col items-center gap-1.5 rounded-2xl bg-white p-2.5 text-center shadow-[0_12px_28px_-14px_rgba(0,0,0,0.55)] ring-1 ring-white/80 transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-12px_rgba(1,13,255,0.35)] min-[380px]:top-5 min-[380px]:right-5 sm:top-8 sm:right-8 sm:max-w-[10.5rem] sm:p-3"
+            aria-label={`Go to ${displayed.name.split(" ")[0]}'s office`}
+          >
+            <span className="grid size-10 place-items-center rounded-xl bg-canvas text-brand ring-1 ring-slate-200/80 transition group-hover:bg-brand group-hover:text-white group-hover:ring-brand sm:size-11">
+              <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+                <path d="M4 10h16v8H4z" strokeLinejoin="round" />
+                <path d="M7 10V8a2 2 0 012-2h6a2 2 0 012 2v2" strokeLinecap="round" />
+                <path d="M12 14v2M4 14h16" strokeLinecap="round" />
+              </svg>
+            </span>
+            <span className="text-[10px] leading-tight font-semibold text-slate-800 sm:text-[11px]">
+              Go to {displayed.name.split(" ")[0]}&apos;s office
+            </span>
+          </a>
+
+          <div className="grid pr-24 min-[380px]:pr-28 sm:pr-32" aria-live={autoplay ? "off" : "polite"}>
             <AnimatePresence initial={false}>
               <motion.div
                 key={displayed.id}
@@ -274,18 +292,6 @@ export function StageCard({
                 </p>
                 <p className="mt-4 max-w-md border-l-2 border-white/15 pl-3 text-sm leading-relaxed text-white/75 min-[380px]:mt-5 min-[380px]:pl-4 min-[380px]:text-base sm:text-lg">
                   {displayed.skill}
-                </p>
-                <a
-                  href={`/agents/${displayed.id}`}
-                  className="group mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_12px_28px_-12px_rgba(255,255,255,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-12px_rgba(255,255,255,0.55)] min-[380px]:mt-7"
-                >
-                  Visit {displayed.name}&apos;s office
-                  <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
-                    →
-                  </span>
-                </a>
-                <p className="mt-3 max-w-sm text-xs leading-relaxed text-white/55 sm:text-sm">
-                  Want to know more about our business? Step into their office.
                 </p>
               </motion.div>
             </AnimatePresence>
