@@ -51,6 +51,7 @@ export function Footer() {
               <FooterLink href="/agents">Offices</FooterLink>
               <FooterLink href="/integrations">Integrations</FooterLink>
               <FooterLink href="/#features">The HOW</FooterLink>
+              <FooterLink href="/savings">Savings</FooterLink>
               <FooterLink href="/#pricing">Pricing</FooterLink>
               <FooterLink href={links.office}>AI Office</FooterLink>
               <FooterLink href={links.signup}>Create account</FooterLink>

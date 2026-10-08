@@ -2,6 +2,8 @@
 
 ## Active
 
+- [x] 2026-10-08 — Savings: nav **Savings** → `/savings` hub; full pages `/savings/missed-leads` + `/savings/seats`; two cards in Languages band (`/#savings`); no pop-ups; math from Downloads HTML.
+- [x] 2026-10-08 — Home ROI section first pass (later moved off-home into Savings pages per Tahal feedback).
 - [x] 2026-10-08 — Header Team dropdown → all `/agents/[id]` profiles + Meet the team / directory (SEO crawl links).
 - [x] 2026-10-08 — StageCard: corner desk icon “Go to {name}’s office” replaces big white Visit button.
 - [x] 2026-10-08 — Hero “Need help?” picker (6 slots → Ask); top Jordan/Ava/Jay, bottom Lee/Shelly/Caleb with real titles; CRM mock in FlowShowcase.

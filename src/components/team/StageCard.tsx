@@ -9,6 +9,7 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
+import { officePhotoCandidates } from "@/lib/agentProfiles";
 import { getAgentVideo } from "@/lib/agentVideos";
 import { type Agent } from "@/lib/site";
 import { ease } from "../Motion";
@@ -58,6 +59,7 @@ export function StageCard({
 }: Props) {
   // Reason: hold the outgoing clip until the next video has a painted frame (no photo pause between agents).
   const [displayed, setDisplayed] = useState(active);
+  const [officeIdx, setOfficeIdx] = useState(0);
   const activeIdRef = useRef(active.id);
   activeIdRef.current = active.id;
 
@@ -65,19 +67,31 @@ export function StageCard({
   const status = reduce ? "Manual" : playing ? "Rotating" : "Paused";
   const displayIndex = Math.max(0, list.findIndex((a) => a.id === displayed.id));
   const upNext = Array.from({ length: Math.min(3, list.length - 1) }, (_, i) => list[(displayIndex + i + 1) % list.length]);
+  const officeCandidates = [...officePhotoCandidates(displayed.id), displayed.photo].filter(
+    (u, i, arr) => arr.indexOf(u) === i,
+  );
+  const officeSrc = officeCandidates[Math.min(officeIdx, officeCandidates.length - 1)];
 
   useEffect(() => {
     if (active.id === displayed.id) return;
     if (!getAgentVideo(active.id) || reduce) {
       setDisplayed(active);
+      setOfficeIdx(0);
       return;
     }
     // Reason: never leave the stage stuck if decode stalls.
     const failSafe = window.setTimeout(() => {
-      if (activeIdRef.current === active.id) setDisplayed(active);
+      if (activeIdRef.current === active.id) {
+        setDisplayed(active);
+        setOfficeIdx(0);
+      }
     }, 2200);
     return () => window.clearTimeout(failSafe);
   }, [active, displayed.id, reduce]);
+
+  useEffect(() => {
+    setOfficeIdx(0);
+  }, [displayed.id]);
 
   // Reason: warm the upcoming file while the current one plays so the cut is already buffered.
   useEffect(() => {
@@ -254,40 +268,28 @@ export function StageCard({
         </div>
 
         <div className="relative flex min-w-0 flex-col justify-between gap-6 p-4 min-[380px]:p-6 sm:gap-8 sm:p-10 md:py-12 md:pr-12 md:pl-6">
-          {/* Reason: fixed card size — Carlos trial swaps icon for office still without growing the chip. */}
+          {/* Reason: every agent uses a fixed-size rounded office still → their profile page. */}
           <a
             href={`/agents/${displayed.id}`}
-            className="group absolute top-3 right-3 z-20 flex w-[6.75rem] flex-col items-center gap-1.5 rounded-2xl bg-white p-2 text-center shadow-[0_12px_28px_-14px_rgba(0,0,0,0.55)] ring-1 ring-white/80 transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-12px_rgba(1,13,255,0.35)] min-[380px]:top-5 min-[380px]:right-5 sm:top-8 sm:right-8 sm:w-[7.25rem] sm:p-2.5"
+            className="group absolute top-3 right-3 z-20 flex w-[8.5rem] flex-col items-center gap-1.5 rounded-2xl bg-white p-2 text-center shadow-[0_12px_28px_-14px_rgba(0,0,0,0.55)] ring-1 ring-white/80 transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-12px_rgba(1,13,255,0.35)] min-[380px]:top-5 min-[380px]:right-5 sm:top-8 sm:right-8 sm:w-[9.5rem] sm:p-2.5"
             aria-label={`Go to ${displayed.name.split(" ")[0]}'s office`}
           >
-            <span
-              className={`relative grid size-10 shrink-0 place-items-center overflow-hidden rounded-xl ring-1 ring-slate-200/80 sm:size-11 ${
-                displayed.id === "carlos"
-                  ? "bg-slate-100"
-                  : "bg-canvas text-brand transition group-hover:bg-brand group-hover:text-white group-hover:ring-brand"
-              }`}
-            >
-              {displayed.id === "carlos" ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src="/agents/offices/carlos.png"
-                  alt=""
-                  className="absolute inset-0 size-full object-cover object-[center_18%] transition duration-300 group-hover:scale-[1.04]"
-                />
-              ) : (
-                <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-                  <path d="M4 10h16v8H4z" strokeLinejoin="round" />
-                  <path d="M7 10V8a2 2 0 012-2h6a2 2 0 012 2v2" strokeLinecap="round" />
-                  <path d="M12 14v2M4 14h16" strokeLinecap="round" />
-                </svg>
-              )}
+            <span className="relative block w-full overflow-hidden rounded-xl bg-slate-100 ring-1 ring-slate-200/80">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                key={officeSrc}
+                src={officeSrc}
+                alt=""
+                onError={() => setOfficeIdx((i) => (i + 1 < officeCandidates.length ? i + 1 : i))}
+                className="aspect-[5/4] w-full object-cover object-[center_22%] transition duration-300 group-hover:scale-[1.03]"
+              />
             </span>
             <span className="text-[10px] leading-tight font-semibold text-slate-800 sm:text-[11px]">
               Go to {displayed.name.split(" ")[0]}&apos;s office
             </span>
           </a>
 
-          <div className="grid pr-24 min-[380px]:pr-28 sm:pr-32" aria-live={autoplay ? "off" : "polite"}>
+          <div className="grid pr-36 min-[380px]:pr-40 sm:pr-44" aria-live={autoplay ? "off" : "polite"}>
             <AnimatePresence initial={false}>
               <motion.div
                 key={displayed.id}

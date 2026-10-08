@@ -21,6 +21,7 @@ const navItems = [
   { id: "team", label: "Team", href: "/#team" },
   { id: "features", label: "Features", href: "/#features" },
   { id: "integrations", label: "Integrations", href: "/integrations" },
+  { id: "savings", label: "Savings", href: "/savings" },
   { id: "pricing", label: "Pricing", href: "/#pricing" },
 ] as const;
 
@@ -323,7 +324,15 @@ export function Header() {
   }, [teamOpen]);
 
   const onAgents = pathname.startsWith("/agents");
-  const active: NavId | null = pathname === "/integrations" ? "integrations" : onAgents ? "team" : sectionActive;
+  const onSavings = pathname.startsWith("/savings");
+  const active: NavId | null =
+    pathname === "/integrations"
+      ? "integrations"
+      : onSavings
+        ? "savings"
+        : onAgents
+          ? "team"
+          : sectionActive;
   const highlight = hovered ?? active;
 
   return (

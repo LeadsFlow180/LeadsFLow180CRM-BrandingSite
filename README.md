@@ -40,7 +40,7 @@ See `docs/STRIPE-SETUP.md`.
 
 ## Sections (home)
 
-Header, hero with the 3D CRM mock, team stage (21 agents), languages strip, HOW feature cards, workspace modules, Launch Founders pricing, closing CTA, footer.
+Header, hero with Need Help picker, Flow showcase (CRM mock), team stage (21 agents), Savings cards (above Multilingual → `/savings/*`), languages strip, HOW feature cards, workspace modules, Launch Founders pricing, closing CTA, footer. Savings calculators: `/savings`, `/savings/missed-leads`, `/savings/seats` (`src/lib/roiMath.ts` + `src/components/roi/`).
 
 ## Assets
 
