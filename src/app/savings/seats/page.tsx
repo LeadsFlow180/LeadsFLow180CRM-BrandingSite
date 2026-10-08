@@ -1,17 +1,6 @@
-import type { Metadata } from "next";
-import { SeatCostCalculator } from "@/components/roi/SeatCostCalculator";
-import { SavingsShell } from "@/components/roi/SavingsShell";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Seat cost calculator · LeadsFlow180",
-  description:
-    "Compare the monthly cost of filling empty seats yourself with what you keep using LeadsFlow180.",
-};
-
+/** Deep link → hub with seat-cost calculator open below. */
 export default function SeatCostSavingsPage() {
-  return (
-    <SavingsShell>
-      <SeatCostCalculator />
-    </SavingsShell>
-  );
+  redirect("/savings?calc=seats");
 }

@@ -1,24 +1,45 @@
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
+import { MissedLeadPreview, SeatCostPreview } from "@/components/roi/CalculatorPreviews";
 import { Reveal } from "@/components/Motion";
 
-const cards = [
-  {
-    href: "/savings/missed-leads",
-    eye: "Missed-lead calculator",
-    title: "Missed leads",
-    body: "What unanswered calls and slow replies cost you every month — with your numbers.",
-  },
-  {
-    href: "/savings/seats",
-    eye: "Seat cost calculator",
-    title: "Empty seats",
-    body: "What it costs to fill the roles you are missing, versus the LeadsFlow180 team.",
-  },
-] as const;
+function TextCard({
+  eye,
+  title,
+  body,
+}: {
+  eye: string;
+  title: string;
+  body: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-slate-200/80 bg-[#f4f6fb] p-5 transition group-hover:border-brand/25 group-hover:bg-[#eef1f8] sm:p-6">
+      <p className="text-[11px] font-semibold tracking-[0.18em] text-brand uppercase">{eye}</p>
+      <p className="mt-2 text-xl font-semibold tracking-[-0.02em] text-slate-950 sm:text-[1.35rem]">{title}</p>
+      <p className="mt-2 text-sm leading-relaxed text-slate-600">{body}</p>
+      <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand transition group-hover:gap-2.5">
+        Open calculator
+        <span aria-hidden>→</span>
+      </span>
+    </div>
+  );
+}
 
-/** Standalone home section above Multilingual — two links into Savings pages (no pop-ups). */
+function PreviewFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="relative transition duration-300 group-hover:-translate-y-0.5 group-hover:scale-[1.01]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-3 rounded-[1.35rem] bg-gradient-to-br from-brand/10 via-transparent to-brand-purple/10 opacity-0 blur-xl transition group-hover:opacity-100"
+      />
+      <div className="relative">{children}</div>
+    </div>
+  );
+}
+
+/** Standalone home section above Multilingual — staggered cards + calculator thumbnails. */
 export function SavingsCards() {
   return (
     <section
@@ -43,27 +64,38 @@ export function SavingsCards() {
             Run the numbers before you decide
           </h2>
           <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-slate-600">
-            For owners who want the math first. Open a calculator — full page, no pop-ups.
+            For owners who want the math first. Open a calculator on the Savings page — no pop-ups.
           </p>
         </Reveal>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
-          {cards.map((c, i) => (
-            <Reveal key={c.href} delay={0.08 * (i + 1)}>
-              <Link
-                href={c.href}
-                className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-[#f4f6fb] p-5 transition hover:border-brand/35 hover:bg-white hover:shadow-[0_16px_40px_-28px_rgba(1,13,255,0.45)] sm:p-6"
-              >
-                <p className="text-[11px] font-semibold tracking-[0.18em] text-brand uppercase">{c.eye}</p>
-                <p className="mt-2 text-xl font-semibold tracking-[-0.02em] text-slate-950">{c.title}</p>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{c.body}</p>
-                <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand transition group-hover:gap-2.5">
-                  Open calculator
-                  <span aria-hidden>→</span>
-                </span>
-              </Link>
-            </Reveal>
-          ))}
+        <div className="mt-10 grid items-start gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-14">
+          {/* Left: text → preview */}
+          <Reveal>
+            <Link href="/savings/missed-leads" className="group grid gap-5 outline-none">
+              <TextCard
+                eye="Missed-lead calculator"
+                title="Missed leads"
+                body="What unanswered calls and slow replies cost you every month — with your numbers."
+              />
+              <PreviewFrame>
+                <MissedLeadPreview />
+              </PreviewFrame>
+            </Link>
+          </Reveal>
+
+          {/* Right: preview → text (staggered down on desktop) */}
+          <Reveal delay={0.1}>
+            <Link href="/savings/seats" className="group grid gap-5 outline-none lg:mt-16 xl:mt-24">
+              <PreviewFrame>
+                <SeatCostPreview />
+              </PreviewFrame>
+              <TextCard
+                eye="Seat cost calculator"
+                title="Empty seats"
+                body="What it costs to fill the roles you are missing, versus the LeadsFlow180 team."
+              />
+            </Link>
+          </Reveal>
         </div>
       </div>
     </section>

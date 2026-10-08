@@ -2,7 +2,7 @@
 
 ## Active
 
-- [x] 2026-10-08 — Savings: nav **Savings** → `/savings` hub; full pages `/savings/missed-leads` + `/savings/seats`; two cards in Languages band (`/#savings`); no pop-ups; math from Downloads HTML.
+- [x] 2026-10-08 — Savings hub: cards open calculators **on the same page below** (`?calc=missed|seats`); old `/savings/missed-leads` + `/seats` redirect; home teaser cards deep-link; no pop-ups.
 - [x] 2026-10-08 — Home ROI section first pass (later moved off-home into Savings pages per Tahal feedback).
 - [x] 2026-10-08 — Header Team dropdown → all `/agents/[id]` profiles + Meet the team / directory (SEO crawl links).
 - [x] 2026-10-08 — StageCard: corner desk icon “Go to {name}’s office” replaces big white Visit button.

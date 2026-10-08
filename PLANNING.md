@@ -24,7 +24,7 @@ This site does not authenticate into CRM APIs. Stripe Checkout is the paid path.
 - `src/app/agents/page.tsx` — floor directory.
 - `src/app/agents/[id]/page.tsx` — screenshot-style portfolio (hero, facts, tilted cards, about/skills, FAQ + get-started, ask modal).
 - `src/app/integrations/page.tsx` — Integration Center (Discover/Installed, search, filters) with filler connectors; LeadsFlow theme.
-- `src/app/savings/page.tsx` — Savings hub; `/savings/missed-leads` + `/savings/seats` full calculator pages (no pop-ups).
+- `src/app/savings/page.tsx` — Savings hub (`SavingsHub`): cards expand calculators below on the same page (`?calc=missed|seats`); subpaths redirect.
 - `src/lib/integrationsFillers.ts` — filler integration catalog.
 - `src/app/api/agents/*` — email verify + timed chat.
 - `src/components/` — `Header`, `Hero` (right panel = NeedHelp picker), `FlowShowcase` (relocated CrmMock), `TeamStage`, `SavingsCards` (above Multilingual), `Languages`, `Features`, `roi/*`, `Pricing`, `ClosingCta`, `Footer`, `agents/*`, shared `Motion`.
