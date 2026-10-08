@@ -2,6 +2,7 @@
 
 ## Active
 
+- [x] 2026-10-08 — Hero “Need help?” picker (6 slots → Ask); top Jordan/Ava/Jay, bottom Lee/Shelly/Caleb with real titles; CRM mock in FlowShowcase.
 - [ ] Set canonical and Open Graph URL after the public domain is confirmed.
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
 - [ ] Guide PDF file URLs — on-page guide + download CTA text live for all 21; attach real PDFs when designed (no placeholder links).

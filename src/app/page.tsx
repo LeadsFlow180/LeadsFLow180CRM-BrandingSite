@@ -1,5 +1,6 @@
 import { ClosingCta } from "@/components/ClosingCta";
 import { Features, Workspace } from "@/components/Features";
+import { FlowShowcase } from "@/components/FlowShowcase";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
@@ -13,6 +14,7 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
+        <FlowShowcase />
         <TeamStage />
         <LanguagesStrip />
         <Features />

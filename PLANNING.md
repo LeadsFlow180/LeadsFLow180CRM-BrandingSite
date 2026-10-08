@@ -26,8 +26,9 @@ This site does not authenticate into CRM APIs. Stripe Checkout is the paid path.
 - `src/app/integrations/page.tsx` — Integration Center (Discover/Installed, search, filters) with filler connectors; LeadsFlow theme.
 - `src/lib/integrationsFillers.ts` — filler integration catalog.
 - `src/app/api/agents/*` — email verify + timed chat.
-- `src/components/` — `Header`, `Hero`, `TeamStage`, `Languages`, `Features`, `Pricing`, `ClosingCta`, `Footer`, `agents/*`, shared `Motion`.
+- `src/components/` — `Header`, `Hero` (right panel = NeedHelp picker), `FlowShowcase` (relocated CrmMock), `TeamStage`, `Languages`, `Features`, `Pricing`, `ClosingCta`, `Footer`, `agents/*`, shared `Motion`.
 - `src/lib/site.ts` — URLs, the 21 agents, languages, workspace modules.
+- `src/lib/needHelpSlots.ts` — six filler need→agent mappings for the home picker.
 - `src/lib/agentProfiles.ts` — bios, personality, FAQs, work samples, office photo paths.
 - `src/lib/pricing.ts` — Launch Founders plan + today’s bonuses.
 - `src/lib/stripeCatalog.ts` — Product + Price via Stripe API.

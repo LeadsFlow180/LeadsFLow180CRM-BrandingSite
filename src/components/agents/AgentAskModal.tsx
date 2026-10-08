@@ -47,9 +47,10 @@ export function AgentAskModal({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  const refreshSession = useCallback(async () => {
-    const res = await fetch("/api/agents/chat");
+  const refreshSession = useCallback(async (signal?: AbortSignal) => {
+    const res = await fetch("/api/agents/chat", { signal });
     const data = (await res.json()) as { verified?: boolean; remainingSec?: number };
+    if (signal?.aborted) return;
     if (data.verified && (data.remainingSec ?? 0) > 0) {
       setStatus("chat");
       setRemaining(data.remainingSec ?? 0);
@@ -62,13 +63,19 @@ export function AgentAskModal({
   }, []);
 
   useEffect(() => {
-    if (open) void refreshSession();
+    if (!open) return;
+    const ac = new AbortController();
+    void refreshSession(ac.signal).catch(() => {
+      /* aborted or network — ignore */
+    });
+    return () => ac.abort();
   }, [open, refreshSession]);
 
   useEffect(() => {
     const token = initialVerifyToken?.trim();
     if (!open || !token || verifying.current) return;
     verifying.current = true;
+    const ac = new AbortController();
     (async () => {
       setBusy(true);
       try {
@@ -76,8 +83,10 @@ export function AgentAskModal({
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token }),
+          signal: ac.signal,
         });
         const data = (await res.json()) as { error?: string; remainingSec?: number };
+        if (ac.signal.aborted) return;
         if (!res.ok) throw new Error(data.error || "Verification failed.");
         setStatus("chat");
         setRemaining(data.remainingSec ?? CHAT_DURATION_SEC);
@@ -86,26 +95,29 @@ export function AgentAskModal({
         url.searchParams.delete("verify");
         window.history.replaceState({}, "", url.pathname + url.search);
       } catch (err) {
+        if (ac.signal.aborted) return;
         setError(err instanceof Error ? err.message : "Verification failed.");
       } finally {
-        setBusy(false);
+        if (!ac.signal.aborted) setBusy(false);
       }
     })();
+    return () => ac.abort();
   }, [open, initialVerifyToken]);
 
   useEffect(() => {
     if (status !== "chat") return;
     const id = window.setInterval(() => {
       setRemaining((s) => {
-        if (s <= 1) {
-          setStatus("ended");
-          return 0;
-        }
+        if (s <= 1) return 0;
         return s - 1;
       });
     }, 1000);
     return () => window.clearInterval(id);
   }, [status]);
+
+  useEffect(() => {
+    if (status === "chat" && remaining <= 0) setStatus("ended");
+  }, [status, remaining]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });

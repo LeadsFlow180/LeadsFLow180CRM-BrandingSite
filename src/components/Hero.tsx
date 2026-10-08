@@ -3,9 +3,9 @@
 import { motion, useMotionValue, useReducedMotion, type Variants } from "framer-motion";
 import type { PointerEvent } from "react";
 import { languageLine, links } from "@/lib/site";
-import { CrmMock } from "./CrmMock";
 import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroFaces } from "./HeroFaces";
+import { NeedHelpPanel } from "./NeedHelp";
 import { ease, fadeUp, stagger } from "./Motion";
 
 const flipWord: Variants = {
@@ -181,8 +181,8 @@ export function Hero() {
             aria-hidden="true"
             className="absolute -inset-6 -z-0 hidden rounded-[40px] bg-gradient-to-br from-brand/15 via-transparent to-brand-purple/15 blur-xl sm:block"
           />
-          <div className="relative mx-auto w-full max-w-[520px] origin-top scale-[0.92] sm:max-w-none sm:scale-100">
-            <CrmMock />
+          <div className="relative mx-auto w-full max-w-[560px] lg:max-w-none">
+            <NeedHelpPanel />
           </div>
         </div>
       </div>

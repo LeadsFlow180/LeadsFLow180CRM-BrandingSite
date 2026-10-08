@@ -3,7 +3,6 @@
 import {
   motion,
   useMotionValue,
-  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -90,14 +89,20 @@ function TiltLogo() {
 
 export function Header() {
   const pathname = usePathname();
-  const reduce = useReducedMotion();
+  // Reason: useReducedMotion is null until mount — treat as false so SSR/CSR match.
+  const reduce = useReducedMotion() === true;
   const { scrollY, scrollYProgress } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState<NavId | null>(null);
   const sectionActive = useActiveSection();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
 
-  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
+  // Reason: useMotionValueEvent can fire before mount and trip React's "update before mount" warning.
+  useEffect(() => {
+    const unsub = scrollY.on("change", (y) => setScrolled(y > 24));
+    setScrolled(scrollY.get() > 24);
+    return unsub;
+  }, [scrollY]);
 
   // Reason: Integrations is a route; Team/Features/Pricing stay hash sections on home.
   const active: NavId | null = pathname === "/integrations" ? "integrations" : sectionActive;

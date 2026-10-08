@@ -84,16 +84,14 @@ export function AgentTalkPanel({ agentId, agentName, initialVerifyToken }: Props
   useEffect(() => {
     if (status !== "chat") return;
     const id = window.setInterval(() => {
-      setRemaining((s) => {
-        if (s <= 1) {
-          setStatus("ended");
-          return 0;
-        }
-        return s - 1;
-      });
+      setRemaining((s) => (s <= 1 ? 0 : s - 1));
     }, 1000);
     return () => window.clearInterval(id);
   }, [status]);
+
+  useEffect(() => {
+    if (status === "chat" && remaining <= 0) setStatus("ended");
+  }, [status, remaining]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
