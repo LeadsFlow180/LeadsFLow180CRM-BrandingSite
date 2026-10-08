@@ -254,18 +254,33 @@ export function StageCard({
         </div>
 
         <div className="relative flex min-w-0 flex-col justify-between gap-6 p-4 min-[380px]:p-6 sm:gap-8 sm:p-10 md:py-12 md:pr-12 md:pl-6">
-          {/* Reason: desk icon in the corner — less clutter than a full-width white CTA. */}
+          {/* Reason: fixed card size — Carlos trial swaps icon for office still without growing the chip. */}
           <a
             href={`/agents/${displayed.id}`}
-            className="group absolute top-3 right-3 z-20 flex max-w-[9.5rem] flex-col items-center gap-1.5 rounded-2xl bg-white p-2.5 text-center shadow-[0_12px_28px_-14px_rgba(0,0,0,0.55)] ring-1 ring-white/80 transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-12px_rgba(1,13,255,0.35)] min-[380px]:top-5 min-[380px]:right-5 sm:top-8 sm:right-8 sm:max-w-[10.5rem] sm:p-3"
+            className="group absolute top-3 right-3 z-20 flex w-[6.75rem] flex-col items-center gap-1.5 rounded-2xl bg-white p-2 text-center shadow-[0_12px_28px_-14px_rgba(0,0,0,0.55)] ring-1 ring-white/80 transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-12px_rgba(1,13,255,0.35)] min-[380px]:top-5 min-[380px]:right-5 sm:top-8 sm:right-8 sm:w-[7.25rem] sm:p-2.5"
             aria-label={`Go to ${displayed.name.split(" ")[0]}'s office`}
           >
-            <span className="grid size-10 place-items-center rounded-xl bg-canvas text-brand ring-1 ring-slate-200/80 transition group-hover:bg-brand group-hover:text-white group-hover:ring-brand sm:size-11">
-              <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-                <path d="M4 10h16v8H4z" strokeLinejoin="round" />
-                <path d="M7 10V8a2 2 0 012-2h6a2 2 0 012 2v2" strokeLinecap="round" />
-                <path d="M12 14v2M4 14h16" strokeLinecap="round" />
-              </svg>
+            <span
+              className={`relative grid size-10 shrink-0 place-items-center overflow-hidden rounded-xl ring-1 ring-slate-200/80 sm:size-11 ${
+                displayed.id === "carlos"
+                  ? "bg-slate-100"
+                  : "bg-canvas text-brand transition group-hover:bg-brand group-hover:text-white group-hover:ring-brand"
+              }`}
+            >
+              {displayed.id === "carlos" ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src="/agents/offices/carlos.png"
+                  alt=""
+                  className="absolute inset-0 size-full object-cover object-[center_18%] transition duration-300 group-hover:scale-[1.04]"
+                />
+              ) : (
+                <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+                  <path d="M4 10h16v8H4z" strokeLinejoin="round" />
+                  <path d="M7 10V8a2 2 0 012-2h6a2 2 0 012 2v2" strokeLinecap="round" />
+                  <path d="M12 14v2M4 14h16" strokeLinecap="round" />
+                </svg>
+              )}
             </span>
             <span className="text-[10px] leading-tight font-semibold text-slate-800 sm:text-[11px]">
               Go to {displayed.name.split(" ")[0]}&apos;s office
