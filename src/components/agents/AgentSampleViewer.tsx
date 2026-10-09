@@ -6,7 +6,7 @@ type Props = {
   siblings: PortfolioSample[];
 };
 
-/** Cinematic same-tab sample viewer — cover stage + embedded PDF. */
+/** Same-tab majestic viewer — thumbs open the real sample PDF on stage. */
 export function AgentSampleViewer({ sample, siblings }: Props) {
   const first = sample.agentName.split(" ")[0] ?? sample.agentName;
   const idx = siblings.findIndex((s) => s.slug === sample.slug);
@@ -19,12 +19,8 @@ export function AgentSampleViewer({ sample, siblings }: Props) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(1,13,255,0.28),transparent_42%),radial-gradient(ellipse_at_85%_15%,rgba(70,9,174,0.22),transparent_40%),radial-gradient(ellipse_at_50%_100%,rgba(0,255,38,0.06),transparent_45%)]"
       />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:48px_48px]"
-      />
 
-      <header className="relative z-10 border-b border-white/10 bg-black/40 backdrop-blur-xl">
+      <header className="relative z-10 border-b border-white/10 bg-black/45 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
           <div className="min-w-0">
             <p className="text-[10px] font-semibold tracking-[0.2em] text-brand-green uppercase">
@@ -54,46 +50,37 @@ export function AgentSampleViewer({ sample, siblings }: Props) {
         <div aria-hidden="true" className="brand-line h-[2px] w-full opacity-80" />
       </header>
 
-      <main className="relative z-10 mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.35fr)] lg:items-start lg:gap-10 lg:py-12">
-        <aside className="space-y-5">
-          <div className="overflow-hidden rounded-[22px] bg-white/[0.04] p-2.5 shadow-[0_40px_80px_-40px_rgba(1,13,255,0.75)] ring-1 ring-white/15">
+      <main className="relative z-10 mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-8 lg:py-10">
+        <aside className="order-2 space-y-4 lg:order-1">
+          <div className="hidden overflow-hidden rounded-2xl bg-white p-1.5 shadow-xl ring-1 ring-white/15 lg:block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={sample.cover}
-              alt=""
-              className="aspect-[3/4] w-full rounded-[16px] object-cover object-top"
-            />
+            <img src={sample.cover} alt="" className="aspect-[3/4] w-full rounded-xl object-cover object-top" />
           </div>
-          <div className="rounded-[20px] bg-white/[0.04] p-4 ring-1 ring-white/10">
+          <div className="rounded-2xl bg-white/[0.04] p-3.5 ring-1 ring-white/10">
             <p className="text-[10px] font-semibold tracking-[0.18em] text-white/45 uppercase">Prepared by</p>
-            <p className="mt-1 text-sm font-semibold text-white">
-              {sample.agentName}
-              <span className="font-normal text-white/50"> · {sample.agentTitle}</span>
-            </p>
-            <p className="mt-3 text-[13px] leading-relaxed text-white/55">
-              Demonstration sample for this lane — labeled as a concept until permissioned client work replaces it.
-            </p>
+            <p className="mt-1 text-sm font-semibold text-white">{sample.agentName}</p>
+            <p className="mt-0.5 text-[12px] text-white/50">{sample.agentTitle}</p>
           </div>
-
           {siblings.length > 1 ? (
             <div>
-              <p className="mb-2.5 text-[10px] font-semibold tracking-[0.18em] text-white/45 uppercase">
-                More from {first}
-              </p>
-              <ul className="flex gap-2.5 overflow-x-auto pb-1">
+              <p className="mb-2 text-[10px] font-semibold tracking-[0.18em] text-white/45 uppercase">All samples</p>
+              <ul className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible">
                 {siblings.map((s) => {
                   const active = s.slug === sample.slug;
                   return (
                     <li key={s.slug} className="shrink-0">
                       <Link
                         href={s.viewerHref}
-                        className={`block w-[4.75rem] overflow-hidden rounded-xl ring-1 transition ${
-                          active ? "ring-brand-green/70" : "ring-white/15 hover:ring-white/35"
-                        }`}
                         aria-current={active ? "page" : undefined}
+                        className={`flex items-center gap-2.5 rounded-xl p-1.5 ring-1 transition ${
+                          active ? "bg-white/10 ring-brand-green/60" : "ring-white/10 hover:bg-white/[0.06]"
+                        }`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={s.cover} alt="" className="aspect-[3/4] w-full object-cover object-top" />
+                        <img src={s.cover} alt="" className="size-11 rounded-lg object-cover object-top sm:size-12" />
+                        <span className="hidden min-w-0 flex-1 pr-1 lg:block">
+                          <span className="block truncate text-[12px] font-semibold text-white">{s.title}</span>
+                        </span>
                       </Link>
                     </li>
                   );
@@ -101,34 +88,27 @@ export function AgentSampleViewer({ sample, siblings }: Props) {
               </ul>
             </div>
           ) : null}
-
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {prev ? (
               <Link
                 href={prev.viewerHref}
-                className="inline-flex min-h-9 flex-1 items-center justify-center rounded-full bg-white/[0.06] px-3 text-[12px] font-semibold text-white ring-1 ring-white/15"
+                className="inline-flex min-h-9 flex-1 items-center justify-center rounded-full bg-white/[0.06] px-3 text-[12px] font-semibold ring-1 ring-white/15"
               >
-                ← {prev.title}
+                ← Prev
               </Link>
             ) : null}
             {next ? (
               <Link
                 href={next.viewerHref}
-                className="inline-flex min-h-9 flex-1 items-center justify-center rounded-full bg-white/[0.06] px-3 text-[12px] font-semibold text-white ring-1 ring-white/15"
+                className="inline-flex min-h-9 flex-1 items-center justify-center rounded-full bg-white/[0.06] px-3 text-[12px] font-semibold ring-1 ring-white/15"
               >
-                {next.title} →
+                Next →
               </Link>
             ) : null}
           </div>
         </aside>
 
-        <section className="min-w-0">
-          <div className="mb-3 flex items-end justify-between gap-3">
-            <div>
-              <p className="text-[10px] font-semibold tracking-[0.2em] text-brand-green uppercase">Document stage</p>
-              <p className="mt-1 text-sm text-white/60">Viewing in FLOW — same tab, full sample PDF.</p>
-            </div>
-          </div>
+        <section className="order-1 min-w-0 lg:order-2">
           <div className="overflow-hidden rounded-[24px] bg-[#0b1020] shadow-[0_50px_100px_-48px_rgba(0,0,0,0.95),0_0_0_1px_rgba(255,255,255,0.12)]">
             <div aria-hidden="true" className="brand-line h-[2px] w-full" />
             <div className="flex items-center gap-2 border-b border-white/10 px-4 py-2.5">
@@ -137,10 +117,11 @@ export function AgentSampleViewer({ sample, siblings }: Props) {
               <span className="size-2.5 rounded-full bg-[#28c840]" />
               <span className="ml-2 truncate text-[11px] text-white/45">{sample.slug}.pdf</span>
             </div>
+            {/* Reason: embed the real PDF binary — thumbs are covers only. */}
             <iframe
               title={`${sample.title} PDF`}
-              src={`${sample.pdf}#view=FitH`}
-              className="h-[min(78dvh,920px)] w-full bg-[#111827]"
+              src={`${sample.pdf}#toolbar=1&navpanes=0&view=FitH`}
+              className="h-[min(82dvh,960px)] w-full bg-[#111827]"
             />
           </div>
         </section>
