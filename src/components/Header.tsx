@@ -130,19 +130,20 @@ function TeamOfficesPanel({ onClose }: { onClose: () => void }) {
       </div>
 
       <div className="relative">
+        {/* Reason: keep edge fades thinner/shorter than padding so Mia (first card) isn’t clipped. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-[#0b1020] to-transparent sm:w-8"
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-3 bg-gradient-to-r from-[#0b1020] to-transparent sm:w-4"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-[#0b1020] to-transparent sm:w-8"
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-3 bg-gradient-to-l from-[#0b1020] to-transparent sm:w-4"
         />
-        <ul className="scrollbar-none flex snap-x snap-mandatory gap-2.5 overflow-x-auto overscroll-x-contain px-3 py-3 sm:gap-3 sm:px-4 sm:py-3.5">
+        <ul className="scrollbar-none flex snap-x snap-mandatory gap-2.5 overflow-x-auto overscroll-x-contain scroll-ps-4 px-4 py-3 sm:gap-3 sm:scroll-ps-5 sm:px-5 sm:py-3.5">
           {agents.map((a) => {
             const tone = groupTone[a.group];
             return (
-              <li key={a.id} className="snap-start shrink-0">
+              <li key={a.id} className="snap-start shrink-0 first:scroll-ml-0">
                 <Link
                   href={`/agents/${a.id}`}
                   role="menuitem"
@@ -272,10 +273,13 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState<NavId | null>(null);
   const [teamOpen, setTeamOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileTeamOpen, setMobileTeamOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const teamAnchorRef = useRef<HTMLLIElement>(null);
   const sectionActive = useActiveSection();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
+  const mobileMenuId = useId();
 
   const openTeam = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -318,6 +322,8 @@ export function Header() {
 
   useEffect(() => {
     setTeamOpen(false);
+    setMobileMenuOpen(false);
+    setMobileTeamOpen(false);
   }, [pathname]);
 
   useEffect(
@@ -327,16 +333,28 @@ export function Header() {
     [],
   );
 
-  // Lock body scroll when mobile team sheet is open
+  // Lock body scroll when mobile sheet is open
   useEffect(() => {
-    if (!teamOpen) return;
+    if (!teamOpen && !mobileMenuOpen) return;
     const prev = document.body.style.overflow;
     const mq = window.matchMedia("(max-width: 767px)");
     if (mq.matches) document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [teamOpen]);
+  }, [teamOpen, mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+        setMobileTeamOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [mobileMenuOpen]);
 
   const onAgents = pathname.startsWith("/agents");
   const onSavings = pathname.startsWith("/savings");
@@ -353,6 +371,11 @@ export function Header() {
             : sectionActive;
   const highlight = hovered ?? active;
 
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    setMobileTeamOpen(false);
+  };
+
   return (
     <header className="sticky top-0 z-50">
       <motion.div
@@ -366,7 +389,7 @@ export function Header() {
         <div className="md:[perspective:1400px]">
           <div
             className={`relative text-white transition-[border-radius,background-color,box-shadow,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              teamOpen ? "overflow-visible" : "overflow-hidden"
+              teamOpen || mobileMenuOpen ? "overflow-visible" : "overflow-hidden"
             } ${
               scrolled
                 ? "rounded-[22px] bg-black/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.14),inset_0_-1px_0_rgba(255,255,255,0.04),0_24px_48px_-20px_rgba(1,13,255,0.55),0_30px_60px_-28px_rgba(0,0,0,0.85)] backdrop-blur-2xl backdrop-saturate-150"
@@ -388,34 +411,7 @@ export function Header() {
               <TiltLogo />
 
               <nav aria-label="Primary" className="flex shrink-0 items-center gap-1.5 lg:gap-2">
-                {/* Mobile Team — click only (no hover leave, which closes on touch) */}
-                <div data-team-root className="md:hidden">
-                  <button
-                    type="button"
-                    aria-expanded={teamOpen}
-                    aria-haspopup="menu"
-                    onClick={() => setTeamOpen((v) => !v)}
-                    className={`inline-flex h-9 items-center gap-1 rounded-full px-3 text-xs font-semibold whitespace-nowrap ring-1 transition ${
-                      teamOpen
-                        ? "bg-white/[0.12] text-white ring-white/30"
-                        : "text-white ring-white/20"
-                    }`}
-                  >
-                    Team
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 12 12"
-                      className={`size-3 opacity-80 transition duration-300 ${teamOpen ? "rotate-180" : ""}`}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                    >
-                      <path d="M2.5 4.5L6 8l3.5-3.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                  <TeamDropdown open={teamOpen} onClose={() => setTeamOpen(false)} mode="mobile" />
-                </div>
-
+                {/* Desktop pill nav */}
                 <ul
                   onMouseLeave={() => setHovered(null)}
                   className="relative hidden items-center gap-0.5 rounded-full bg-white/[0.04] p-0.5 ring-1 ring-white/10 md:flex"
@@ -509,6 +505,41 @@ export function Header() {
                   })}
                 </ul>
 
+                {/* Mobile: Menu + Sign up only — full links live in the sheet */}
+                <button
+                  type="button"
+                  aria-expanded={mobileMenuOpen}
+                  aria-controls={mobileMenuId}
+                  aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                  onClick={() => {
+                    setMobileMenuOpen((v) => !v);
+                    setMobileTeamOpen(false);
+                  }}
+                  className={`inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 transition md:hidden ${
+                    mobileMenuOpen
+                      ? "bg-white/[0.12] text-white ring-white/30"
+                      : "text-white ring-white/20"
+                  }`}
+                >
+                  <span className="relative block size-4">
+                    <span
+                      className={`absolute left-0 block h-[1.5px] w-4 rounded-full bg-current transition ${
+                        mobileMenuOpen ? "top-[7px] rotate-45" : "top-[3px]"
+                      }`}
+                    />
+                    <span
+                      className={`absolute top-[7px] left-0 block h-[1.5px] w-4 rounded-full bg-current transition ${
+                        mobileMenuOpen ? "opacity-0" : "opacity-100"
+                      }`}
+                    />
+                    <span
+                      className={`absolute left-0 block h-[1.5px] w-4 rounded-full bg-current transition ${
+                        mobileMenuOpen ? "top-[7px] -rotate-45" : "top-[11px]"
+                      }`}
+                    />
+                  </span>
+                </button>
+
                 <a
                   href={links.signup}
                   className="inline-flex h-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#3a44ff] to-brand px-3.5 text-xs font-semibold whitespace-nowrap text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_10px_20px_-10px_rgba(1,13,255,0.85)] xl:px-4 xl:text-sm"
@@ -519,12 +550,122 @@ export function Header() {
 
                 <a
                   href={links.login}
-                  className="hidden h-9 shrink-0 items-center justify-center rounded-full px-3 text-xs font-semibold whitespace-nowrap text-white/85 ring-1 ring-white/15 min-[400px]:inline-flex xl:px-3.5 xl:text-sm"
+                  className="hidden h-9 shrink-0 items-center justify-center rounded-full px-3 text-xs font-semibold whitespace-nowrap text-white/85 ring-1 ring-white/15 md:inline-flex xl:px-3.5 xl:text-sm"
                 >
                   Sign in
                 </a>
               </nav>
             </div>
+
+            {/* Mobile full menu — every tab readable, no clipped pills */}
+            <AnimatePresence>
+              {mobileMenuOpen ? (
+                <motion.div
+                  key="mobile-menu"
+                  id={mobileMenuId}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.28, ease }}
+                  className="overflow-hidden border-t border-white/10 md:hidden"
+                >
+                  <div className="px-3 py-3 sm:px-4">
+                    <ul className="space-y-0.5">
+                      {navItems.map((item) => {
+                        const isActive = active === item.id;
+                        const isTeam = item.id === "team";
+                        if (isTeam) {
+                          return (
+                            <li key={item.id}>
+                              <button
+                                type="button"
+                                aria-expanded={mobileTeamOpen}
+                                onClick={() => setMobileTeamOpen((v) => !v)}
+                                className={`flex w-full items-center justify-between rounded-xl px-3 py-3 text-left text-sm font-semibold ${
+                                  isActive || mobileTeamOpen ? "bg-white/[0.08] text-white" : "text-white/80"
+                                }`}
+                              >
+                                <span className="flex items-center gap-2">
+                                  <span
+                                    aria-hidden="true"
+                                    className={`size-1.5 rounded-full ${
+                                      isActive || mobileTeamOpen ? "bg-brand-green shadow-[0_0_8px_#00ff26]" : "bg-white/30"
+                                    }`}
+                                  />
+                                  Team
+                                </span>
+                                <svg
+                                  aria-hidden="true"
+                                  viewBox="0 0 12 12"
+                                  className={`size-3 opacity-70 transition ${mobileTeamOpen ? "rotate-180" : ""}`}
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.8"
+                                >
+                                  <path d="M2.5 4.5L6 8l3.5-3.5" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </button>
+                              <AnimatePresence>
+                                {mobileTeamOpen ? (
+                                  <motion.div
+                                    key="mobile-team"
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.22, ease }}
+                                    className="overflow-hidden"
+                                  >
+                                    <div className="pb-2 pl-1">
+                                      <TeamOfficesPanel onClose={closeMobileMenu} />
+                                    </div>
+                                  </motion.div>
+                                ) : null}
+                              </AnimatePresence>
+                            </li>
+                          );
+                        }
+                        return (
+                          <li key={item.id}>
+                            <a
+                              href={item.href}
+                              onClick={closeMobileMenu}
+                              aria-current={isActive ? "page" : undefined}
+                              className={`flex items-center gap-2 rounded-xl px-3 py-3 text-sm font-semibold ${
+                                isActive ? "bg-white/[0.08] text-white" : "text-white/80"
+                              }`}
+                            >
+                              <span
+                                aria-hidden="true"
+                                className={`size-1.5 rounded-full ${
+                                  isActive ? "bg-brand-green shadow-[0_0_8px_#00ff26]" : "bg-white/30"
+                                }`}
+                              />
+                              {item.label}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <div className="mt-3 flex gap-2 border-t border-white/10 pt-3">
+                      <a
+                        href={links.login}
+                        onClick={closeMobileMenu}
+                        className="inline-flex h-10 flex-1 items-center justify-center rounded-full text-sm font-semibold text-white/90 ring-1 ring-white/20"
+                      >
+                        Sign in
+                      </a>
+                      <a
+                        href={links.signup}
+                        onClick={closeMobileMenu}
+                        className="inline-flex h-10 flex-1 items-center justify-center rounded-full bg-gradient-to-b from-[#3a44ff] to-brand text-sm font-semibold text-white"
+                      >
+                        Sign up
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
 
             <div aria-hidden="true" className="relative h-[2px] bg-white/10">
               <div className="brand-line absolute inset-0 opacity-40" />

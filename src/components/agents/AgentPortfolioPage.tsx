@@ -277,45 +277,66 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
           <div className="relative mt-14 flex flex-wrap items-center justify-center gap-3 pb-4 sm:gap-0 lg:min-h-[400px]">
             {fillers.portfolio.map((card, i) => {
               const tone = cardShell[card.tone];
+              // Reason: designed covers already carry title art — keep overlay light so the sample shows.
+              const coverOnly = Boolean(card.image && card.href);
+              const media = (
+                <div
+                  className="relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-[6px] p-4 text-white"
+                  style={{ background: tone.bg }}
+                >
+                  {card.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={card.image}
+                      alt=""
+                      className="absolute inset-0 size-full object-cover object-top"
+                    />
+                  ) : null}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      background: coverOnly
+                        ? "linear-gradient(to top, rgba(8,15,40,0.55) 0%, transparent 38%)"
+                        : card.image
+                          ? "linear-gradient(to top, rgba(8,15,40,0.88) 0%, rgba(8,15,40,0.28) 42%, rgba(8,15,40,0.08) 100%)"
+                          : "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.28), transparent 42%), radial-gradient(circle at 80% 75%, rgba(0,0,0,0.28), transparent 48%)",
+                    }}
+                  />
+                  {!coverOnly ? (
+                    <>
+                      <p className="relative text-[1.2rem] leading-[1.12] font-extrabold tracking-[-0.02em] drop-shadow-sm">
+                        {card.title}
+                      </p>
+                      <p className="relative mt-2 line-clamp-2 text-[11px] leading-snug text-white/85">
+                        {card.subtitle}
+                      </p>
+                    </>
+                  ) : null}
+                  <span
+                    className={`relative inline-flex w-fit rounded-md px-3 py-1.5 text-[10px] font-extrabold tracking-wide uppercase ${coverOnly ? "" : "mt-4"}`}
+                    style={{ background: tone.btn, color: tone.btnText }}
+                  >
+                    {card.cta}
+                  </span>
+                </div>
+              );
               return (
                 <article
                   key={card.id}
                   className={`w-[min(100%,200px)] rounded-[10px] bg-white p-2.5 shadow-[0_24px_50px_-22px_rgba(11,27,77,0.55)] ring-1 ring-black/[0.06] sm:w-[220px] lg:-mx-3 ${cardTilt[i] ?? ""}`}
                 >
-                  <div
-                    className="relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-[6px] p-4 text-white"
-                    style={{ background: tone.bg }}
-                  >
-                    {card.image ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={card.image}
-                        alt=""
-                        className="absolute inset-0 size-full object-cover"
-                      />
-                    ) : null}
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0"
-                      style={{
-                        background: card.image
-                          ? "linear-gradient(to top, rgba(8,15,40,0.92) 0%, rgba(8,15,40,0.45) 45%, rgba(8,15,40,0.15) 100%)"
-                          : "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.28), transparent 42%), radial-gradient(circle at 80% 75%, rgba(0,0,0,0.28), transparent 48%)",
-                      }}
-                    />
-                    <p className="relative text-[1.2rem] leading-[1.12] font-extrabold tracking-[-0.02em] drop-shadow-sm">
-                      {card.title}
-                    </p>
-                    <p className="relative mt-2 line-clamp-2 text-[11px] leading-snug text-white/85">
-                      {card.subtitle}
-                    </p>
-                    <span
-                      className="relative mt-4 inline-flex w-fit rounded-md px-3 py-1.5 text-[10px] font-extrabold tracking-wide uppercase"
-                      style={{ background: tone.btn, color: tone.btnText }}
+                  {card.href ? (
+                    <Link
+                      href={card.href}
+                      className="block transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                      aria-label={`${card.title} — open sample`}
                     >
-                      {card.cta}
-                    </span>
-                  </div>
+                      {media}
+                    </Link>
+                  ) : (
+                    media
+                  )}
                 </article>
               );
             })}

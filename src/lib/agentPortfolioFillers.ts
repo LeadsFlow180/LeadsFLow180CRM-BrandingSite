@@ -11,6 +11,8 @@ export type PortfolioCard = {
   tone: "blue" | "green" | "navy" | "rose";
   /** Optional filler photo URL for polaroid-style ads. */
   image?: string;
+  /** PDF or URL opened when the card image is clicked. */
+  href?: string;
 };
 export type PortfolioSkill = string;
 export type GetStartedStep = { title: string; detail: string };
@@ -96,9 +98,10 @@ function buildPortfolio(profile: AgentProfile & { agent: Agent }): PortfolioCard
     title: w.title.toUpperCase(),
     // Reason: strip trailing sample label from detail — CTA badge carries it.
     subtitle: w.detail.replace(/\s*\(Sample concept\.\)\s*$/i, "").trim(),
-    cta: "Sample concept",
+    cta: w.href ? "Open sample" : "Sample concept",
     tone: CARD_TONES[i % CARD_TONES.length]!,
-    image: imageForWorkTitle(w.title),
+    image: w.image || imageForWorkTitle(w.title),
+    href: w.href,
   }));
 
   if (fromWork.length > 0) return fromWork;

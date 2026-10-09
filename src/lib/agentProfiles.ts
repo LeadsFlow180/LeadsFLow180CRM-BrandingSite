@@ -6,6 +6,10 @@ export type AgentWorkSample = {
   id: string;
   title: string;
   detail: string;
+  /** Cover / polaroid image for the portfolio card. */
+  image?: string;
+  /** Optional PDF (or URL) opened when the card image is clicked. */
+  href?: string;
 };
 
 export type AgentGuide = {
@@ -104,19 +108,25 @@ const PROFILE_BY_ID: Record<
     work: [
       {
         id: "p1",
-        title: "30-Day Local Launch Plan",
-        detail: "a sample timeline with milestones, owners, dependencies, and approval points. (Sample concept.)",
+        title: "30-Day Launch Plan",
+        detail: "Belle Med Spa — sample timeline with milestones, owners, dependencies, and approval points. (Sample concept.)",
+        image: "/agents/portfolio/mia/30-day-launch-plan.jpg",
+        href: "/agents/mia/samples/30-day-launch-plan",
       },
       {
         id: "p2",
         title: "Meeting-to-Action Brief",
-        detail: "sample agenda, decision log, action list, due dates, and unresolved questions. (Sample concept.)",
+        detail: "BrightLine Commercial Cleaning — sample agenda, decision log, action list, due dates, and unresolved questions. (Sample concept.)",
+        image: "/agents/portfolio/mia/meeting-to-action-brief.jpg",
+        href: "/agents/mia/samples/meeting-to-action-brief",
       },
       {
         id: "p3",
-        title: "Project Status Dashboard",
-        detail: "mock dashboard showing progress, blockers, upcoming decisions, and risks without fabricated results. (Sample concept.)",
-      }
+        title: "Project Rescue Plan",
+        detail: "Kings of Cool HVAC — sample recovery plan with owners, blockers, and next decisions. (Sample concept.)",
+        image: "/agents/portfolio/mia/project-rescue-plan.jpg",
+        href: "/agents/mia/samples/project-rescue-plan",
+      },
     ],
     getStarted: [
       {

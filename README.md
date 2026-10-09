@@ -37,6 +37,7 @@ See `docs/STRIPE-SETUP.md`.
   - Optional `RESEND_API_KEY` + `RESEND_FROM_EMAIL` to send magic links (without them, the API returns a verify URL for local testing)
   - Optional `OPENAI_API_KEY` for live replies (`OPENAI_MODEL` defaults to `gpt-4o-mini`; without a key, a mock reply is used)
   - Optional `LEADS_WEBHOOK_URL` + local `.data/leads.jsonl` for the email list
+  - Agency inquiry form (`/agency`) posts to `/api/agency` → LeadsFlow180 CRM workflow webhook (`AGENCY_WEBHOOK_URL`; default is the Agency inquiry workflow). Set the same var in Vercel for production.
 
 ## Sections (home)
 

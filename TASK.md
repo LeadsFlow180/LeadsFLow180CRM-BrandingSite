@@ -15,6 +15,11 @@
 - [x] 2026-10-09 — Agency page `/agency` (reseller/partner inquiry + API; no white-label); nav next to Pricing; footer link.
 - [x] 2026-10-09 — Agent portfolios: Team CTA + Pricing above footer; Back to homepage top-left. `/agents`: homepage back + Dante-row CTA fills white space.
 - [x] 2026-10-09 — `/agents`: Founders CTA tile beside Dante → `/#pricing` (no Pricing/Savings sections on this page); Back at top. `/savings` + `/integrations` Back at top; Pricing on `/savings`.
+- [x] 2026-10-09 — Dante-row banner: ClosingCta-style “Ready to open your workspace?” with shimmer-light gradient + Limited time / Meet the team / $697 / Subscribe / Create account.
+- [x] 2026-10-09 — Dante-row banner: Founders pricing card image on the right (`/pricing/founders-card.jpg`).
+- [x] 2026-10-09 — Header mobile: hamburger sheet with full nav (Team expand + all links); no clipped scroll pills.
+- [x] 2026-10-09 — Agency inquiry → LeadsFlow180 CRM workflow webhook (`AGENCY_WEBHOOK_URL`); local JSONL best-effort only.
+- [x] 2026-10-09 — Mia portfolio: 3 cover images + PDFs; click opens same-tab majestic viewer at `/agents/mia/samples/[slug]`.
 - [x] 2026-10-09 — Updated office stills: Mia, Zenda, Mark, Sonja, Niki, Omar, Leila (`public/agents/offices/{id}.jpg`).
 - [ ] Updated office stills still needed (2): Lee, JoJo.
 - [ ] Wire “Ask {name} a question” CTA deeper into Office chat (email-verify + signup handoff live; deeper floor chat TBD).

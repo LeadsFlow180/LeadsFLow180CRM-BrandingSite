@@ -15,7 +15,7 @@ This site does not authenticate into CRM APIs. Stripe Checkout is the paid path.
 - Framer Motion
 - Stripe Checkout (`/api/checkout`)
 - Agent talk APIs (`/api/agents/email`, `/verify`, `/chat`)
-- Marketing routes: `/`, `/agents`, `/agents/[id]`, `/integrations`, `/savings`, `/agency` (reseller / partner inquiries)
+- Marketing routes: `/`, `/agents`, `/agents/[id]`, `/integrations`, `/savings`, `/agency` (reseller / partner inquiries → CRM workflow webhook)
 
 ## Structure
 

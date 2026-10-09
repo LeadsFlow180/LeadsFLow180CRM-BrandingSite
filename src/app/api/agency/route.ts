@@ -1,6 +1,6 @@
 import { mkdir, appendFile } from "fs/promises";
 import path from "path";
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 
 type Body = {
   name?: string;
@@ -14,7 +14,42 @@ type Body = {
 const DATA_DIR = path.join(process.cwd(), ".data");
 const FILE = path.join(DATA_DIR, "agency-inquiries.jsonl");
 
-/** Accept reseller / partner inquiries. */
+/** LeadsFlow180 CRM workflow inbound webhook (Agency inquiry form). */
+const DEFAULT_AGENCY_WEBHOOK =
+  "https://leadsflow180crm.vercel.app/api/webhooks/workflow/deb2cd833a3653b60727361745ebcd54";
+
+function agencyWebhookUrl() {
+  return (
+    process.env.AGENCY_WEBHOOK_URL?.trim() ||
+    process.env.LEADS_WEBHOOK_URL?.trim() ||
+    DEFAULT_AGENCY_WEBHOOK
+  );
+}
+
+async function postAgencyWebhook(record: Record<string, unknown>) {
+  const webhook = agencyWebhookUrl();
+  const res = await fetch(webhook, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      ...record,
+      // Common CRM form aliases for workflow mapping
+      full_name: record.name,
+      work_email: record.email,
+      company_name: record.company,
+      company_website: record.website,
+      inquiry_type: record.interest,
+      how_can_we_help: record.message,
+    }),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`webhook ${res.status}: ${text.slice(0, 400)}`);
+  }
+  return res.json().catch(() => ({ ok: true }));
+}
+
+/** Accept reseller / partner inquiries → CRM workflow webhook (+ optional local log). */
 export async function POST(req: Request) {
   let body: Body;
   try {
@@ -48,26 +83,23 @@ export async function POST(req: Request) {
     at: new Date().toISOString(),
   };
 
+  // Reason: Vercel FS is ephemeral/read-only — local JSONL is best-effort only.
   try {
     await mkdir(DATA_DIR, { recursive: true });
     await appendFile(FILE, `${JSON.stringify(record)}\n`, "utf8");
   } catch (err) {
-    console.error("agency inquiry write failed:", err);
-    return NextResponse.json({ error: "Could not save inquiry." }, { status: 500 });
+    console.error("agency inquiry local write skipped:", err);
   }
 
-  const webhook = process.env.LEADS_WEBHOOK_URL?.trim();
-  if (webhook) {
+  // Reason: CRM workflow can take ~60–90s; finish after response so the form stays snappy.
+  after(async () => {
     try {
-      await fetch(webhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(record),
-      });
+      const result = await postAgencyWebhook(record);
+      console.log("agency webhook ok:", result);
     } catch (err) {
       console.error("agency webhook failed:", err);
     }
-  }
+  });
 
   return NextResponse.json({ ok: true });
 }

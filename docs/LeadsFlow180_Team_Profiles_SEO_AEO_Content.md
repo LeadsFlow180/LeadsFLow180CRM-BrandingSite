@@ -34,9 +34,9 @@ Then: Facts About [Name] → Portfolio → About [Name] + Core Skills → FAQs �
 **Facts about Mia:** Organized project plans · Meeting and action-item follow-up · Cross-team coordination · Decision tracking · Calm, concise updates
 
 **Portfolio concepts (sample demonstrations):**
-1. **30-Day Local Launch Plan** — a sample timeline with milestones, owners, dependencies, and approval points.
-2. **Meeting-to-Action Brief** — sample agenda, decision log, action list, due dates, and unresolved questions.
-3. **Project Status Dashboard** — mock dashboard showing progress, blockers, upcoming decisions, and risks without fabricated results.
+1. **30-Day Launch Plan** (Belle Med Spa) — sample timeline with milestones, owners, dependencies, and approval points. Cover + PDF: `/agents/portfolio/mia/30-day-launch-plan.*`
+2. **Meeting-to-Action Brief** (BrightLine Commercial Cleaning) — sample agenda, decision log, action list, due dates, and unresolved questions. Cover + PDF: `/agents/portfolio/mia/meeting-to-action-brief.*`
+3. **Project Rescue Plan** (Kings of Cool HVAC) — sample recovery plan with owners, blockers, and next decisions. Cover + PDF: `/agents/portfolio/mia/project-rescue-plan.*`
 
 **About Mia:** I bring order to complex work without adding unnecessary process. I clarify the goal, find the right people to involve, and make sure the team leaves with decisions and next actions.
 
