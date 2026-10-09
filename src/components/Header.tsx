@@ -11,7 +11,7 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useId, useRef, useState, type PointerEvent, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { agents, links } from "@/lib/site";
 import { groupTone } from "./team/groupTone";
@@ -175,50 +175,58 @@ function TeamOfficesPanel({ onClose }: { onClose: () => void }) {
   );
 }
 
-/** Desktop: anchored under Team. Mobile: portaled sheet (avoids overflow/perspective clip). */
+/**
+ * Portaled Team menu — never nest under header perspective / overflow-hidden,
+ * which was clipping the right edge of the offices strip on desktop.
+ */
 function TeamDropdown({
   open,
   onClose,
+  onKeepOpen,
+  onScheduleClose,
   mode,
+  anchorRef,
 }: {
   open: boolean;
   onClose: () => void;
+  onKeepOpen?: () => void;
+  onScheduleClose?: () => void;
   mode: "desktop" | "mobile";
+  anchorRef?: RefObject<HTMLElement | null>;
 }) {
   const listId = useId();
   const [mounted, setMounted] = useState(false);
+  const [top, setTop] = useState(64);
+
   useEffect(() => setMounted(true), []);
 
-  const panel = (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          id={listId}
-          role="menu"
-          aria-label="Team offices"
-          data-team-root
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.2, ease }}
-          className={
-            mode === "mobile"
-              ? "fixed inset-x-2 top-[3.75rem] z-[90] sm:top-[4.25rem]"
-              : "absolute top-full left-1/2 z-[70] w-[min(96vw,880px)] -translate-x-1/2 pt-2"
-          }
-        >
-          <TeamOfficesPanel onClose={onClose} />
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+  useEffect(() => {
+    if (!open) return;
+    const place = () => {
+      const el = anchorRef?.current;
+      if (el) {
+        setTop(Math.round(el.getBoundingClientRect().bottom + 8));
+        return;
+      }
+      const header = document.querySelector("header");
+      setTop(header ? Math.round(header.getBoundingClientRect().bottom + 8) : 64);
+    };
+    place();
+    window.addEventListener("resize", place);
+    window.addEventListener("scroll", place, true);
+    return () => {
+      window.removeEventListener("resize", place);
+      window.removeEventListener("scroll", place, true);
+    };
+  }, [open, anchorRef]);
 
-  if (mode === "mobile") {
-    if (!mounted) return null;
-    return createPortal(
-      <AnimatePresence>
-        {open ? (
-          <motion.div key="mobile-team" className="md:hidden">
+  if (!mounted) return null;
+
+  return createPortal(
+    <AnimatePresence>
+      {open ? (
+        <motion.div key={`team-${mode}`} className={mode === "mobile" ? "md:hidden" : "hidden md:block"}>
+          {mode === "mobile" ? (
             <motion.button
               type="button"
               aria-label="Close team menu"
@@ -228,27 +236,32 @@ function TeamDropdown({
               className="fixed inset-0 z-[85] bg-black/45"
               onClick={onClose}
             />
-            <motion.div
-              id={listId}
-              role="menu"
-              aria-label="Team offices"
-              data-team-root
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease }}
-              className="fixed inset-x-2 top-[3.75rem] z-[90] sm:top-[4.25rem]"
-            >
-              <TeamOfficesPanel onClose={onClose} />
-            </motion.div>
+          ) : null}
+          <motion.div
+            id={listId}
+            role="menu"
+            aria-label="Team offices"
+            data-team-root
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease }}
+            style={{ top }}
+            className={
+              mode === "mobile"
+                ? "fixed inset-x-2 z-[90]"
+                : "fixed left-1/2 z-[90] w-[min(96vw,880px)] max-w-[calc(100vw-1rem)] -translate-x-1/2"
+            }
+            onMouseEnter={mode === "desktop" ? onKeepOpen : undefined}
+            onMouseLeave={mode === "desktop" ? onScheduleClose : undefined}
+          >
+            <TeamOfficesPanel onClose={onClose} />
           </motion.div>
-        ) : null}
-      </AnimatePresence>,
-      document.body,
-    );
-  }
-
-  return panel;
+        </motion.div>
+      ) : null}
+    </AnimatePresence>,
+    document.body,
+  );
 }
 
 export function Header() {
@@ -259,6 +272,7 @@ export function Header() {
   const [hovered, setHovered] = useState<NavId | null>(null);
   const [teamOpen, setTeamOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const teamAnchorRef = useRef<HTMLLIElement>(null);
   const sectionActive = useActiveSection();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
 
@@ -408,6 +422,7 @@ export function Header() {
                     return (
                       <li
                         key={item.id}
+                        ref={isTeam ? teamAnchorRef : undefined}
                         className="relative"
                         {...(isTeam ? { "data-team-root": true } : {})}
                         onMouseEnter={() => {
@@ -449,7 +464,14 @@ export function Header() {
                                 <path d="M2.5 4.5L6 8l3.5-3.5" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
                             </button>
-                            <TeamDropdown open={teamOpen} onClose={() => setTeamOpen(false)} mode="desktop" />
+                            <TeamDropdown
+                              open={teamOpen}
+                              onClose={() => setTeamOpen(false)}
+                              onKeepOpen={openTeam}
+                              onScheduleClose={scheduleCloseTeam}
+                              mode="desktop"
+                              anchorRef={teamAnchorRef}
+                            />
                           </>
                         ) : (
                           <a

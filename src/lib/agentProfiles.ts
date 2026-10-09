@@ -2038,17 +2038,17 @@ const PROFILE_BY_ID: Record<
 };
 
 function officePhotoFor(agent: Agent): string {
-  // Reason: high-res office stills land as png; jpg/webp remain fallbacks in candidates().
-  return `/agents/offices/${agent.id}.png`;
+  // Reason: latest stills ship as jpg (see public/agents/offices/README.md); png/webp remain fallbacks.
+  return `/agents/offices/${agent.id}.jpg`;
 }
 
-/** Resolve office still URL for the hero (png first for latest high-res stills). */
+/** Resolve office still URL for the hero (jpg first for latest high-res stills). */
 export function officePhotoCandidates(id: string): string[] {
   return [
-    `/agents/offices/${id}.png`,
     `/agents/offices/${id}.jpg`,
-    `/agents/offices/${id}.webp`,
     `/agents/offices/${id}.jpeg`,
+    `/agents/offices/${id}.png`,
+    `/agents/offices/${id}.webp`,
   ];
 }
 
