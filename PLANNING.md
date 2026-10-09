@@ -2,7 +2,7 @@
 
 ## Purpose
 
-A standalone public marketing site for LeadsFlow180. People should understand that AI Office is the team (WHO) and the CRM is the toolset (HOW), then click through to the live products — including Launch Founders pricing via Stripe Checkout and per-agent office pages.
+A standalone public marketing site for LeadsFlow180. Public product name is FLOW (AI team + workspace). Internally the floor may still be called “AI Office.” Site click-throughs include Launch Founders pricing via Stripe Checkout and per-agent portfolio pages.
 
 This site does not authenticate into CRM APIs. Stripe Checkout is the paid path. Agent talk uses verified email + a short timed chat (optional OpenAI).
 
@@ -15,7 +15,7 @@ This site does not authenticate into CRM APIs. Stripe Checkout is the paid path.
 - Framer Motion
 - Stripe Checkout (`/api/checkout`)
 - Agent talk APIs (`/api/agents/email`, `/verify`, `/chat`)
-- Marketing routes: `/`, `/agents`, `/agents/[id]`, `/integrations` (11 core + expandable Make/Zapier/n8n bridges), `/savings` (+ `/missed-leads`, `/seats`)
+- Marketing routes: `/`, `/agents`, `/agents/[id]`, `/integrations`, `/savings`, `/agency` (reseller / partner inquiries)
 
 ## Structure
 
@@ -46,9 +46,9 @@ Agent pages: `/agents` is the team directory; each `/agents/[id]` uses `AgentPor
 ## Constraints
 
 - Marketing routes: home + `/agents` directory + `/agents/[id]` portfolio/talk pages + `/integrations` + `/savings` calculators. Walkthrough floor tour (`public/walkthrough/`) is paused.
-- Public pricing is the Launch Founders offer in `src/lib/pricing.ts` only — do not invent alternate tiers, trials, or “no credit card” claims. Agent chat may soft-CTA to AI Office signup.
+- Public pricing is the Launch Founders offer in `src/lib/pricing.ts` only — do not invent alternate tiers, trials, or “no credit card” claims. Agent chat may soft-CTA to FLOW signup (`office.getleadsflow180.com`). Do not use “AI Office” in customer-facing copy.
 - No “Hermes” in human-facing copy. Mia is Project Manager.
 - Do not describe the product as GoHighLevel or a white-label of it.
 - Creative work (Design Hub, Brand Bank) is presented as part of the CRM.
-- Navbar is logo plus product CTAs and jumps (Team dropdown → agent profiles + Meet the team, Features, Integrations → `/integrations`, Savings → `/savings`, Pricing). Home places Savings cards as their own section above Multilingual (missed leads / empty seats). Privacy and Terms stay out of the navbar until real legal URLs exist.
+- Navbar is logo plus product CTAs and jumps (Team, Features, Integrations, Savings, Agency → `/agency`, Pricing). Agent portfolios end with Team CTA + Pricing above footer. `/agents` has homepage back link + Dante-row Founders CTA. Privacy and Terms stay out of the navbar until real legal URLs exist.
 - Agent portfolio copy comes from `docs/LeadsFlow180_Team_Profiles_SEO_AEO_Content.md` (wired via `scripts/wire_seo_profiles.py`). Every pack field is used on `/agents/[id]`: specialty, hero headline, intro, ask CTA + helper, all facts, sample-concept portfolio, about, skills, FAQs (+ FAQPage JSON-LD), get-started, free guide (summary/steps/download CTA text), Person JSON-LD, page title + meta. Portfolio concepts stay labeled “Sample concept” until real work replaces them. No placeholder PDF links until files exist.

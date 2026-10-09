@@ -88,7 +88,7 @@ export function Pricing() {
                 <p>
                   Payment received. Next step:{" "}
                   <a href={links.signup} className="font-semibold text-brand underline-offset-2 hover:underline">
-                    create your AI Office account
+                    create your FLOW account
                   </a>{" "}
                   and we will map your Founders onboarding.
                 </p>

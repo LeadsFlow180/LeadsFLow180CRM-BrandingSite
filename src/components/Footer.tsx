@@ -36,7 +36,7 @@ export function Footer() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/brand/logo-dark.png" alt="LeadsFlow180" className="h-5 w-auto sm:h-7" />
               <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
-                An agency workspace with a named AI team. AI Office is the who. FLOW is the how.
+                FLOW is your named AI team and workspace in one — specialists, tools, and human approval.
               </p>
               <a
                 href={links.office}
@@ -52,8 +52,9 @@ export function Footer() {
               <FooterLink href="/integrations">Integrations</FooterLink>
               <FooterLink href="/#features">The HOW</FooterLink>
               <FooterLink href="/savings">Savings</FooterLink>
+              <FooterLink href="/agency">Agency</FooterLink>
               <FooterLink href="/#pricing">Pricing</FooterLink>
-              <FooterLink href={links.office}>AI Office</FooterLink>
+              <FooterLink href={links.office}>FLOW</FooterLink>
               <FooterLink href={links.signup}>Create account</FooterLink>
               <FooterLink href={links.login}>Sign in</FooterLink>
             </FooterColumn>
@@ -66,7 +67,7 @@ export function Footer() {
           <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-white/45 md:flex-row md:items-center md:justify-between">
             <p className="max-w-3xl leading-relaxed">{languageLine}</p>
             <a
-              href="/#top"
+              href="#top"
               className="group inline-flex shrink-0 items-center gap-2 self-start rounded-full px-3 py-1.5 text-white/60 ring-1 ring-white/15 transition hover:text-white hover:ring-white/40 md:self-auto"
             >
               Back to top

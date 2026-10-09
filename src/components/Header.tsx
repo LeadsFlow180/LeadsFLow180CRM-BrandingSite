@@ -22,6 +22,7 @@ const navItems = [
   { id: "features", label: "Features", href: "/#features" },
   { id: "integrations", label: "Integrations", href: "/integrations" },
   { id: "savings", label: "Savings", href: "/savings" },
+  { id: "agency", label: "Agency", href: "/agency" },
   { id: "pricing", label: "Pricing", href: "/#pricing" },
 ] as const;
 
@@ -90,7 +91,7 @@ function TiltLogo() {
         <img
           src="/brand/logo-dark.png"
           alt="LeadsFlow180"
-          className="h-[15px] w-auto drop-shadow-[0_6px_14px_rgba(0,255,38,0.18)] sm:h-[18px] md:h-5"
+          className="h-[15px] w-auto drop-shadow-[0_6px_14px_rgba(0,255,38,0.18)] sm:h-[17px] lg:h-[18px]"
         />
       </motion.span>
     </a>
@@ -339,14 +340,17 @@ export function Header() {
 
   const onAgents = pathname.startsWith("/agents");
   const onSavings = pathname.startsWith("/savings");
+  const onAgency = pathname.startsWith("/agency");
   const active: NavId | null =
     pathname === "/integrations"
       ? "integrations"
       : onSavings
         ? "savings"
-        : onAgents
-          ? "team"
-          : sectionActive;
+        : onAgency
+          ? "agency"
+          : onAgents
+            ? "team"
+            : sectionActive;
   const highlight = hovered ?? active;
 
   return (
@@ -378,12 +382,12 @@ export function Header() {
 
             <div
               className={`relative mx-auto flex max-w-7xl items-center justify-between gap-2 transition-[padding] duration-700 ${
-                scrolled ? "px-2.5 py-2 sm:px-5 sm:py-2.5" : "px-3 py-2.5 sm:px-6 sm:py-4"
+                scrolled ? "px-2.5 py-2 sm:px-4 sm:py-2.5" : "px-3 py-2.5 sm:px-5 sm:py-3.5"
               }`}
             >
               <TiltLogo />
 
-              <nav aria-label="Primary" className="flex min-w-0 items-center gap-1.5 sm:gap-3">
+              <nav aria-label="Primary" className="flex shrink-0 items-center gap-1.5 lg:gap-2">
                 {/* Mobile Team — click only (no hover leave, which closes on touch) */}
                 <div data-team-root className="md:hidden">
                   <button
@@ -391,7 +395,7 @@ export function Header() {
                     aria-expanded={teamOpen}
                     aria-haspopup="menu"
                     onClick={() => setTeamOpen((v) => !v)}
-                    className={`inline-flex h-9 items-center gap-1 rounded-full px-3 text-xs font-semibold ring-1 transition ${
+                    className={`inline-flex h-9 items-center gap-1 rounded-full px-3 text-xs font-semibold whitespace-nowrap ring-1 transition ${
                       teamOpen
                         ? "bg-white/[0.12] text-white ring-white/30"
                         : "text-white ring-white/20"
@@ -414,7 +418,7 @@ export function Header() {
 
                 <ul
                   onMouseLeave={() => setHovered(null)}
-                  className="relative hidden items-center gap-1 rounded-full bg-white/[0.04] p-1 ring-1 ring-white/10 md:flex"
+                  className="relative hidden items-center gap-0.5 rounded-full bg-white/[0.04] p-0.5 ring-1 ring-white/10 md:flex"
                 >
                   {navItems.map((item) => {
                     const isActive = active === item.id;
@@ -440,23 +444,23 @@ export function Header() {
                               aria-expanded={teamOpen}
                               aria-haspopup="menu"
                               onClick={() => setTeamOpen((v) => !v)}
-                              className={`relative z-10 flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium transition-colors duration-300 lg:px-4 ${
+                              className={`relative z-10 flex items-center gap-1 rounded-full px-2 py-1.5 text-[13px] font-medium whitespace-nowrap transition-colors duration-300 xl:px-2.5 xl:text-sm ${
                                 highlight === item.id || teamOpen ? "text-white" : "text-white/65 hover:text-white"
                               }`}
                             >
                               <span
                                 aria-hidden="true"
-                                className={`size-1.5 rounded-full transition-all duration-500 ${
+                                className={`size-1.5 shrink-0 rounded-full transition-all duration-500 ${
                                   isActive || teamOpen
                                     ? "scale-100 bg-brand-green shadow-[0_0_8px_#00ff26]"
-                                    : "scale-0 bg-white/40"
+                                    : "w-0 scale-0 overflow-hidden bg-white/40"
                                 }`}
                               />
                               {item.label}
                               <svg
                                 aria-hidden="true"
                                 viewBox="0 0 12 12"
-                                className={`size-3 opacity-70 transition duration-300 ${teamOpen ? "rotate-180" : ""}`}
+                                className={`size-2.5 opacity-70 transition duration-300 ${teamOpen ? "rotate-180" : ""}`}
                                 fill="none"
                                 stroke="currentColor"
                                 strokeWidth="1.8"
@@ -478,14 +482,16 @@ export function Header() {
                             href={item.href}
                             onMouseEnter={() => setHovered(item.id)}
                             aria-current={isActive ? "page" : undefined}
-                            className={`relative z-10 flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-colors duration-300 lg:px-4 ${
+                            className={`relative z-10 flex items-center gap-1 rounded-full px-2 py-1.5 text-[13px] font-medium whitespace-nowrap transition-colors duration-300 xl:px-2.5 xl:text-sm ${
                               highlight === item.id ? "text-white" : "text-white/65 hover:text-white"
                             }`}
                           >
                             <span
                               aria-hidden="true"
-                              className={`size-1.5 rounded-full transition-all duration-500 ${
-                                isActive ? "scale-100 bg-brand-green shadow-[0_0_8px_#00ff26]" : "scale-0 bg-white/40"
+                              className={`size-1.5 shrink-0 rounded-full transition-all duration-500 ${
+                                isActive
+                                  ? "scale-100 bg-brand-green shadow-[0_0_8px_#00ff26]"
+                                  : "w-0 scale-0 overflow-hidden bg-white/40"
                               }`}
                             />
                             {item.label}
@@ -505,15 +511,15 @@ export function Header() {
 
                 <a
                   href={links.signup}
-                  className="inline-flex h-9 items-center rounded-full bg-gradient-to-b from-[#3a44ff] to-brand px-3.5 text-xs font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_10px_20px_-10px_rgba(1,13,255,0.85)] sm:h-auto sm:px-5 sm:py-2 sm:text-sm"
+                  className="inline-flex h-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#3a44ff] to-brand px-3.5 text-xs font-semibold whitespace-nowrap text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_10px_20px_-10px_rgba(1,13,255,0.85)] xl:px-4 xl:text-sm"
                 >
-                  <span className="md:hidden">Join</span>
-                  <span className="hidden md:inline">Create account</span>
+                  <span className="xl:hidden">Sign up</span>
+                  <span className="hidden xl:inline">Create account</span>
                 </a>
 
                 <a
                   href={links.login}
-                  className="hidden h-9 items-center rounded-full px-3 text-xs font-semibold text-white/85 ring-1 ring-white/15 min-[400px]:inline-flex sm:h-auto sm:px-4 sm:py-2 sm:text-sm"
+                  className="hidden h-9 shrink-0 items-center justify-center rounded-full px-3 text-xs font-semibold whitespace-nowrap text-white/85 ring-1 ring-white/15 min-[400px]:inline-flex xl:px-3.5 xl:text-sm"
                 >
                   Sign in
                 </a>

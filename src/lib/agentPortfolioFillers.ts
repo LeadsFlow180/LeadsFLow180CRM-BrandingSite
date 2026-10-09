@@ -191,7 +191,7 @@ export function getPortfolioFillers(profile: AgentProfile & { agent: Agent }) {
       a: "Drafts and recommendations come fast; spend, publish, and payments wait for your approval.",
     },
     {
-      q: "Is this a free trial of AI Office?",
+      q: "Is this a free trial of FLOW?",
       a: "No. This page offers a short verified talk. Paid access uses Launch Founders pricing on the home page.",
     },
   ];

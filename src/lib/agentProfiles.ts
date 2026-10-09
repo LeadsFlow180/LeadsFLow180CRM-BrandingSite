@@ -2075,7 +2075,7 @@ export function getAgentProfile(id: string): (AgentProfile & { agent: Agent }) |
       portraitPhoto: agent.photo,
       tagline: agent.skill,
       bio: agent.skill,
-      personality: ["Part of the AI Office floor"],
+      personality: ["Part of the FLOW floor"],
       favoriteFood: "TBD",
       faqs: [],
       work: [],

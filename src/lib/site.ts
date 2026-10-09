@@ -36,13 +36,13 @@ export type Agent = {
   photo: string;
 };
 
-/** Titles match the AI Office floor. Mia stays “Project Manager” per brand request. */
+/** Titles match the FLOW floor. Mia stays “Project Manager” per brand request. */
 export const agents: Agent[] = [
   {
     id: "mia",
     name: "Mia Carter",
-    title: "Project Manager & AI Office Orchestrator",
-    skill: "First person you talk to. Assigns work, chairs meetings, keeps every job moving in AI Office.",
+    title: "Project Manager & FLOW Orchestrator",
+    skill: "First person you talk to. Assigns work, chairs meetings, keeps every job moving in FLOW.",
     group: "Leadership & Executive Operations",
     photo: "/agents/mia.png",
   },

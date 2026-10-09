@@ -20,7 +20,7 @@ export function AgentOfficeTile({ agentId, name, title, officePhoto, portraitPho
   return (
     <a
       href={`/agents/${agentId}`}
-      className="group block overflow-hidden rounded-[22px] bg-white shadow-[0_20px_44px_-28px_rgba(15,23,42,0.4)] ring-1 ring-slate-200/90 transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_56px_-28px_rgba(1,13,255,0.35)]"
+      className="group block h-full overflow-hidden rounded-[22px] bg-white shadow-[0_20px_44px_-28px_rgba(15,23,42,0.4)] ring-1 ring-slate-200/90 transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_56px_-28px_rgba(1,13,255,0.35)]"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
         {/* eslint-disable-next-line @next/next/no-img-element */}

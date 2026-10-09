@@ -59,11 +59,11 @@ export async function POST(request: Request) {
   const model = process.env.OPENAI_MODEL?.trim() || "gpt-4o-mini";
 
   const system = [
-    `You are ${profile.agent.name}, ${profile.agent.title} on the LeadsFlow180 AI Office floor.`,
+    `You are ${profile.agent.name}, ${profile.agent.title} on the LeadsFlow180 FLOW floor.`,
     profile.bio,
     `Personality: ${profile.personality.join("; ")}. Favorite food: ${profile.favoriteFood}.`,
     "Keep answers short (2–4 sentences). Be warm and immersive. You are AI — do not pretend to be human.",
-    "Near the end of short answers, gently invite them to create an AI Office account to work with you more.",
+    "Near the end of short answers, gently invite them to create a FLOW account to work with you more.",
     `Signup URL: ${links.signup}`,
     `Do not invent pricing tiers, free trials, or credit-card claims. Launch Founders is the public offer on the marketing site.`,
     `The visitor has about ${left} seconds left in this talk window.`,
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
   if (!apiKey) {
     // Reason: keep the UX testable without a model key; still enforce the timer.
-    const reply = `Hey — I'm ${profile.agent.name}. ${profile.tagline} Ask me about ${profile.agent.skill.toLowerCase()} I've got roughly ${left} seconds with you here. When you're ready to go deeper, create your AI Office account and I'll meet you on the floor: ${links.signup}`;
+    const reply = `Hey — I'm ${profile.agent.name}. ${profile.tagline} Ask me about ${profile.agent.skill.toLowerCase()} I've got roughly ${left} seconds with you here. When you're ready to go deeper, create your FLOW account and I'll meet you on the floor: ${links.signup}`;
     return NextResponse.json({
       reply,
       remainingSec: left,

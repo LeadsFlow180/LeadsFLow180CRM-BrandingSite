@@ -183,24 +183,22 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
   return (
     <div className="bg-white text-slate-950">
       <div className="border-b border-[#e8eef8] bg-white">
-        <nav
-          aria-label="Breadcrumb"
-          className="mx-auto flex max-w-6xl flex-wrap items-center gap-1.5 px-4 py-3.5 text-[12px] text-[#8aa0c4] sm:px-6"
-        >
-          <Link href="/" className="transition hover:text-brand">
-            Home
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
+          <Link href="/" className="text-[13px] font-semibold text-brand hover:underline">
+            ← Back to homepage
           </Link>
-          <span aria-hidden="true">›</span>
-          <Link href="/#team" className="transition hover:text-brand">
-            Our AI Office
-          </Link>
-          <span aria-hidden="true">›</span>
-          <Link href="/agents" className="transition hover:text-brand">
-            Meet the Team
-          </Link>
-          <span aria-hidden="true">›</span>
-          <span className="font-medium text-[#4a5f8a]">{displayName}</span>
-        </nav>
+          <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-[12px] text-[#8aa0c4]">
+            <Link href="/#team" className="transition hover:text-brand">
+              Our FLOW team
+            </Link>
+            <span aria-hidden="true">›</span>
+            <Link href="/agents" className="transition hover:text-brand">
+              Meet the Team
+            </Link>
+            <span aria-hidden="true">›</span>
+            <span className="font-medium text-[#4a5f8a]">{displayName}</span>
+          </nav>
+        </div>
       </div>
 
       {/* Hero */}
@@ -460,9 +458,9 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
                   {askCta}
                 </button>
                 {" · "}
-                <Link href="/#pricing" className="font-semibold text-brand hover:underline">
+                <a href="#pricing" className="font-semibold text-brand hover:underline">
                   View Launch Founders pricing
-                </Link>
+                </a>
                 {" · "}
                 <Link href="/agents" className="font-semibold text-brand hover:underline">
                   Meet the Team

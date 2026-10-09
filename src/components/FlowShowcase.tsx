@@ -39,7 +39,7 @@ export function FlowShowcase() {
             Work lands in your CRM — ready to move.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-white/70 sm:text-lg">
-            Specialists draft deals, messages, and tasks in AI Office. You approve — and it shows up live in FLOW.
+            Specialists draft deals, messages, and tasks in FLOW. You approve — and it lands live on your desk.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <a

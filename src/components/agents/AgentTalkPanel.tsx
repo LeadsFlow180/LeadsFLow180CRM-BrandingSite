@@ -174,7 +174,7 @@ export function AgentTalkPanel({ agentId, agentName, initialVerifyToken }: Props
           Talk for {CHAT_DURATION_SEC / 60} minutes
         </h2>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-slate-600">
-          Verify a real email to unlock a short window with {agentName}. Afterward, continue in AI Office.
+          Verify a real email to unlock a short window with {agentName}. Afterward, continue in FLOW.
         </p>
 
         {status === "gate" && (
@@ -265,14 +265,14 @@ export function AgentTalkPanel({ agentId, agentName, initialVerifyToken }: Props
             ) : (
               <div className="mt-5 border-l-2 border-brand-green/60 pl-4">
                 <p className="text-sm text-slate-700">
-                  I&apos;d love to work with you more. Create your AI Office account and pick up with {agentName} on the
+                  I&apos;d love to work with you more. Create your FLOW account and pick up with {agentName} on the
                   floor.
                 </p>
                 <a
                   href={links.signup}
                   className="mt-4 inline-flex rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white"
                 >
-                  Create AI Office account
+                  Create FLOW account
                 </a>
               </div>
             )}

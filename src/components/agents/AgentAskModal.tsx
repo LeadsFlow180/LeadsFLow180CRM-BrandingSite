@@ -320,7 +320,7 @@ export function AgentAskModal({
                 </form>
               ) : (
                 <a href={links.signup} className="mt-4 inline-flex rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white">
-                  Continue in AI Office
+                  Continue in FLOW
                 </a>
               )}
             </div>

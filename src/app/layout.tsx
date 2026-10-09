@@ -11,7 +11,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "LeadsFlow180",
   description:
-    "AI Office is who. FLOW is how. Talk to your AI team; use the tools that take your business to its goals.",
+    "FLOW is your AI team and workspace in one. Talk to your specialists; use the tools that take your business to its goals.",
 };
 
 export default function RootLayout({

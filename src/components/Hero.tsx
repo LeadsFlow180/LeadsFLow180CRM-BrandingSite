@@ -112,7 +112,7 @@ function Ctas() {
           <span className="absolute inset-0 animate-ping rounded-full bg-brand-green/70 motion-reduce:animate-none" />
           <span className="relative size-2 rounded-full bg-brand-green" />
         </span>
-        Talk in AI Office
+        Talk in FLOW
         <span aria-hidden="true" className="text-slate-400 transition group-hover:text-brand">
           ↗
         </span>
@@ -160,7 +160,7 @@ export function Hero() {
             FLOW is the <span className="text-slate-900">HOW.</span>
           </motion.p>
           <motion.p variants={fadeUp} className="mt-6 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-            Twenty-one AI specialists work for you in AI Office. You talk, they draft, you approve — and
+            Twenty-one AI specialists work for you in FLOW. You talk, they draft, you approve — and
             the work lands in FLOW. The whole team is multilingual.
           </motion.p>
 

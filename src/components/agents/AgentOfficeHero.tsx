@@ -224,7 +224,7 @@ export function AgentOfficeHero({ officePhoto, name, title, tagline, agentId }: 
           <img
             ref={imgRef}
             src={src}
-            alt={`${name} at their desk in the LeadsFlow180 AI Office`}
+            alt={`${name} at their desk in LeadsFlow180 FLOW`}
             draggable={false}
             onLoad={measure}
             onError={() => setIndex((i) => (i + 1 < candidates.length ? i + 1 : i))}

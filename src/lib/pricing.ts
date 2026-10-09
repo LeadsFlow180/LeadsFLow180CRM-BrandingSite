@@ -10,12 +10,12 @@ export const pricingPlan = {
   currency: "USD",
   interval: "month" as const,
   compareAtMonthly: 997,
-  tagline: "AI Office and FLOW for teams ready to ship with a full AI workforce.",
+  tagline: "FLOW for teams ready to ship with a full AI workforce.",
   description:
-    "$697 per month Launch Founders Rate Special — limited time for the first 20 clients. One seat for the full AI Office floor and FLOW workspace.",
+    "$697 per month Launch Founders Rate Special — limited time for the first 20 clients. One seat for the full FLOW team and workspace.",
   cta: "Subscribe — $697/mo",
   includes: [
-    "Full AI Office team access",
+    "Full FLOW team access",
     "FLOW workspace desk",
     "Help in 10 languages",
     "Human approval on drafts that matter",
@@ -34,7 +34,7 @@ export const signupTodayBonuses: PricingBonus[] = [
   {
     id: "onboarding",
     title: "Same-day Founders onboarding",
-    detail: "Mia queues your kickoff and maps your first week in AI Office.",
+    detail: "Mia queues your kickoff and maps your first week in FLOW.",
   },
   {
     id: "rate-lock",

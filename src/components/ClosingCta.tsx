@@ -197,7 +197,7 @@ export function ClosingCta() {
           Ready to open your <span className="text-shimmer-light">workspace?</span>
         </motion.h2>
         <motion.p variants={fadeUp} className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/70 min-[380px]:mt-6 min-[380px]:text-base sm:text-lg">
-          Your AI team is waiting in AI Office — and it speaks your customers’ language, in ten of them.
+          Your AI team is waiting in FLOW — and it speaks your customers’ language, in ten of them.
         </motion.p>
 
         <motion.div variants={fadeUp} className="mt-8 flex flex-col justify-center gap-3 sm:mt-10 sm:flex-row sm:items-center">
@@ -227,7 +227,7 @@ export function ClosingCta() {
             href={links.office}
             className="group inline-flex items-center gap-2 text-sm text-white/60 transition hover:text-white"
           >
-            Or talk in AI Office
+            Or talk in FLOW
             <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-1">
               →
             </span>

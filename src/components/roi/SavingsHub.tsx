@@ -24,7 +24,7 @@ const tools: {
     id: "seats",
     eye: "Seat cost calculator",
     title: "What empty seats cost you",
-    body: "Tick the roles you still need to fill, enter monthly cost, and compare hiring yourself with the AI Office team.",
+    body: "Tick the roles you still need to fill, enter monthly cost, and compare hiring yourself with the FLOW team.",
   },
 ];
 
