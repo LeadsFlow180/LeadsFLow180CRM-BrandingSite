@@ -10,6 +10,7 @@
 - [ ] Set canonical and Open Graph URL after the public domain is confirmed.
 - [ ] Real Privacy and Terms pages or URLs (footer links point to `/privacy` and `/terms` for now).
 - [ ] Guide PDF file URLs — on-page guide + download CTA text live for all 21; attach real PDFs when designed (no placeholder links).
+- [x] 2026-10-09 — Hero Need Help: under 6-slot grid, “Don’t see your topic? Try a different agent” → View all agents (`/agents`).
 - [x] 2026-10-09 — Public brand: product name is FLOW; removed customer-facing “AI Office” copy (keep internal/docs notes only).
 - [x] 2026-10-09 — Agency page `/agency` (reseller/partner inquiry + API; no white-label); nav next to Pricing; footer link.
 - [x] 2026-10-09 — Agent portfolios: Team CTA + Pricing above footer; Back to homepage top-left. `/agents`: homepage back + Dante-row CTA fills white space.

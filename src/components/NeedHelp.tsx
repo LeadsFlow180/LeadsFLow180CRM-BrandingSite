@@ -1,10 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useState } from "react";
 import { AgentAskModal } from "@/components/agents/AgentAskModal";
 import { fadeUp, stagger } from "@/components/Motion";
 import { needHelpSlots, type NeedHelpSlot } from "@/lib/needHelpSlots";
+import { agents } from "@/lib/site";
 import { CHAT_DURATION_SEC } from "@/lib/talkConstants";
 
 /** Hero specialist picker — click a problem to open the free Ask / talk session. */
@@ -84,9 +86,23 @@ export function NeedHelpPanel() {
           ))}
         </motion.ul>
 
-        <p className="mt-3 text-[11px] leading-relaxed text-slate-400 sm:text-[12px]">
-          Click a card to start talking. Meet all 21 specialists below.
-        </p>
+        {/* Reason: 6 slots are demo picks — link to full /agents grid for any other specialist. */}
+        <div className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-canvas/80 px-3.5 py-3.5 sm:px-4 sm:py-4">
+          <p className="text-[13px] font-semibold tracking-[-0.02em] text-slate-950 sm:text-sm">
+            Don’t see your topic? Try a different agent
+          </p>
+          <p className="mt-1 text-[12px] leading-relaxed text-slate-500 sm:text-[13px]">
+            These six are starters. Open the full team — all {agents.length} specialists — and start the same free
+            talk with whoever fits.
+          </p>
+          <Link
+            href="/agents"
+            className="mt-3 inline-flex min-h-9 items-center gap-1.5 text-[13px] font-semibold text-brand transition hover:underline"
+          >
+            View all agents
+            <span aria-hidden>→</span>
+          </Link>
+        </div>
       </motion.div>
 
       <AgentAskModal
