@@ -2037,19 +2037,30 @@ const PROFILE_BY_ID: Record<
   },
 };
 
+/** Agents whose latest office still is jpg (others ship as png). */
+const OFFICE_JPG = new Set([
+  "mia",
+  "mark",
+  "lee",
+  "zenda",
+  "jojo",
+  "leila",
+  "niki",
+  "sonja",
+  "omar",
+]);
+
 function officePhotoFor(agent: Agent): string {
-  // Reason: latest stills ship as jpg (see public/agents/offices/README.md); png/webp remain fallbacks.
-  return `/agents/offices/${agent.id}.jpg`;
+  // Reason: prefer the extension that actually exists so tiles don't flash a broken .jpg.
+  const ext = OFFICE_JPG.has(agent.id) ? "jpg" : "png";
+  return `/agents/offices/${agent.id}.${ext}`;
 }
 
-/** Resolve office still URL for the hero (jpg first for latest high-res stills). */
+/** Resolve office still URL — primary ext first, then the rest + portrait handled by callers. */
 export function officePhotoCandidates(id: string): string[] {
-  return [
-    `/agents/offices/${id}.jpg`,
-    `/agents/offices/${id}.jpeg`,
-    `/agents/offices/${id}.png`,
-    `/agents/offices/${id}.webp`,
-  ];
+  const primary = OFFICE_JPG.has(id) ? "jpg" : "png";
+  const rest = (["jpg", "jpeg", "png", "webp"] as const).filter((e) => e !== primary);
+  return [`/agents/offices/${id}.${primary}`, ...rest.map((e) => `/agents/offices/${id}.${e}`)];
 }
 
 export function getAgentProfile(id: string): (AgentProfile & { agent: Agent }) | null {

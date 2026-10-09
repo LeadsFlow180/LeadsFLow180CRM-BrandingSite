@@ -24,12 +24,12 @@ export default function IntegrationsPage() {
         <div aria-hidden="true" className="orb top-[35%] right-[-14%] size-[420px] bg-brand-purple/10" />
 
         <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-          <IntegrationsCenter />
-          <p className="mt-12 text-sm text-slate-500">
+          <p className="mb-6 text-sm text-slate-500 sm:mb-8">
             <Link href="/#features" className="font-semibold text-brand hover:underline">
               ← Back to Features
             </Link>
           </p>
+          <IntegrationsCenter />
         </div>
       </main>
       <Footer />

@@ -210,6 +210,7 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
           <div className="overflow-hidden rounded-[20px] bg-slate-100 shadow-[0_32px_64px_-36px_rgba(11,27,77,0.5)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              key={officeSrc}
               src={officeSrc}
               alt={`${agent.name} in their LeadsFlow180 office`}
               className="aspect-[5/4] w-full object-cover object-[50%_26%]"

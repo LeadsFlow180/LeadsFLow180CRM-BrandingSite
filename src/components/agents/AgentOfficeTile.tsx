@@ -25,6 +25,7 @@ export function AgentOfficeTile({ agentId, name, title, officePhoto, portraitPho
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
+          key={src}
           src={src}
           alt=""
           loading="lazy"

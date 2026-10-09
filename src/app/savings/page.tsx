@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { Pricing } from "@/components/pricing/Pricing";
 import { SavingsHub } from "@/components/roi/SavingsHub";
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
     "Calculate what missed leads and empty seats cost your business — then see what you keep with LeadsFlow180.",
 };
 
-/** Hub: pick a card → calculator opens on the same page below. */
+/** Hub: pick a card → calculator opens below; Pricing above footer. */
 export default function SavingsPage() {
   return (
     <div id="top" className="bg-[#f4f6fb]">
@@ -25,6 +26,7 @@ export default function SavingsPage() {
             <SavingsHub />
           </Suspense>
         </div>
+        <Pricing />
       </main>
       <Footer />
     </div>

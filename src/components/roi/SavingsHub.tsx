@@ -57,6 +57,11 @@ export function SavingsHub() {
 
   return (
     <>
+      <p className="mb-6 text-sm text-slate-500 sm:mb-8">
+        <Link href="/#savings" className="font-semibold text-brand hover:underline">
+          ← Back to home
+        </Link>
+      </p>
       <p className="text-[11px] font-semibold tracking-[0.2em] text-brand uppercase">Savings</p>
       <h1 className="mt-2 max-w-[20ch] text-[clamp(1.75rem,4vw,2.6rem)] font-semibold tracking-[-0.02em] text-slate-950 text-balance">
         Calculate your savings
@@ -104,12 +109,6 @@ export function SavingsHub() {
           {active === "missed" ? <MissedLeadCalculator /> : <SeatCostCalculator />}
         </div>
       ) : null}
-
-      <p className="mt-12 text-sm text-slate-500">
-        <Link href="/#savings" className="font-semibold text-brand hover:underline">
-          ← Back to home
-        </Link>
-      </p>
     </>
   );
 }
