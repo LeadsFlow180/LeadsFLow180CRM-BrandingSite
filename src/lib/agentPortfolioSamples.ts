@@ -25,38 +25,40 @@ function slugFromHrefOrAsset(href?: string, image?: string, audio?: string, pdf?
 export function getAgentPortfolioSamples(agentId: string): PortfolioSample[] {
   const profile = getAgentProfile(agentId);
   if (!profile) return [];
-  return profile.work
-    .map((w) => {
-      const kind: AgentWorkSampleKind =
-        w.kind || (w.audio ? "audio" : w.pdf || w.href?.endsWith(".pdf") ? "pdf" : w.image ? "image" : "image");
-      const hasViewer = Boolean(w.href?.includes("/samples/") || w.image || w.pdf || w.audio);
-      if (!hasViewer) return null;
-      // Skip text-only SEO placeholders with no media.
-      if (!w.image && !w.pdf && !w.audio && !w.href?.includes("/samples/")) return null;
 
-      const slug = slugFromHrefOrAsset(w.href, w.image, w.audio, w.pdf);
-      if (!slug) return null;
+  const samples: PortfolioSample[] = [];
+  for (const w of profile.work) {
+    const kind: AgentWorkSampleKind =
+      w.kind || (w.audio ? "audio" : w.pdf || w.href?.endsWith(".pdf") ? "pdf" : "image");
+    const hasViewer = Boolean(w.href?.includes("/samples/") || w.image || w.pdf || w.audio);
+    if (!hasViewer) continue;
+    // Reason: skip text-only SEO placeholders with no media.
+    if (!w.image && !w.pdf && !w.audio && !w.href?.includes("/samples/")) continue;
 
-      const pdf =
-        w.pdf ||
-        (kind === "pdf" && w.image ? w.image.replace(/\.(jpg|jpeg|png|webp)$/i, ".pdf") : undefined) ||
-        (w.href?.toLowerCase().endsWith(".pdf") ? w.href : undefined);
+    const slug = slugFromHrefOrAsset(w.href, w.image, w.audio, w.pdf);
+    if (!slug) continue;
 
-      return {
-        slug,
-        agentId: profile.id,
-        agentName: profile.agent.name,
-        agentTitle: profile.agent.title,
-        title: w.title,
-        detail: w.detail.replace(/\s*\(Sample concept\.\)\s*$/i, "").trim(),
-        kind,
-        cover: w.image,
-        pdf: kind === "pdf" ? pdf : undefined,
-        audio: w.audio,
-        viewerHref: w.href?.includes("/samples/") ? w.href : `/agents/${profile.id}/samples/${slug}`,
-      } satisfies PortfolioSample;
-    })
-    .filter((s): s is PortfolioSample => Boolean(s));
+    const pdf =
+      w.pdf ||
+      (kind === "pdf" && w.image ? w.image.replace(/\.(jpg|jpeg|png|webp)$/i, ".pdf") : undefined) ||
+      (w.href?.toLowerCase().endsWith(".pdf") ? w.href : undefined);
+
+    const sample: PortfolioSample = {
+      slug,
+      agentId: profile.id,
+      agentName: profile.agent.name,
+      agentTitle: profile.agent.title,
+      title: w.title,
+      detail: w.detail.replace(/\s*\(Sample concept\.\)\s*$/i, "").trim(),
+      kind,
+      viewerHref: w.href?.includes("/samples/") ? w.href : `/agents/${profile.id}/samples/${slug}`,
+    };
+    if (w.image) sample.cover = w.image;
+    if (kind === "pdf" && pdf) sample.pdf = pdf;
+    if (w.audio) sample.audio = w.audio;
+    samples.push(sample);
+  }
+  return samples;
 }
 
 export function getPortfolioSample(agentId: string, slug: string): PortfolioSample | null {
