@@ -74,10 +74,10 @@ Use this on-page guide and offer a matching PDF download.
 
 **Facts about Danica:** Calendar and task organization · Meeting preparation · Proposal and document drafts · Follow-up tracking · Warm, efficient communication
 
-**Portfolio concepts:**
-1. **Your Day, Clearly Planned** — sample daily agenda with focus blocks, travel buffers, preparation notes, and priority tasks.
-2. **Client Proposal Draft** — a clearly labeled sample proposal with scope, deliverables, timeline, assumptions, and next step.
-3. **Meeting Brief & Follow-Up Pack** — sample pre-meeting summary, questions, decisions, and action tracker.
+**Portfolio concepts (live samples):**
+1. **Calendar Management** — click cover to view large booking UI sample (`/agents/portfolio/danica/calendar-management.png`).
+2. **Event Planning Proposal** — event cover opens sample PDF proposal (`event-planning-proposal.pdf`).
+3. **Appointment Confirmation** — play-button card opens Danica’s voicemail sample (`.mp3`).
 
 **About Danica:** I help turn a crowded day into a workable plan. I gather what matters, surface conflicts early, and prepare drafts and reminders so you can make decisions with less scrambling.
 

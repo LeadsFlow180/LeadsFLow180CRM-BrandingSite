@@ -278,49 +278,73 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
             {fillers.portfolio.map((card, i) => {
               const tone = cardShell[card.tone];
               // Reason: designed covers already carry title art — keep overlay light so the sample shows.
-              const coverOnly = Boolean(card.image && card.href);
-              const media = (
-                <div
-                  className="relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-[6px] p-4 text-white"
-                  style={{ background: tone.bg }}
-                >
-                  {card.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={card.image}
-                      alt=""
-                      className="absolute inset-0 size-full object-cover object-top"
-                    />
-                  ) : null}
+              const coverOnly = Boolean(card.image && card.href && card.kind !== "audio");
+              const media =
+                card.kind === "audio" ? (
                   <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                      background: coverOnly
-                        ? "linear-gradient(to top, rgba(8,15,40,0.55) 0%, transparent 38%)"
-                        : card.image
-                          ? "linear-gradient(to top, rgba(8,15,40,0.88) 0%, rgba(8,15,40,0.28) 42%, rgba(8,15,40,0.08) 100%)"
-                          : "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.28), transparent 42%), radial-gradient(circle at 80% 75%, rgba(0,0,0,0.28), transparent 48%)",
-                    }}
-                  />
-                  {!coverOnly ? (
-                    <>
-                      <p className="relative text-[1.2rem] leading-[1.12] font-extrabold tracking-[-0.02em] drop-shadow-sm">
-                        {card.title}
-                      </p>
-                      <p className="relative mt-2 line-clamp-2 text-[11px] leading-snug text-white/85">
-                        {card.subtitle}
-                      </p>
-                    </>
-                  ) : null}
-                  <span
-                    className={`relative inline-flex w-fit rounded-md px-3 py-1.5 text-[10px] font-extrabold tracking-wide uppercase ${coverOnly ? "" : "mt-4"}`}
-                    style={{ background: tone.btn, color: tone.btnText }}
+                    className="relative flex aspect-[3/4] flex-col items-center justify-center gap-4 overflow-hidden rounded-[6px] p-5 text-white"
+                    style={{ background: "linear-gradient(160deg,#0b1020 0%,#1a0a3e 55%,#010dff 140%)" }}
                   >
-                    {card.cta}
-                  </span>
-                </div>
-              );
+                    <span
+                      aria-hidden="true"
+                      className="grid size-16 place-items-center rounded-full bg-white text-brand shadow-[0_12px_28px_-10px_rgba(0,0,0,0.55)]"
+                    >
+                      <svg viewBox="0 0 24 24" className="ml-0.5 size-7" fill="currentColor">
+                        <path d="M8 5.5v13l11-6.5L8 5.5z" />
+                      </svg>
+                    </span>
+                    <p className="relative text-center text-[1.05rem] leading-[1.15] font-extrabold tracking-[-0.02em]">
+                      {card.title}
+                    </p>
+                    <span
+                      className="relative inline-flex w-fit rounded-md px-3 py-1.5 text-[10px] font-extrabold tracking-wide uppercase"
+                      style={{ background: tone.btn, color: tone.btnText }}
+                    >
+                      {card.cta}
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    className="relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-[6px] p-4 text-white"
+                    style={{ background: tone.bg }}
+                  >
+                    {card.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={card.image}
+                        alt=""
+                        className="absolute inset-0 size-full object-cover object-top"
+                      />
+                    ) : null}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0"
+                      style={{
+                        background: coverOnly
+                          ? "linear-gradient(to top, rgba(8,15,40,0.55) 0%, transparent 38%)"
+                          : card.image
+                            ? "linear-gradient(to top, rgba(8,15,40,0.88) 0%, rgba(8,15,40,0.28) 42%, rgba(8,15,40,0.08) 100%)"
+                            : "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.28), transparent 42%), radial-gradient(circle at 80% 75%, rgba(0,0,0,0.28), transparent 48%)",
+                      }}
+                    />
+                    {!coverOnly ? (
+                      <>
+                        <p className="relative text-[1.2rem] leading-[1.12] font-extrabold tracking-[-0.02em] drop-shadow-sm">
+                          {card.title}
+                        </p>
+                        <p className="relative mt-2 line-clamp-2 text-[11px] leading-snug text-white/85">
+                          {card.subtitle}
+                        </p>
+                      </>
+                    ) : null}
+                    <span
+                      className={`relative inline-flex w-fit rounded-md px-3 py-1.5 text-[10px] font-extrabold tracking-wide uppercase ${coverOnly ? "" : "mt-4"}`}
+                      style={{ background: tone.btn, color: tone.btnText }}
+                    >
+                      {card.cta}
+                    </span>
+                  </div>
+                );
               return (
                 <article
                   key={card.id}

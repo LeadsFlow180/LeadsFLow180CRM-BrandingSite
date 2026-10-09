@@ -20,6 +20,7 @@
 - [x] 2026-10-09 — Header mobile: hamburger sheet with full nav (Team expand + all links); no clipped scroll pills.
 - [x] 2026-10-09 — Agency inquiry → LeadsFlow180 CRM workflow webhook (`AGENCY_WEBHOOK_URL`); local JSONL best-effort only.
 - [x] 2026-10-09 — Mia portfolio: real demo PDFs from Downloads wired; thumbs open same-tab PDF viewer.
+- [x] 2026-10-09 — Danica portfolio: calendar image, event proposal PDF, appointment voicemail play sample.
 - [x] 2026-10-09 — Updated office stills: Mia, Zenda, Mark, Sonja, Niki, Omar, Leila (`public/agents/offices/{id}.jpg`).
 - [ ] Updated office stills still needed (2): Lee, JoJo.
 - [ ] Wire “Ask {name} a question” CTA deeper into Office chat (email-verify + signup handoff live; deeper floor chat TBD).

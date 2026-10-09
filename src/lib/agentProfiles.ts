@@ -2,14 +2,22 @@ import { agents, type Agent } from "@/lib/site";
 
 export type AgentFaq = { q: string; a: string };
 
+export type AgentWorkSampleKind = "image" | "pdf" | "audio";
+
 export type AgentWorkSample = {
   id: string;
   title: string;
   detail: string;
   /** Cover / polaroid image for the portfolio card. */
   image?: string;
-  /** Optional PDF (or URL) opened when the card image is clicked. */
+  /** In-app sample viewer route (preferred) or direct asset URL. */
   href?: string;
+  /** How the sample opens: large image, PDF stage, or audio player. */
+  kind?: AgentWorkSampleKind;
+  /** Voice / voicemail sample URL when kind is audio. */
+  audio?: string;
+  /** Explicit PDF path when different from the cover image stem. */
+  pdf?: string;
 };
 
 export type AgentGuide = {
@@ -112,6 +120,8 @@ const PROFILE_BY_ID: Record<
         detail: "Belle Med Spa — sample timeline with milestones, owners, dependencies, and approval points. (Sample concept.)",
         image: "/agents/portfolio/mia/30-day-launch-plan.jpg",
         href: "/agents/mia/samples/30-day-launch-plan",
+        kind: "pdf",
+        pdf: "/agents/portfolio/mia/30-day-launch-plan.pdf",
       },
       {
         id: "p2",
@@ -119,6 +129,8 @@ const PROFILE_BY_ID: Record<
         detail: "BrightLine Commercial Cleaning — sample agenda, decision log, action list, due dates, and unresolved questions. (Sample concept.)",
         image: "/agents/portfolio/mia/meeting-to-action-brief.jpg",
         href: "/agents/mia/samples/meeting-to-action-brief",
+        kind: "pdf",
+        pdf: "/agents/portfolio/mia/meeting-to-action-brief.pdf",
       },
       {
         id: "p3",
@@ -126,6 +138,8 @@ const PROFILE_BY_ID: Record<
         detail: "Kings of Cool HVAC — sample recovery plan with owners, blockers, and next decisions. (Sample concept.)",
         image: "/agents/portfolio/mia/project-rescue-plan.jpg",
         href: "/agents/mia/samples/project-rescue-plan",
+        kind: "pdf",
+        pdf: "/agents/portfolio/mia/project-rescue-plan.pdf",
       },
     ],
     getStarted: [
@@ -396,19 +410,29 @@ const PROFILE_BY_ID: Record<
     work: [
       {
         id: "p1",
-        title: "Your Day, Clearly Planned",
-        detail: "sample daily agenda with focus blocks, travel buffers, preparation notes, and priority tasks. (Sample concept.)",
+        title: "Calendar Management",
+        detail: "Your day, clearly planned — Danica books and prepares appointments for owner approval. (Sample concept.)",
+        image: "/agents/portfolio/danica/calendar-management.png",
+        href: "/agents/danica/samples/calendar-management",
+        kind: "image",
       },
       {
         id: "p2",
-        title: "Client Proposal Draft",
-        detail: "a clearly labeled sample proposal with scope, deliverables, timeline, assumptions, and next step. (Sample concept.)",
+        title: "Event Planning Proposal",
+        detail: "Elevated Moments — sample corporate anniversary proposal (sample concept until live CRM proposals replace it).",
+        image: "/agents/portfolio/danica/event-planning-cover.png",
+        href: "/agents/danica/samples/event-planning-proposal",
+        kind: "pdf",
+        pdf: "/agents/portfolio/danica/event-planning-proposal.pdf",
       },
       {
         id: "p3",
-        title: "Meeting Brief & Follow-Up Pack",
-        detail: "sample pre-meeting summary, questions, decisions, and action tracker. (Sample concept.)",
-      }
+        title: "Appointment Confirmation",
+        detail: "Hear Danica’s appointment-confirmation voicemail sample. (Sample concept.)",
+        href: "/agents/danica/samples/appointment-confirmation",
+        kind: "audio",
+        audio: "/agents/portfolio/danica/appointment-confirmation.mp3",
+      },
     ],
     getStarted: [
       {

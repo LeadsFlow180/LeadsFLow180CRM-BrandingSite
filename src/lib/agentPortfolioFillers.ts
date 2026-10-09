@@ -11,8 +11,9 @@ export type PortfolioCard = {
   tone: "blue" | "green" | "navy" | "rose";
   /** Optional filler photo URL for polaroid-style ads. */
   image?: string;
-  /** PDF or URL opened when the card image is clicked. */
+  /** In-app sample viewer route. */
   href?: string;
+  kind?: "image" | "pdf" | "audio";
 };
 export type PortfolioSkill = string;
 export type GetStartedStep = { title: string; detail: string };
@@ -91,6 +92,14 @@ function imageForWorkTitle(title: string): string | undefined {
   return PORTFOLIO_IMAGE_BY_HINT.find((h) => h.match.test(title))?.image;
 }
 
+function ctaForWork(kind?: "image" | "pdf" | "audio", href?: string) {
+  if (!href) return "Sample concept";
+  if (kind === "audio") return "Play sample";
+  if (kind === "image") return "View larger";
+  if (kind === "pdf") return "Open proposal";
+  return "Open sample";
+}
+
 /** Use every SEO portfolio concept; label as Sample concept per publishing notes. */
 function buildPortfolio(profile: AgentProfile & { agent: Agent }): PortfolioCard[] {
   const fromWork: PortfolioCard[] = profile.work.map((w, i) => ({
@@ -98,10 +107,11 @@ function buildPortfolio(profile: AgentProfile & { agent: Agent }): PortfolioCard
     title: w.title.toUpperCase(),
     // Reason: strip trailing sample label from detail — CTA badge carries it.
     subtitle: w.detail.replace(/\s*\(Sample concept\.\)\s*$/i, "").trim(),
-    cta: w.href ? "Open sample" : "Sample concept",
+    cta: ctaForWork(w.kind, w.href),
     tone: CARD_TONES[i % CARD_TONES.length]!,
     image: w.image || imageForWorkTitle(w.title),
     href: w.href,
+    kind: w.kind,
   }));
 
   if (fromWork.length > 0) return fromWork;
