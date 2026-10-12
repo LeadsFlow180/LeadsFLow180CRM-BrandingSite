@@ -14,7 +14,7 @@ This site does not authenticate into CRM APIs. Stripe Checkout is the paid path.
 - Tailwind CSS
 - Framer Motion
 - Stripe Checkout (`/api/checkout`)
-- Agent talk APIs (`/api/agents/email`, `/verify`, `/chat`)
+- Agent talk: public Talk to / Ask CTAs embed AI Office call iframe (`NEXT_PUBLIC_AI_OFFICE_URL` / default trial host); email-verify chat APIs remain for deep links (`/api/agents/email`, `/verify`, `/chat`)
 - Marketing routes: `/`, `/agents`, `/agents/[id]`, `/integrations`, `/savings`, `/agency` (reseller / partner inquiries → CRM workflow webhook)
 
 ## Structure

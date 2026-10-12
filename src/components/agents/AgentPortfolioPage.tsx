@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AgentAskModal } from "@/components/agents/AgentAskModal";
+import { agentCallPageHref } from "@/lib/agentCall";
 import {
   getPortfolioFillers,
   type FactIcon,
@@ -176,6 +177,7 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
   );
   const officeSrc = candidates[Math.min(photoIndex, candidates.length - 1)];
 
+  // Reason: email-verify deep links still use the chat modal; public Ask CTA goes to /call/[id].
   useEffect(() => {
     if (initialVerifyToken) setAskOpen(true);
   }, [initialVerifyToken]);
@@ -235,15 +237,14 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
               </p>
             ) : null}
             <p className="mt-4 text-[15px] leading-[1.7] text-slate-600">{fillers.heroBlurb}</p>
-            <button
-              type="button"
-              onClick={() => setAskOpen(true)}
+            <Link
+              href={agentCallPageHref(agent.id)}
               className="mt-8 inline-flex cursor-pointer items-center gap-2.5 rounded-full px-8 py-3.5 text-[15px] font-bold text-slate-950 shadow-[0_16px_36px_-14px_rgba(0,255,38,0.75)] transition hover:brightness-[0.97]"
               style={{ background: LIME }}
             >
               <ChatIcon className="size-[18px]" />
               {askCta}
-            </button>
+            </Link>
             <p className="mt-3.5 flex items-center gap-2 text-[12px] text-slate-500">
               <LockIcon className="size-3.5 shrink-0 opacity-70" />
               {ctaHelper}
@@ -499,9 +500,9 @@ export function AgentPortfolioPage({ profile, initialVerifyToken }: Props) {
               </p>
               <p className="mt-4 text-[13px] text-slate-500">
                 Prefer to talk it through?{" "}
-                <button type="button" onClick={() => setAskOpen(true)} className="cursor-pointer font-semibold text-brand hover:underline">
+                <Link href={agentCallPageHref(agent.id)} className="cursor-pointer font-semibold text-brand hover:underline">
                   {askCta}
-                </button>
+                </Link>
                 {" · "}
                 <a href="#pricing" className="font-semibold text-brand hover:underline">
                   View Launch Founders pricing

@@ -22,6 +22,8 @@
 - [x] 2026-10-09 — Mia portfolio: real demo PDFs from Downloads wired; thumbs open same-tab PDF viewer.
 - [x] 2026-10-09 — Danica portfolio: calendar image, event proposal PDF, appointment voicemail play sample.
 - [x] 2026-10-09 — Fix Vercel TS build: `agentPortfolioSamples` typed for-loop (no null filter predicate); `npm run build` green.
+- [x] 2026-10-12 — Agent call iframe (`ai-office-trial` `/call?name=`): Need Help Talk to, Meet the Team hover Talk to, portfolio Ask CTA (all agents).
+- [x] 2026-10-12 — Call UI as full page `/call/[id]` (not popup modal).
 - [x] 2026-10-09 — Updated office stills: Mia, Zenda, Mark, Sonja, Niki, Omar, Leila (`public/agents/offices/{id}.jpg`).
 - [ ] Updated office stills still needed (2): Lee, JoJo.
 - [ ] Wire “Ask {name} a question” CTA deeper into Office chat (email-verify + signup handoff live; deeper floor chat TBD).

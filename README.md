@@ -30,13 +30,11 @@ See `docs/STRIPE-SETUP.md`.
 ## Agent offices
 
 - Directory: `/agents`
-- Profile: `/agents/[id]` — portfolio layout (specialty, intro, facts, tilted sample portfolio, about/skills, FAQs, get started, free quick guide, ask modal)
+- Profile: `/agents/[id]` — portfolio layout (specialty, intro, facts, tilted sample portfolio, about/skills, FAQs, get started, free quick guide, Ask CTA)
 - Copy / capabilities: `docs/LeadsFlow180_Team_Profiles_SEO_AEO_Content.md` → `src/lib/agentProfiles.ts` (re-run `python scripts/wire_seo_profiles.py` after pack edits). Each `/agents/[id]` page shows every Core skill as Capabilities.
 - Office stills: `public/agents/offices/{id}.png` (then `.jpg` / `.webp`; falls back to portrait)
-- Talk: verify email → 3-minute chat → soft CTA to FLOW signup
-  - Optional `RESEND_API_KEY` + `RESEND_FROM_EMAIL` to send magic links (without them, the API returns a verify URL for local testing)
-  - Optional `OPENAI_API_KEY` for live replies (`OPENAI_MODEL` defaults to `gpt-4o-mini`; without a key, a mock reply is used)
-  - Optional `LEADS_WEBHOOK_URL` + local `.data/leads.jsonl` for the email list
+- Talk / Ask CTAs: full page `/call/[id]` embeds AI Office (`NEXT_PUBLIC_AI_OFFICE_URL`, default `https://ai-office-trial.vercel.app/call?name={id}`) — home Need Help, Meet the Team Talk to, and every `/agents/[id]` Ask button
+  - Email-verify chat APIs remain for magic-link deep links (`RESEND_*`, `OPENAI_*`, `LEADS_WEBHOOK_URL`)
   - Agency inquiry form (`/agency`) posts to `/api/agency` → LeadsFlow180 CRM workflow webhook (`AGENCY_WEBHOOK_URL`; default is the Agency inquiry workflow). Set the same var in Vercel for production.
 
 ## Sections (home)
